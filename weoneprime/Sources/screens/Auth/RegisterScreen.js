@@ -6,12 +6,23 @@ import {
   View,
   Alert,
   Platform,
+  Modal,
+  Button,
 } from "react-native";
 import React, { useState } from "react";
-import { RNButton, RNContainer, RNInput, RNStyles, RNText } from "../../common";
-import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
+import {
+  RNButton,
+  RNContainer,
+  RNImage,
+  RNInput,
+  RNStyles,
+  RNText,
+} from "../../common";
+import { Colors, FontFamily, FontSize, hp, width, wp } from "../../theme";
 import * as ImagePicker from "expo-image-picker";
 import FetchMethod from "../../api/FetchMethod";
+import Validation from "../../utils/Validation";
+import { Images } from "../../constants";
 
 const RegisterScreen = ({ navigation }) => {
   const [secure, setSecure] = useState(true);
@@ -22,51 +33,42 @@ const RegisterScreen = ({ navigation }) => {
     userEmailId: "",
     userImage: "",
     userType: "MobileApp",
-  });  
-
-//   const handleRegistration = async () => {
-//     try {
-//         const response = await fetch(
-//             "https://weoneprimecoreapi.actoscript.com/api/Registration",
-//             {
-//                 method: "POST",
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 },
-//                 body: JSON.stringify({
-//                     userName: registerData.userName,
-//                     userPhoneNo: registerData.userPhoneNo,
-//                     userPassword: registerData.userPassword,
-//                     userEmailId: registerData.userEmailId,
-//                     userImage: registerData.userImage,
-//                     userType: registerData.userType,
-//                 }),
-//             }
-//         );
-
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! Status: ${response.status}`);
-//         }
-//         const data = await response.json();
-//         console.log("Success:", data);
-//     } catch (error) {
-//         console.error("Error:", error);
-//     }
-// };
+  });
+  const [isError, setIsError] = useState({
+    email: false,
+    phone: false,
+    password: false,
+    confirmPassword: false,
+  });
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleRegistration = async () => {
+    const errors = {
+      email: !Validation.isEmailValid(registerData.userEmailId),
+      phone: registerData.userPhoneNo.length < 10,
+      password: !Validation.isPasswordValid(registerData.userPassword),
+      confirmPassword: !Validation.isSamePasswords(
+        registerData.userPassword,
+        confirmPassword
+      ),
+    };
+    setIsError(errors);
+
     try {
       const response = await FetchMethod.POST({
         EndPoint: "/Registration",
         Params: registerData,
-      })
+      });
       console.log(response);
     } catch (error) {
       console.log(error);
-      
     }
   };
 
+  const handleProfile = () => {
+    setModalVisible(true);
+  };
 
   const handleImagePick = async () => {
     const permissionResult =
@@ -105,7 +107,7 @@ const RegisterScreen = ({ navigation }) => {
 
   const imageSource = registerData.userImage
     ? { uri: `data:image/jpeg;base64,${registerData.userImage}` }
-    : require("../../assets/images/profile.png");
+    : Images.profile;
 
   const handleChange = (field) => (text) => {
     setRegisterData((prevState) => ({
@@ -116,18 +118,17 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <RNContainer>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
             flex: 1,
-            gap: wp(10),
             justifyContent: "flex-end",
-            height: hp(100),
+            gap: wp(10),
             padding: wp(5),
           }}
         >
-          <View style={{ gap: wp(1), alignItems: 'center' }}>
-            <TouchableOpacity onPress={handleImagePick}>
+          <View style={{ gap: wp(1), alignItems: "center" }}>
+            <TouchableOpacity onPress={handleProfile}>
               <Image source={imageSource} style={styles.image} />
             </TouchableOpacity>
             <RNText style={styles.title}>Register</RNText>
@@ -148,7 +149,13 @@ const RegisterScreen = ({ navigation }) => {
                 style={styles.inputContainer}
                 value={registerData.userPhoneNo}
                 onChangeText={handleChange("userPhoneNo")}
+                keyboardType="phone-pad"
               />
+              {isError.phone && (
+                <RNText style={styles.errorText}>
+                  Mobile number not valid
+                </RNText>
+              )}
             </View>
             <View style={{ gap: hp(0.5) }}>
               <RNText style={styles.inputText}>Email</RNText>
@@ -157,6 +164,9 @@ const RegisterScreen = ({ navigation }) => {
                 value={registerData.userEmailId}
                 onChangeText={handleChange("userEmailId")}
               />
+              {isError.email && (
+                <RNText style={styles.errorText}>Email not valid</RNText>
+              )}
             </View>
             <View style={{ gap: hp(0.5) }}>
               <RNText style={styles.inputText}>Password</RNText>
@@ -167,6 +177,23 @@ const RegisterScreen = ({ navigation }) => {
                 secureTextEntry={secure}
                 isPress={() => setSecure(!secure)}
               />
+              {isError.password && (
+                <RNText style={styles.errorText}>
+                  Password must be at least 8 characters
+                </RNText>
+              )}
+            </View>
+            <View style={{ gap: hp(0.5) }}>
+              <RNText style={styles.inputText}>Confirm Password</RNText>
+              <RNInput
+                style={styles.inputContainer}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry={secure}
+              />
+              {isError.confirmPassword && (
+                <RNText style={styles.errorText}>Passwords do not match</RNText>
+              )}
             </View>
           </View>
           <RNButton
@@ -178,11 +205,25 @@ const RegisterScreen = ({ navigation }) => {
           />
         </View>
       </ScrollView>
+
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={RNStyles.flexRowBetween}>
+              <RNText style={styles.modalTitle}>complete using action</RNText>
+              <RNImage source={Images.close} style={{ width: 50 }} />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </RNContainer>
   );
 };
-
-export default RegisterScreen;
 
 const styles = StyleSheet.create({
   image: {
@@ -211,10 +252,34 @@ const styles = StyleSheet.create({
   buttonContainer: {
     backgroundColor: Colors.Black,
     borderRadius: 6,
-    marginBottom: Platform.OS === 'ios' ? hp(15) : hp(5),
   },
   buttonText: {
     fontSize: FontSize.font17,
     fontFamily: FontFamily.SemiBold,
   },
+  errorText: {
+    color: "red",
+    fontSize: FontSize.font12,
+    fontFamily: FontFamily.Regular,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: wp(100),
+    padding: wp(5),
+    backgroundColor: "white",
+    borderRadius: 20,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: FontSize.font16,
+    fontFamily: FontFamily.Bold,
+    marginBottom: hp(2),
+  },
 });
+
+export default RegisterScreen;
