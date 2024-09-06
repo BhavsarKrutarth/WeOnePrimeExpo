@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Colors, FontFamily, FontSize, hp, isIOS, wp } from "../theme";
+import { Colors, FontFamily, FontSize, hp, isIOS, useCustomFonts, wp } from "../theme";
 import RNText from "./RNText";
 import RNStyles from "./RNStyles";
 
@@ -13,7 +13,10 @@ const RNHeader = ({
   RightIcon,
   containerStyle,
   titleStyle,
+  leftIconStyle,
+  rightIconStyle
 }) => {
+  useCustomFonts();
   const navigation = useNavigation();
   return (
     <View style={[styles.Container, containerStyle]}>
@@ -21,11 +24,12 @@ const RNHeader = ({
         <TouchableOpacity
           onPress={() => (onLeftPress ? onLeftPress?.() : navigation.goBack())}
           style={styles.Left}
+          hitSlop={20}
         >
           <Image
             source={LeftIcon}
             resizeMode={"contain"}
-            style={RNStyles.image90}
+            style={[RNStyles.image90, leftIconStyle]}
           />
         </TouchableOpacity>
       ) : (
@@ -37,7 +41,7 @@ const RNHeader = ({
           <Image
             source={RightIcon}
             resizeMode={"contain"}
-            style={RNStyles.image90}
+            style={[RNStyles.image90, rightIconStyle]}
           />
         </TouchableOpacity>
       ) : (
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(3),
     paddingTop: isIOS ? hp(6) : hp(1.5),
     borderBottomWidth: 1,
-    borderBottomColor: Colors.Placeholder,
+    borderBottomColor: '#D9D9D9',
   },
   Left: {
     ...RNStyles.center,
@@ -67,8 +71,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingHorizontal: hp(1),
     marginHorizontal: hp(1),
-    fontSize: FontSize.font18,
-    fontFamily: FontFamily.SemiBold,
+    fontSize: FontSize.font16,
+    fontFamily: FontFamily.Medium,
   },
   Right: {
     ...RNStyles.center,

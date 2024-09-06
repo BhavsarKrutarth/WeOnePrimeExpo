@@ -1,4 +1,4 @@
-import { Image, Pressable, ScrollView, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, Platform } from "react-native";
+import { Image, Pressable,  StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, Platform } from "react-native";
 import React, { useState } from "react";
 import { RNButton, RNContainer, RNImage, RNInput, RNStyles, RNText } from "../../common";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
@@ -6,7 +6,7 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { Images } from "../../constants";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [secure, setSecure] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -64,9 +64,10 @@ const LoginScreen = () => {
           </View>
 
           <RNButton
-            title="Continue"
+            title="Continue "
             textStyle={styles.buttonText}
             gradientColors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
+            onPress={() => navigation.navigate('Home')}
           />
         </View>
         <View style={{ flex: 1, justifyContent: 'center', gap: wp(3) }}>

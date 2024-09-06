@@ -8,16 +8,11 @@ const Stack = createStackNavigator();
 const AuthNavigation = () => {
   return (
     <Stack.Navigator screenOptions={NavConfigs.screenOptions}>
-
+      <Stack.Screen name={NavRoutes.LOGIN} component={LoginScreen} />
       <Stack.Screen
         name={NavRoutes.REGISTER}
         component={RegisterScreen}
       />
-
-
-      <Stack.Screen name={NavRoutes.LOGIN} component={LoginScreen} />
-     
-
     </Stack.Navigator>
   );
 };

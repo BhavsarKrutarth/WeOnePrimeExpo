@@ -3,10 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  View,
-  Alert,
-  Modal,
-  TouchableWithoutFeedback,
+  View
 } from "react-native";
 import React, { useState } from "react";
 import {
@@ -14,18 +11,16 @@ import {
   RNContainer,
   RNImage,
   RNInput,
-  RNStyles,
   RNText,
-} from "../../common";
-import { Colors, FontFamily, FontSize, hp, useCustomFonts, wp } from "../../theme";
-import * as ImagePicker from "expo-image-picker";
-import FetchMethod from "../../api/FetchMethod";
-import Validation from "../../utils/Validation";
-import { Images } from "../../constants";
+} from "../../../common";
+import { Colors, FontFamily, FontSize, hp, wp } from "../../../theme";
+import FetchMethod from "../../../api/FetchMethod";
+import Validation from "../../../utils/Validation";
+import { Images } from "../../../constants";
 import { Text } from "react-native";
+import ImagePickerModal from "./ImagePickerModal";
 
 const RegisterScreen = ({ navigation }) => {
-  const [secure, setSecure] = useState(true);
   const [registerData, setRegisterData] = useState({
     userName: "",
     userPhoneNo: "",
@@ -69,67 +64,6 @@ const RegisterScreen = ({ navigation }) => {
 
   const handleProfilePick = () => {
     setModalVisible(true);
-  };
-
-  const handleCameraPick = async () => {
-    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    if (!permissionResult.granted) {
-      Alert.alert("Permission required", "Permission to access the camera is required!");
-      return;
-    }
-
-    const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      base64: true,
-    });
-
-    if (result.canceled) {
-      console.log("User cancelled camera picker");
-    } else {
-      const base64Data = result.assets && result.assets.length > 0 ? result.assets[0].base64 : null;
-      if (base64Data) {
-        console.log("Base64 Image Data:", base64Data);
-        setRegisterData((prevState) => ({
-          ...prevState,
-          userImage: base64Data,
-        }));
-      } else {
-        Alert.alert("Error", "No base64 data found in result.");
-      }
-    }
-  };
-
-  const handleImagePick = async () => {
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permissionResult.granted) {
-      Alert.alert(
-        "Permission required",
-        "Permission to access media library is required!"
-      );
-      return;
-    }
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      base64: true,
-    });
-    if (result.canceled) {
-      console.log("User cancelled image picker");
-    } else {
-      const base64Data =
-        result.assets && result.assets.length > 0
-          ? result.assets[0].base64
-          : null;
-      if (base64Data) {
-        console.log("Base64 Image Data:", base64Data);
-        setRegisterData((prevState) => ({
-          ...prevState,
-          userImage: base64Data,
-        }));
-      } else {
-        Alert.alert("Error", "No base64 data found in result.");
-      }
-    }
   };
 
   const imageSource = registerData.userImage
@@ -242,40 +176,8 @@ const RegisterScreen = ({ navigation }) => {
         </View>
       </ScrollView>
 
-      {/* Modal for image picker */}
-      <Modal
-        transparent={true}
-        visible={modalVisible}
-        animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <TouchableWithoutFeedback>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <View style={{ gap: wp(5) }}>
-                <View style={{ ...RNStyles.flexRowBetween }}>
-                  <TouchableOpacity onPress={() => { setModalVisible(false) }} hitSlop={20}>
-                    <RNImage style={{ width: wp(4), height: wp(4) }} source={Images.close} />
-                  </TouchableOpacity>
-                  <RNText style={styles.title}>Profile Photo</RNText>
-                  <View></View>
-                </View>
-                <View style={{ borderWidth: .5, borderColor: Colors.Grey }} />
-              </View>
-              <View style={{ ...RNStyles.flexRowAround }}>
-                <TouchableOpacity style={[RNStyles.center, { gap: 5 }]} onPress={() => { handleCameraPick(); setModalVisible(false) }}>
-                  <RNImage style={{ width: wp(9), height: wp(9) }} source={Images.camera} />
-                  <RNText style={[styles.inputText, { fontSize: FontSize.font13, fontFamily: FontFamily.Regular }]}>Camera</RNText>
-                </TouchableOpacity>
-                <TouchableOpacity style={[RNStyles.center, { gap: 5 }]} onPress={() => { handleImagePick(); setModalVisible(false) }}>
-                  <RNImage style={{ width: wp(9), height: wp(9) }} source={Images.gallary} />
-                  <RNText style={[styles.inputText, { fontSize: FontSize.font13, fontFamily: FontFamily.Regular }]}>Gallery</RNText>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
+      <ImagePickerModal modalVisible={modalVisible} setModalVisible={setModalVisible} setRegisterData={setRegisterData} />
+
     </RNContainer>
   );
 };
@@ -324,20 +226,6 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: FontSize.font11,
     fontFamily: FontFamily.Regular,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: Colors.White,
-    padding: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    width: "100%",
-    gap: hp(4)
   },
   requireStyle: {
     color: Colors.Red,
