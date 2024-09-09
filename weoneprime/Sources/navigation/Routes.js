@@ -18,6 +18,7 @@ const Routes = () => {
         <Stack.Screen
           name={NavRoutes.LOGIN}
           component={LoginScreen}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NavRoutes.HOME}

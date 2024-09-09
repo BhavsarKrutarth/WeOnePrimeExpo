@@ -25,6 +25,12 @@ const Images = {
   Open: require(ImagePath + "open" + png),
   banner: require(ImagePath + "banner" + png),
   emp_logo: require(ImagePath + "emp_logo" + png),
+  Inox: require(ImagePath + 'Inox' + png),
+  exploreimg: require(ImagePath + 'exploreimg' + png),
+  weoneLogo: require(ImagePath + 'weoneLogo' + png),
+  exclusive: require(ImagePath + 'exclusive' + png),
+  exclusive1: require(ImagePath + 'exclusive1' + png),
+  newlaunch1: require(ImagePath + 'newlaunch1' + png)
 };
 
 export default Images;

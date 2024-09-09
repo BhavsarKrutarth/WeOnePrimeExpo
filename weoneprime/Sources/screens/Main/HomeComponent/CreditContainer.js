@@ -7,7 +7,7 @@ import { Colors, FontFamily, FontSize, hp, wp } from "../../../theme";
 
 const CreditContainer = () => {
   return (
-    <RNContainer style={{ paddingVertical: hp(3), gap: hp(4) }}>
+    <RNContainer style={{ paddingVertical: hp(3), gap: hp(3) }}>
       <View style={{ width: wp(100), ...RNStyles.center }}> 
         <LinearGradient
           start={{ x: 1.2, y: 0 }}
@@ -19,11 +19,11 @@ const CreditContainer = () => {
             <View style={{ ...RNStyles.flexRow, marginLeft: wp(-5) }}>
               <RNImage source={Images.Coin} style={{ width: wp(28), height: wp(28) }} />
               <View style={{ marginLeft: wp(-3) }}>
-                <RNText style={styles.title}>Woah!</RNText>
+                <RNText style={styles.title}>Woah!{" "}</RNText>
                 <RNText style={styles.subTitle}>You have saved ₹1580{" "}</RNText>
-                <TouchableOpacity style={[RNStyles.flexRow, { gap: wp(1), marginTop: hp(1) }]}>
+                <TouchableOpacity style={[RNStyles.flexRow, { marginTop: hp(1) }]}>
                   <RNText style={[{ ...styles.subTitle, fontSize: FontSize.font10 }]}>
-                    View on App
+                    View on App{" "}
                   </RNText>
                   <RNImage source={Images.Open} style={{ width: wp(2), height: wp(2) }} />
                 </TouchableOpacity>
@@ -47,7 +47,7 @@ const CreditContainer = () => {
       </View>
 
       <View style={{ width: wp(100), gap: hp(1),alignItems: 'center'}}>
-        <RNText style={[styles.title, {textAlign: 'left'}]}>Money Matters</RNText>
+        <RNText style={[styles.title, {alignSelf: 'flex-start',paddingHorizontal: wp(3)}]}>Money Matters{" "}</RNText>
         <ImageBackground
           resizeMode="contain"
           source={Images.Effect}
@@ -65,7 +65,7 @@ const CreditContainer = () => {
             borderRadius: 5,
             paddingHorizontal: wp(3),
             paddingVertical: wp(2),
-            width: wp(90),
+            width: wp(94),
           }}
         >
           <View style={{ ...RNStyles.flexRow, gap: wp(2) }}>
