@@ -31,8 +31,8 @@ const RNInput = React.forwardRef((props, ref) => {
     multiline,
     numberOfLines,
     spellCheck,
-    isPress,
-    Icon,
+    toggleVisibility, 
+    Icon, 
   } = props;
 
   return (
@@ -64,8 +64,8 @@ const RNInput = React.forwardRef((props, ref) => {
         multiline={multiline}
         numberOfLines={numberOfLines}
       />
-      {isPress && (
-        <TouchableOpacity onPress={isPress} style={styles.iconContainer}>
+      {toggleVisibility && (
+        <TouchableOpacity onPress={toggleVisibility} style={styles.iconContainer}>
           <Image
             source={secureTextEntry ? Images.eyeOff : Images.eyeOn}
             style={styles.icon}
@@ -75,6 +75,7 @@ const RNInput = React.forwardRef((props, ref) => {
     </View>
   );
 });
+
 
 const styles = StyleSheet.create({
   inputContainer: {

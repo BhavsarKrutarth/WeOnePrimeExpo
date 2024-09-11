@@ -1,4 +1,7 @@
 import { normalize } from './Responsive';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
+
 const FontSize = {
   font6: normalize(6),
   font7: normalize(7),
@@ -36,16 +39,38 @@ const FontSize = {
   font39: normalize(39),
   font40: normalize(40),
 };
+
 const FontFamily = {
   Black: 'LexendDeca-Black',
   Bold: 'LexendDeca-Bold',
   ExtraBold: 'LexendDeca-ExtraBold',
   ExtraLight: 'LexendDeca-ExtraLight',
-  // Italic: 'LexendDeca-Italic',
   Light: 'LexendDeca-Light',
   Medium: 'LexendDeca-Medium',
   Regular: 'LexendDeca-Regular',
   SemiBold: 'LexendDeca-SemiBold',
   Thin: 'LexendDeca-Thin',
 };
-export { FontSize, FontFamily };
+
+const useCustomFonts = () => {
+  const [fontsLoaded] = useFonts({
+    'LexendDeca-Black': require('../assets/fonts/LexendDeca-Black.ttf'),
+    'LexendDeca-Bold': require('../assets/fonts/LexendDeca-Bold.ttf'),
+    'LexendDeca-ExtraBold': require('../assets/fonts/LexendDeca-ExtraBold.ttf'),
+    'LexendDeca-ExtraLight': require('../assets/fonts/LexendDeca-ExtraLight.ttf'),
+    'LexendDeca-Light': require('../assets/fonts/LexendDeca-Light.ttf'),
+    'LexendDeca-Medium': require('../assets/fonts/LexendDeca-Medium.ttf'),
+    'LexendDeca-Regular': require('../assets/fonts/LexendDeca-Regular.ttf'),
+    'LexendDeca-SemiBold': require('../assets/fonts/LexendDeca-SemiBold.ttf'),
+    'LexendDeca-Thin': require('../assets/fonts/LexendDeca-Thin.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    console.log('Fonts are not loaded yet');
+    return <AppLoading />;
+  }
+  console.log('Fonts are loaded');
+  return null;
+};
+
+export { FontSize, FontFamily, useCustomFonts };

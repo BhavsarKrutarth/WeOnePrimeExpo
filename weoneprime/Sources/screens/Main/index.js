@@ -1,3 +1,3 @@
-import HomeScreen from "./HomeScreen";
+import Home from "../Main/HomeComponent/Home"
 
-export { HomeScreen };
+export { Home };

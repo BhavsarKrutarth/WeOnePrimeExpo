@@ -3,15 +3,17 @@ const Colors = {
   White: '#ffffff',
   Transparent: 'transparent',
   Red: '#ff0000',
-  Green: '#00FF00',
+  Green: '#2C9A16',
   Blue: '#0000FF',
   Yellow: '#FFFF00',
   Grey: '#808080',
+  DarkGrey: '#666666',
   Pink: '#FFC0CB',
   Orange: '#FFA500',
-  Purple: '#A020F0',
+  Purple: '#9747ff',
   Primary: '#0275d8',
   Placeholder: '#9A9A9A',
+  
 };
 
 export default Colors;

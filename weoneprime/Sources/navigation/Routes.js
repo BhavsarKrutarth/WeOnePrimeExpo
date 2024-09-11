@@ -1,27 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { HomeScreen } from "../screens/Main";
-import NavRoutes from "./NavRoutes";
-import { RegisterScreen, LoginScreen } from "../screens/Auth";
+import { createStackNavigator } from "@react-navigation/stack"; 
+import Index from "./BottomTabs";
+import AuthNavigation from "./AuthNavigation"; 
+import Amenities from "../screens/Main/HomeComponent/Amenities";
 
 const Stack = createStackNavigator();
 
 const Routes = () => {
+  const [isAuth, setAuth] = useState(false); 
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-
-        <Stack.Screen name={NavRoutes.REGISTER} component={RegisterScreen} options={{ headerShown: false }} />
-
-        <Stack.Screen
-          name={NavRoutes.LOGIN}
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-     
-
-        <Stack.Screen name={"Home"} component={HomeScreen} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {isAuth ? (
+          <Stack.Screen name="Tab" component={Index} /> 
+        ) : (
+          <Stack.Screen name="Auth">
+            {(props) => <AuthNavigation {...props} setAuth={setAuth} />} 
+          </Stack.Screen>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

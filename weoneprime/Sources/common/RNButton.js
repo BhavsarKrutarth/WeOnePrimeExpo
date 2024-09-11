@@ -7,7 +7,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const RNButton = ({ title, style, textStyle, onPress, disable, gradientColors }) => {
   const renderButtonContent = () => (
-    <RNText style={[styles.buttonText, textStyle]}>{title}</RNText>
+    <RNText style={[styles.buttonText, textStyle]}>{title}{" "}</RNText>
   );
 
   return (
@@ -37,7 +37,7 @@ const RNButton = ({ title, style, textStyle, onPress, disable, gradientColors })
 
 const styles = StyleSheet.create({
   Container: {
-    borderRadius: wp(3), 
+    borderRadius: wp(2), 
     overflow: 'hidden',
   },
   gradient: {
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     paddingVertical: hp(1.5),
     paddingHorizontal: wp(4),
     marginVertical: hp(1),
-    borderRadius: wp(3),
+    borderRadius: wp(2),
   },
   buttonText: {
     fontSize: FontSize.font18,
