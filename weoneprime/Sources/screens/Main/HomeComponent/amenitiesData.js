@@ -8,7 +8,7 @@ const AmenitiesData = () => {
   const amenities = [
     {
       id: 1,
-      image: Images.banner,
+      image: Images.exclusive1,
       title: "Amrut",
       subtitle: "The fashion icon ",
       subImage: Images.emp_logo,
@@ -33,7 +33,7 @@ const AmenitiesData = () => {
     <View style={styles.amenitiesContainer}>
       <View style={RNStyles.flexRowBetween}>
         <RNText style={styles.title}>Our Amenities{" "}</RNText>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Amenity")}>
           <RNText style={styles.subTitle}>
             View All{" "}
           </RNText>
@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
     ...RNStyles.center,
   },
   subLogo: {
-    width: wp(10),
-    height: wp(10),
+    width: wp(12),
+    height: wp(12),
   },
   textContainer: {
     marginBottom: hp(2),

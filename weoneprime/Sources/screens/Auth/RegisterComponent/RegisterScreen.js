@@ -20,7 +20,7 @@ import { Images } from "../../../constants";
 import { Text } from "react-native";
 import ImagePickerModal from "./ImagePickerModal";
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation, setAuth }) => {
   const [registerData, setRegisterData] = useState({
     userName: "",
     userPhoneNo: "",
@@ -56,7 +56,9 @@ const RegisterScreen = ({ navigation }) => {
         EndPoint: "/Registration",
         Params: registerData,
       });
-      console.log(response);
+      // console.log(response);
+      setAuth(true);
+      navigation.navigate('Tab')
     } catch (error) {
       console.log(error);
     }

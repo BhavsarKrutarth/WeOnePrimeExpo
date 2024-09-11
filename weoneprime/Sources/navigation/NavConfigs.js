@@ -7,3 +7,4 @@ const NavConfigs = {
   screenOptions,
 };
 export default NavConfigs;
+

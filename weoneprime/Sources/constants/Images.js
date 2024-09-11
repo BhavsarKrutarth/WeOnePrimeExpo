@@ -5,6 +5,12 @@ const png = ".png";
 
 const Images = {
   Logo: require(ImagePath + "Logo" + png),
+  Home: require(ImagePath + 'Home' + png),
+  Setting: require(ImagePath + 'Setting' + png),
+  Explore: require(ImagePath + 'Explore' + png),
+  F_Explore: require(ImagePath + 'F_Explore' + png),
+  F_Setting: require(ImagePath + 'F_Setting' + png),
+  F_Home: require(ImagePath + 'F_Home' + png),
   Weoneprime: require(ImagePath + "weoneprime" + png),
   profile: require(ImagePath + "profile" + png),
   eyeOff: require(ImagePath + "eye-off" + png),

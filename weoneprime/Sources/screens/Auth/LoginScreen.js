@@ -6,10 +6,14 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { Images } from "../../constants";
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, setAuth }) => {
   const [secure, setSecure] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    
+  };
 
   return (
     <KeyboardAvoidingView
@@ -67,7 +71,7 @@ const LoginScreen = ({ navigation }) => {
             title="Continue "
             textStyle={styles.buttonText}
             gradientColors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
-            onPress={() => navigation.navigate('Home')}
+            onPress={handleLogin}
           />
         </View>
         <View style={{ flex: 1, justifyContent: 'center', gap: wp(3) }}>
@@ -83,6 +87,9 @@ const LoginScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.loginButton}>
             <RNImage source={Images.Apple} style={{ width: wp(5), height: wp(5) }} />
             <RNText style={styles.LoginText}>Continue with Apple{" "}</RNText>
+          </TouchableOpacity>
+          <TouchableOpacity style={{alignItems: 'center'}} onPress={() => { setAuth(true); navigation.navigate('Tab')}} >
+            <RNText style={styles.inputText}>Skip For now{" "}</RNText>
           </TouchableOpacity>
         </View>
       </RNContainer>
