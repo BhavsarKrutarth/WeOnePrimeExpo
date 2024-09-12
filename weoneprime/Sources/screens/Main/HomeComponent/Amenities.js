@@ -79,22 +79,22 @@ export default function Amenities() {
         <TouchableOpacity
           style={{
             ...RNStyles.center,
-            height: wp(8),
-            width: wp(8),
-            backgroundColor: isSelected ? 'rgba(222, 33, 39, 0.9+)' : 'rgba(255, 255, 255, 0.35)',
+            height: wp(7),
+            width: wp(7),
+            backgroundColor: isSelected ? 'rgba(222, 33, 39, 0.9)' : 'rgba(255, 255, 255, 0.35)',
             position: 'absolute',
             top: hp(1),
             borderRadius: 50,
             right: wp(2),
           }}
-          onPress={() => handleHeartPress(item.id)} 
+          onPress={() => handleHeartPress(item.id)}   
         >
           <Icon
-            name={isSelected ? "heart" : "heart"} 
+            name={"heart"} 
             solid={isSelected}
             style={{
-              fontSize: FontSize.font14,
-              color: Colors.White,
+              fontSize: FontSize.font12,
+              color: isSelected ? Colors.Red : Colors.White,
             }}
           />
         </TouchableOpacity>
