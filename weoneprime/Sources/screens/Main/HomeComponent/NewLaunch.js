@@ -1,18 +1,30 @@
-import React from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+
+import React from "react";
+import { Dimensions, StyleSheet, View } from "react-native";
+
+
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  useSharedValue
-} from 'react-native-reanimated';
-import { Images } from '../../../constants';
-import { hp, wp } from '../../../theme';
+  useSharedValue,
+} from "react-native-reanimated";
+import { Images } from "../../../constants";
+import { hp, wp } from "../../../theme";
 
-const { width } = Dimensions.get('screen');
-const itemWidth = wp(65); 
-const itemHeight = hp(20);  
+const { width } = Dimensions.get("screen");
+const itemWidth = wp(65);
+const itemHeight = hp(20);
+
+const data = [
+  { id: "1", imageSource: Images.newlaunch1 },
+  { id: "2", imageSource: Images.banner },
+  { id: "3", imageSource: Images.banner },
+  { id: "4", imageSource: Images.newlaunch1 },
+  { id: "5", imageSource: Images.banner },
+  { id: "6", imageSource: Images.newlaunch1 },
+];
 
 const data = [
   { id: '1', imageSource: Images.newlaunch1 },
@@ -25,7 +37,7 @@ const data = [
 
 export default function NewLaunch() {
   const scrollY = useSharedValue(0);
-  const scrollHandler = useAnimatedScrollHandler(event => {
+  const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.x;
   });
 
@@ -33,7 +45,9 @@ export default function NewLaunch() {
     <View style={styles.flex}>
       <Animated.FlatList
         data={data}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
+
+
         renderItem={({ index }) => <Item index={index} scrollY={scrollY} />}
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -69,7 +83,7 @@ function Item({ index, scrollY }) {
     <Animated.Image
       source={imageSource}
       style={[styles.item, itemScaleStyle]}
-      resizeMode="cover"  
+      resizeMode="cover"
     />
   );
 }
@@ -77,14 +91,15 @@ function Item({ index, scrollY }) {
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
+    paddingBottom: hp(10),
   },
   item: {
-    height: itemHeight, 
-    width: itemWidth,   
+    height: itemHeight,
+    width: itemWidth,
     borderRadius: 10,
   },
   list: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingHorizontal: (width - itemWidth) / 2,
   },
 });

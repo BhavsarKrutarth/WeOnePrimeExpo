@@ -1,10 +1,20 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Pressable, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Pressable,
+  Image,
+} from "react-native";
 import React from "react";
 import { FontFamily, FontSize, hp, wp, Colors } from "../../../theme";
 import { RNImage, RNText, RNStyles } from "../../../common";
 import { Images } from "../../../constants";
+import { useNavigation } from "@react-navigation/native";
 
 const AmenitiesData = () => {
+  const navigation = useNavigation();
   const amenities = [
     {
       id: 1,
@@ -32,11 +42,9 @@ const AmenitiesData = () => {
   return (
     <View style={styles.amenitiesContainer}>
       <View style={RNStyles.flexRowBetween}>
-        <RNText style={styles.title}>Our Amenities{" "}</RNText>
+        <RNText style={styles.title}>Our Amenities </RNText>
         <TouchableOpacity onPress={() => navigation.navigate("Amenity")}>
-          <RNText style={styles.subTitle}>
-            View All{" "}
-          </RNText>
+          <RNText style={styles.subTitle}>View All </RNText>
         </TouchableOpacity>
       </View>
       <ScrollView

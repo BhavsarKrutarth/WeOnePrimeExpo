@@ -1,7 +1,7 @@
-import React from 'react';
-import { SafeAreaView, StatusBar, View } from 'react-native';
-import { Colors } from '../theme';
-import RNLoader from './RNLoader';
+import React from "react";
+import { SafeAreaView, StatusBar, View } from "react-native";
+import { Colors } from "../theme";
+import RNLoader from "./RNLoader";
 const RNContainer = ({
   backgroundColor,
   isLoading,
@@ -13,11 +13,12 @@ const RNContainer = ({
   const styles = [{ flex: 1, backgroundColor: backgroundColor }, style];
   return (
     <SafeAreaView
-      style={[{ flex: 1, backgroundColor: backgroundColor || Colors.White }]}>
+      style={[{ flex: 1, backgroundColor: backgroundColor || Colors.White }]}
+    >
       {isLoading && <RNLoader visible={isLoading} />}
       <View style={styles}>
         <StatusBar
-          barStyle={barStyle ?? 'light-content'}
+          barStyle={barStyle ?? "dark-content"}
           // backgroundColor={Colors.Transparent}
           // translucent={translucent ?? true}
         />

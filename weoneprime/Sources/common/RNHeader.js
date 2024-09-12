@@ -1,7 +1,15 @@
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Colors, FontFamily, FontSize, hp, isIOS, useCustomFonts, wp } from "../theme";
+import {
+  Colors,
+  FontFamily,
+  FontSize,
+  hp,
+  isIOS,
+  useCustomFonts,
+  wp,
+} from "../theme";
 import RNText from "./RNText";
 import RNStyles from "./RNStyles";
 
@@ -14,7 +22,7 @@ const RNHeader = ({
   containerStyle,
   titleStyle,
   leftIconStyle,
-  rightIconStyle
+  rightIconStyle,
 }) => {
   useCustomFonts();
   const navigation = useNavigation();
@@ -56,14 +64,14 @@ const styles = StyleSheet.create({
     ...RNStyles.flexRowBetween,
     backgroundColor: Colors.White,
     paddingVertical: hp(1.5),
-    paddingHorizontal: wp(3),
+    paddingHorizontal: wp(5),
     paddingTop: isIOS ? hp(6) : hp(1.5),
     borderBottomWidth: 1,
-    borderBottomColor: '#D9D9D9',
+    borderBottomColor: "#D9D9D9",
   },
   Left: {
     ...RNStyles.center,
-    width: wp(6),
+    width: wp(9),
     height: wp(6),
   },
   title: {
