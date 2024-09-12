@@ -6,6 +6,129 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../../theme";
 
 const CreditContainer = () => {
+
+  const amenities = [
+    {
+      id: 1,
+      image: Images.exclusive1,
+      title: "Amrut",
+      subtitle: "The fashion icon ",
+      subImage: Images.emp_logo,
+    },
+    {
+      id: 2,
+      image: Images.banner,
+      title: "Inox",
+      subtitle: "Live the Movie ",
+      subImage: Images.emp_logo,
+    },
+    {
+      id: 3,
+      image: Images.banner,
+      title: "La Pino’z",
+      subtitle: "The Giant pizza ",
+      subImage: Images.emp_logo,
+    },
+  ];
+
+  const Data = [
+    {
+      id: 1,
+      image: Images.exploreimg,
+      subtitle: "Flat 50% Off on Seasoning combo of 3",
+      price: "Worth ₹450",
+    },
+    {
+      id: 2,
+      image: Images.exploreimg,
+      subtitle: "Flat 50% Off on Seasoning combo of 3",
+      price: "Worth ₹450",
+    },
+    {
+      id: 3,
+      image: Images.exploreimg,
+      subtitle: "Flat 50% Off on Seasoning combo of 3",
+      price: "Worth ₹450",
+    },
+  ];
+
+  const transactions = [
+    {
+      id: 1,
+      logo: Images.Inox,
+      name: "INOX",
+      date: "11 Feb, 2023",
+      amount: "₹2000",
+      status: "Received",
+    },
+    {
+      id: 2,
+      logo: Images.Inox,
+      name: "Gollers locho khaman",
+      date: "10 Feb, 2023",
+      amount: "₹2000",
+      status: "Payment",
+    },
+    {
+      id: 3,
+      logo: Images.Inox,
+      name: "Coffee Culture",
+      date: "9 Feb, 2023",
+      amount: "₹2000",
+      status: "Payment",
+    },
+    {
+      id: 4,
+      logo: Images.Inox,
+      name: "G3+ Fashion",
+      date: "9 Feb, 2023",
+      amount: "₹2000",
+      status: "Received",
+    },
+  ];
+
+  const renderItem = ({ item }) => (
+    <Pressable style={styles.card}>
+      <RNImage source={item.image} style={styles.image} />
+      <LinearGradient
+        start={{ x: 0, y: 1 }}
+        end={{ x: 0, y: 0 }}
+        colors={['white', 'transparent']}
+        style={styles.gradient}
+      />
+      <View style={styles.infoContainer}>
+        <TouchableOpacity style={styles.availButton}>
+          <RNText style={styles.availText}>Avail Now{" "}</RNText>
+        </TouchableOpacity>
+        <RNText style={styles.subtitle}>{item.subtitle}</RNText>
+        <RNText style={styles.price}>{item.price}</RNText>
+      </View>
+    </Pressable>
+  );
+
+  const renderTransaction = ({ item, index }) => (
+    <View style={styles.transactionContainer}>
+      <View style={{ flexDirection: "row", gap: wp(5) }}>
+        <View style={styles.circleContainer}>
+          <View style={styles.circle}>
+            <RNImage source={item.logo} style={styles.logo} />
+          </View>
+          {index < transactions.length - 1 && <View style={styles.line} />}
+        </View>
+        <View>
+          <RNText style={styles.transactionName}>{item.name}{" "}</RNText>
+          <RNText style={styles.transactionDate}>{item.date}{" "}</RNText>
+        </View>
+      </View>
+      <View style={styles.transactionAmountContainer}>
+        <RNText style={styles.transactionAmount}>{item.amount}{" "}</RNText>
+        <RNText style={[styles.transactionStatus, item.status === "Received" ? styles.received : styles.payment]}>
+          {item.status}
+        </RNText>
+      </View>
+    </View>
+  );
+  
   return (
     <RNContainer style={{ paddingVertical: hp(3), gap: hp(3) }}>
       <View style={{ width: wp(100), ...RNStyles.center }}> 
