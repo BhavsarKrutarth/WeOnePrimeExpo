@@ -11,8 +11,8 @@ import Exclusive from "./Exclusive";
 
 const Home = () => {
   return (
-    <RNContainer style={{flex: 1}}>
-      <ScrollView showsVerticalScrollIndicator={false} style={{gap: 20}}>
+    <RNContainer style={{ flex: 1 }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <CreditContainer />
         <AmenitiesData />
         <ExploreData />
@@ -24,8 +24,6 @@ const Home = () => {
   );
 };
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
 
 export default Home;

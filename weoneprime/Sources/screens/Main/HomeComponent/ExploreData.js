@@ -1,9 +1,17 @@
-import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, Pressable } from 'react-native';
-import React from 'react';
-import { RNImage, RNText } from '../../../common';
-import { Images } from '../../../constants';
-import { Colors, FontFamily, FontSize, hp, wp } from '../../../theme';
-import { LinearGradient } from 'expo-linear-gradient';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
+import React from "react";
+import { RNImage, RNText } from "../../../common";
+import { Images } from "../../../constants";
+import { Colors, FontFamily, FontSize, hp, wp } from "../../../theme";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function ExploreData() {
   const Data = [
@@ -31,16 +39,19 @@ export default function ExploreData() {
     <Pressable style={styles.card}>
       <Image source={item.image} style={styles.image} />
       <LinearGradient
-      start={{ x: 0, y: 1 }}
-      end={{ x: 0, y: 0 }}
-        colors={['white', 'transparent']} 
+        start={{ x: 0, y: 1 }}
+        end={{ x: 0, y: 0 }}
+        colors={["white", "transparent"]}
         style={styles.gradient}
       />
       <View style={styles.infoContainer}>
         <TouchableOpacity style={styles.availButton}>
-          <Text style={styles.availText}>Avail Now{" "}</Text>
+          <Text style={styles.availText}>Avail Now </Text>
         </TouchableOpacity>
         <Text style={styles.subtitle}>{item.subtitle}</Text>
+        <View
+          style={{ width: 50, height: 1, backgroundColor: Colors.DarkGrey }}
+        />
         <Text style={styles.price}>{item.price}</Text>
       </View>
     </Pressable>
@@ -48,12 +59,14 @@ export default function ExploreData() {
 
   return (
     <View style={styles.ExploreData}>
-      <View style={{paddingLeft: wp(3),}}>
+      <View style={{ paddingLeft: wp(3) }}>
         <RNText style={styles.title}>
           Explore More Off...
           <RNImage style={styles.exploreIcon} source={Images.ExploreData} />
         </RNText>
-        <RNText style={styles.subTitle}>Reference site about Lorem Ipsum.</RNText>
+        <RNText style={styles.subTitle}>
+          Reference site about Lorem Ipsum.
+        </RNText>
       </View>
       <FlatList
         data={Data}
@@ -69,7 +82,7 @@ export default function ExploreData() {
 const styles = StyleSheet.create({
   ExploreData: {
     gap: hp(2),
-    marginTop: hp(2)
+    marginTop: hp(2),
   },
   title: {
     fontSize: FontSize.font14,
@@ -89,38 +102,38 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: Colors.White,
     borderRadius: wp(3),
-    overflow: 'hidden',
+    overflow: "hidden",
     width: wp(40),
     height: hp(28),
-    position: 'relative',
+    position: "relative",
     marginLeft: wp(3),
   },
   image: {
     width: wp(40),
     height: hp(28),
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
   gradient: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    height: hp(20), 
+    height: hp(35),
   },
   infoContainer: {
-    position: 'absolute',
-    bottom: hp(-.5),
+    position: "absolute",
+    bottom: hp(-0.5),
     left: wp(3),
     right: wp(2),
-    gap: hp(.5),
-    zIndex: 100
+    gap: hp(0.5),
+    zIndex: 100,
   },
   availButton: {
     backgroundColor: Colors.Black,
-    paddingVertical: wp(.5),
+    paddingVertical: wp(0.5),
     paddingHorizontal: wp(2),
     borderRadius: wp(1.5),
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     marginBottom: wp(1),
     borderWidth: 1,
     borderColor: Colors.Purple,
@@ -134,16 +147,16 @@ const styles = StyleSheet.create({
     fontSize: FontSize.font9,
     width: wp(35),
     fontFamily: FontFamily.Medium,
-    color: Colors.Black, 
+    color: Colors.Black,
     marginBottom: wp(1),
   },
   price: {
     fontSize: FontSize.font10,
     fontFamily: FontFamily.Light,
-    color: Colors.Black, 
+    color: Colors.Black,
     borderTopWidth: 1,
     borderTopColor: Colors.Grey,
     width: wp(18),
-    paddingVertical: hp(0.5)
+    paddingVertical: hp(0.5),
   },
 });

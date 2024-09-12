@@ -7,13 +7,31 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const TabContent = ({ state, descriptors, navigation }) => {
   return (
-    <View style={[styles.tabContainer, { backgroundColor: Colors.Transparent }]}>
+    <View
+      style={[styles.tabContainer, { backgroundColor: Colors.Transparent }]}
+    >
       <LinearGradient
-        colors={['#260f43', '#171017']}
+        colors={["#260f43", "#171017"]}
         start={{ x: 1, y: 0 }}
         end={{ x: 0, y: 0 }}
         style={styles.container}
       >
+        {/* <LinearGradient
+          colors={["#070FDA", "#A95EED"]}
+          start={{ x: 0, y: 1.8 }}
+          end={{ x: 0, y: 0 }}
+          style={[
+            styles.centerTabImageBackground,
+            { position: "absolute", top: hp(1.5), zIndex: 10 },
+          ]}
+        >
+          <Image
+            source={state.index === 1 ? Images.F_Home : Images.Home}
+            resizeMode="contain"
+            style={styles.centerTabIcon}
+          />
+        </LinearGradient> */}
+
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const label =
@@ -27,7 +45,7 @@ const TabContent = ({ state, descriptors, navigation }) => {
 
           const onPress = () => {
             const event = navigation.emit({
-              type: "tabPress", 
+              type: "tabPress",
               target: route.key,
               canPreventDefault: true,
             });
@@ -44,7 +62,11 @@ const TabContent = ({ state, descriptors, navigation }) => {
             });
           };
 
-          const ICONS = [isFocused ? Images.F_Explore : Images.Explore, isFocused ? Images.F_Home : Images.Home, isFocused ? Images.F_Setting : Images.Setting];
+          const ICONS = [
+            isFocused ? Images.F_Explore : Images.Explore,
+            isFocused ? Images.F_Home : Images.Home,
+            isFocused ? Images.F_Setting : Images.Setting,
+          ];
           const isCenterTab = index === 1;
 
           return (
@@ -61,7 +83,7 @@ const TabContent = ({ state, descriptors, navigation }) => {
               {isCenterTab ? (
                 <View>
                   <LinearGradient
-                    colors={['#070FDA', '#A95EED']}
+                    colors={["#070FDA", "#A95EED"]}
                     start={{ x: 0, y: 1.8 }}
                     end={{ x: 0, y: 0 }}
                     style={styles.centerTabImageBackground}
@@ -77,9 +99,7 @@ const TabContent = ({ state, descriptors, navigation }) => {
                 <Image
                   source={ICONS[index]}
                   resizeMode="contain"
-                  style={[
-                    styles.icons 
-                  ]}
+                  style={[styles.icons]}
                 />
               )}
               <RNText
