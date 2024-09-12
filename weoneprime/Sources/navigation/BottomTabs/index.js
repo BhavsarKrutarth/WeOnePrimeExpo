@@ -20,16 +20,18 @@ const Index = () => {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: {
+          // width: "70%",
           position: "absolute",
-          bottom: hp(2),
-          left: 0,
-          right: 0,
+          bottom: hp(1),
+          left: wp(10),
+          right: wp(10),
+          borderRadius: wp(10),
           justifyContent: "center",
-          alignItems: "center",
+          alignSelf: "center",
           height: hp(8),
-          borderWidth: 0,
-          borderColor: Colors.Transparent,
-          paddingHorizontal: wp(18),
+          // borderWidth: 0,
+          // backgroundColor: Colors.White,
+          paddingHorizontal: wp(6),
         },
         tabBarBackground: () => (
           <LinearGradient
@@ -119,7 +121,7 @@ const Index = () => {
                 family={FontFamily.Medium}
                 color={Colors.White}
               >
-                Explore
+                Home
               </RNText>
             </View>
           ),
@@ -147,7 +149,7 @@ const Index = () => {
                 family={FontFamily.Medium}
                 color={Colors.White}
               >
-                Explore
+                Setting
               </RNText>
             </View>
           ),
@@ -161,7 +163,7 @@ export default Index;
 
 const styles = StyleSheet.create({
   centerTabImageBackground: {
-    width: wp(75),
+    width: "100%",
     height: "85%",
     borderRadius: wp(10),
     alignSelf: "center",
