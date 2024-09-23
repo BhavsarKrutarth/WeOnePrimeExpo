@@ -13,7 +13,7 @@ const Stack = createStackNavigator();
 const Routes = () => {
   const [isAuth, setAuth] = useState(true);
   useCustomFonts();
-
+  
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
