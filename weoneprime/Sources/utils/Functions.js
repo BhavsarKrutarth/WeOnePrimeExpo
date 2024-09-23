@@ -1,24 +1,24 @@
-import { Alert, Linking } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert, Linking } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ALERT = ({ Title, Text, Buttons }) => Alert.alert(Title, Text, Buttons);
 
-const OpenUrl = url => Linking.openURL(url);
+const OpenUrl = (url) => Linking.openURL(url);
 
-const setAppData = async data => {
+const setAppData = async (data) => {
   const previousValue = await getAppData();
   if (previousValue) {
     await AsyncStorage.setItem(
-      'appdata',
-      JSON.stringify({ ...previousValue, ...data }),
+      "appdata",
+      JSON.stringify({ ...previousValue, ...data })
     );
   } else {
-    await AsyncStorage.setItem('appdata', JSON.stringify(data));
+    await AsyncStorage.setItem("appdata", JSON.stringify(data));
   }
 };
 
 const getAppData = async () => {
-  const value = await AsyncStorage.getItem('appdata');
+  const value = await AsyncStorage.getItem("appdata");
   return JSON.parse(value);
 };
 

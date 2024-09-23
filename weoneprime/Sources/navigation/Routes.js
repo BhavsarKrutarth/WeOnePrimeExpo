@@ -1,25 +1,32 @@
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack"; 
+import { createStackNavigator } from "@react-navigation/stack";
 import Index from "./BottomTabs";
-import AuthNavigation from "./AuthNavigation"; 
-import Amenities from "../screens/Main/HomeComponent/Amenities";
+import AuthNavigation from "./AuthNavigation";
+
 import { useCustomFonts } from "../theme";
+import { Amenities, Fevorite, OfferDetails } from "../screens/Main";
+import TabBar from "./BottomTabs";
 
 const Stack = createStackNavigator();
 
 const Routes = () => {
-  const [isAuth, setAuth] = useState(false); 
+  const [isAuth, setAuth] = useState(true);
   useCustomFonts();
-  
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuth ? (
-          <Stack.Screen name="Tab" component={Amenities} /> 
+          <>
+            <Stack.Screen name="OfferDetails" component={OfferDetails} />
+            <Stack.Screen name="Tab" component={TabBar} />
+            <Stack.Screen name="Fevorite" component={Fevorite} />
+            <Stack.Screen name="Amenity" component={Amenities} />
+          </>
         ) : (
           <Stack.Screen name="Auth">
-            {(props) => <AuthNavigation {...props} setAuth={setAuth} />} 
+            {(props) => <AuthNavigation {...props} setAuth={setAuth} />}
           </Stack.Screen>
         )}
       </Stack.Navigator>

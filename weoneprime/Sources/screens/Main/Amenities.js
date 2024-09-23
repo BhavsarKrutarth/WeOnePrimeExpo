@@ -1,18 +1,28 @@
-import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, Pressable } from 'react-native';
-import React, { useState } from 'react';
-import { RNImage, RNStyles } from '../../../common';
-import { Images } from '../../../constants';
-import { Colors, FontFamily, FontSize, hp, wp } from '../../../theme';
-import { LinearGradient } from 'expo-linear-gradient';
-import Icon from 'react-native-vector-icons/AntDesign';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
+import React, { useState } from "react";
+import { RNCommonHeader, RNContainer, RNImage, RNStyles } from "../../common";
+import { Images } from "../../constants";
+import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
+import { LinearGradient } from "expo-linear-gradient";
+import Icon from "react-native-vector-icons/AntDesign";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Amenities() {
-  const [selectedHearts, setSelectedHearts] = useState([]); 
+  const navigation = useNavigation();
+  const [selectedHearts, setSelectedHearts] = useState([]);
 
   const Data = [
     {
       id: 1,
-      image: require('../../../assets/images/amrutbanner.png'),
+      image: require("../../assets/images/amrutbanner.png"),
       brandLogo: Images.emp_logo,
       title: "Amrut",
       subtitle: "The fashion icon ",
@@ -51,13 +61,13 @@ export default function Amenities() {
       brandLogo: Images.emp_logo,
       title: "Gollers",
       subtitle: "Gollers locho khaman",
-    }
+    },
   ];
 
   const handleHeartPress = (id) => {
-    setSelectedHearts(prevSelectedHearts => {
+    setSelectedHearts((prevSelectedHearts) => {
       if (prevSelectedHearts.includes(id)) {
-        return prevSelectedHearts.filter(heartId => heartId !== id);
+        return prevSelectedHearts.filter((heartId) => heartId !== id);
       } else {
         return [...prevSelectedHearts, id];
       }
@@ -65,15 +75,18 @@ export default function Amenities() {
   };
 
   const renderItem = ({ item }) => {
-    const isSelected = selectedHearts.includes(item.id); 
+    const isSelected = selectedHearts.includes(item.id);
 
     return (
-      <Pressable style={styles.card}>
+      <Pressable
+        style={styles.card}
+        onPress={() => navigation.navigate("OfferDetails")}
+      >
         <Image source={item.image} style={styles.image} />
         <LinearGradient
-          start={{ x: 0, y: 0.9 }}
-          end={{ x: 0, y: 0 }}
-          colors={['white', 'transparent']}
+          start={{ x: 0, y: 0.8 }}
+          end={{ x: 0, y: -1 }}
+          colors={["white", "transparent"]}
           style={styles.gradient}
         />
         <TouchableOpacity
@@ -81,16 +94,20 @@ export default function Amenities() {
             ...RNStyles.center,
             height: wp(7),
             width: wp(7),
-            backgroundColor: isSelected ? 'rgba(222, 33, 39, 0.9)' : 'rgba(255, 255, 255, 0.35)',
-            position: 'absolute',
+            backgroundColor: isSelected
+              ? "rgba(222, 33, 39, 0.9)"
+              : "rgba(255, 255, 255, 0.35)",
+            position: "absolute",
             top: hp(1),
             borderRadius: 50,
             right: wp(2),
           }}
-          onPress={() => handleHeartPress(item.id)}   
+          onPress={() => {
+            handleHeartPress(item.id), navigation.navigate("Fevorite");
+          }}
         >
           <Icon
-            name={"heart"} 
+            name={"heart"}
             solid={isSelected}
             style={{
               fontSize: FontSize.font12,
@@ -100,7 +117,10 @@ export default function Amenities() {
         </TouchableOpacity>
 
         <View style={styles.infoContainer}>
-          <RNImage source={item.brandLogo} style={{ height: wp(10), width: wp(10) }} />
+          <RNImage
+            source={item.brandLogo}
+            style={{ height: wp(13), width: wp(13) }}
+          />
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.subtitle}>{item.subtitle}</Text>
         </View>
@@ -109,52 +129,56 @@ export default function Amenities() {
   };
 
   return (
-    <View style={styles.ExploreData}>
-      <FlatList
-        data={Data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    <RNContainer style={{ flex: 1 }}>
+      <RNCommonHeader title={"Our Amenities"} />
+      <View style={styles.ExploreData}>
+        <FlatList
+          style={{ paddingTop: hp(2) }}
+          data={Data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={{ height: hp(1.5) }} />}
+        />
+      </View>
+    </RNContainer>
   );
 }
 
 const styles = StyleSheet.create({
   ExploreData: {
-    gap: hp(2),
     backgroundColor: Colors.White,
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   card: {
-    backgroundColor: Colors.White,
     borderRadius: wp(2),
-    overflow: 'hidden',
     width: wp(45),
-    height: wp(45),
-    position: 'relative',
-    margin: wp(2),
+    height: wp(42),
+    marginHorizontal: wp(1.5),
+    overflow: "hidden",
   },
   image: {
     width: wp(45),
     height: wp(45),
+    // resizeMode: "cover",
   },
   gradient: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    height: hp(22),
+    height: "100%",
+    opacity: 1,
   },
   infoContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: hp(-0.5),
     left: wp(3),
     right: wp(2),
     zIndex: 100,
-    alignItems: 'center',
+    alignItems: "center",
   },
   title: {
     fontSize: FontSize.font14,
