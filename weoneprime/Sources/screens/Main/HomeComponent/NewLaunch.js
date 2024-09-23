@@ -1,7 +1,5 @@
-
 import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-
 
 import Animated, {
   Extrapolate,
@@ -26,15 +24,6 @@ const data = [
   { id: "6", imageSource: Images.newlaunch1 },
 ];
 
-const data = [
-  { id: '1', imageSource: Images.newlaunch1 },
-  { id: '2', imageSource: Images.banner },
-  { id: '3', imageSource: Images.banner },  
-  { id: '4', imageSource: Images.newlaunch1 },
-  { id: '5', imageSource: Images.banner },
-  { id: '6', imageSource: Images.newlaunch1 },
-];
-
 export default function NewLaunch() {
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
@@ -46,8 +35,6 @@ export default function NewLaunch() {
       <Animated.FlatList
         data={data}
         keyExtractor={(item) => item.id}
-
-
         renderItem={({ index }) => <Item index={index} scrollY={scrollY} />}
         horizontal
         showsHorizontalScrollIndicator={false}

@@ -1,10 +1,8 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import NavRoutes from "../NavRoutes";
-import { Home } from "../../screens/Main";
+import { Home, Explore, Setting } from "../../screens/Main";
 import TabContent from "./TabContent";
-import Explore from "../../screens/Main/Explore";
-import Setting from "../../screens/Main/Setting";
 import { RNHeader, RNText } from "../../common";
 import { Images } from "../../constants";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
@@ -13,7 +11,7 @@ import { Image, StyleSheet, View } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
-const Index = () => {
+const TabBar = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -159,7 +157,7 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default TabBar;
 
 const styles = StyleSheet.create({
   centerTabImageBackground: {
