@@ -1,6 +1,21 @@
-import { Image, Pressable,  StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, Platform } from "react-native";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import React, { useState } from "react";
-import { RNButton, RNContainer, RNImage, RNInput, RNStyles, RNText } from "../../common";
+import {
+  RNButton,
+  RNContainer,
+  RNImage,
+  RNInput,
+  RNStyles,
+  RNText,
+} from "../../common";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
@@ -8,12 +23,10 @@ import { Images } from "../../constants";
 
 const LoginScreen = ({ navigation, setAuth }) => {
   const [secure, setSecure] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    
-  };
+  const handleLogin = () => {};
 
   return (
     <KeyboardAvoidingView
@@ -22,17 +35,24 @@ const LoginScreen = ({ navigation, setAuth }) => {
       keyboardVerticalOffset={Platform.OS === "ios" ? 20 : hp(-15)}
     >
       <RNContainer style={styles.Container}>
-        <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
           <Image source={Images.Logo} />
         </View>
         <View style={{ gap: hp(5), flex: 1.8 }}>
           <View>
-            <RNText style={styles.title}>Hey, hello{" "}👋</RNText>
-            <RNText style={styles.subTitle}>Enter the information you entered while registering.</RNText>
+            <RNText style={styles.title}>Hey, hello 👋</RNText>
+            <RNText style={styles.subTitle}>
+              Enter the information you entered while registering.
+            </RNText>
           </View>
           <View style={{ gap: hp(2) }}>
             <View>
-              <RNText style={styles.inputText}>E-mail{' '}<RNText style={[styles.inputText, styles.requireStyle]}>*</RNText></RNText>
+              <RNText style={styles.inputText}>
+                E-mail{" "}
+                <RNText style={[styles.inputText, styles.requireStyle]}>
+                  *
+                </RNText>
+              </RNText>
               <RNInput
                 style={styles.inputContainer}
                 value={email}
@@ -40,18 +60,29 @@ const LoginScreen = ({ navigation, setAuth }) => {
               />
             </View>
             <View>
-              <RNText style={styles.inputText}>Password{' '}<RNText style={[styles.inputText, styles.requireStyle]}>*</RNText></RNText>
+              <RNText style={styles.inputText}>
+                Password{" "}
+                <RNText style={[styles.inputText, styles.requireStyle]}>
+                  *
+                </RNText>
+              </RNText>
               <RNInput
                 style={styles.inputContainer}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={secure}
-                isPress={() => setSecure(!secure)} />
+                isPress={() => setSecure(!secure)}
+              />
               <Pressable>
                 <MaskedView
-                  style={{ flexDirection: 'row', height: 20 }}
+                  style={{ flexDirection: "row", height: 20 }}
                   maskElement={
-                    <RNText style={[styles.forgetPasswordText, { color: 'black', textAlign: 'right' }]}>
+                    <RNText
+                      style={[
+                        styles.forgetPasswordText,
+                        { color: "black", textAlign: "right" },
+                      ]}
+                    >
                       Forgot Password?
                     </RNText>
                   }
@@ -74,22 +105,36 @@ const LoginScreen = ({ navigation, setAuth }) => {
             onPress={handleLogin}
           />
         </View>
-        <View style={{ flex: 1, justifyContent: 'center', gap: wp(3) }}>
+        <View style={{ flex: 1, justifyContent: "center", gap: wp(3) }}>
           <View style={styles.continue}>
             <View style={styles.line} />
-            <RNText style={[styles.subTitle, {color: '#B3B3B3'}]}>or Continue with</RNText>
+            <RNText style={[styles.subTitle, { color: "#B3B3B3" }]}>
+              or Continue with
+            </RNText>
             <View style={styles.line} />
           </View>
           <TouchableOpacity style={styles.loginButton}>
-            <RNImage source={Images.Google} style={{ width: wp(5), height: wp(5) }} />
-            <RNText style={styles.LoginText}>Log in With Google{" "}</RNText>
+            <RNImage
+              source={Images.Google}
+              style={{ width: wp(5), height: wp(5) }}
+            />
+            <RNText style={styles.LoginText}>Log in With Google </RNText>
           </TouchableOpacity>
           <TouchableOpacity style={styles.loginButton}>
-            <RNImage source={Images.Apple} style={{ width: wp(5), height: wp(5) }} />
-            <RNText style={styles.LoginText}>Continue with Apple{" "}</RNText>
+            <RNImage
+              source={Images.Apple}
+              style={{ width: wp(5), height: wp(5) }}
+            />
+            <RNText style={styles.LoginText}>Continue with Apple </RNText>
           </TouchableOpacity>
-          <TouchableOpacity style={{alignItems: 'center'}} onPress={() => { setAuth(true); navigation.navigate('Tab')}} >
-            <RNText style={styles.inputText}>Skip For now{" "}</RNText>
+          <TouchableOpacity
+            style={{ alignItems: "center" }}
+            onPress={() => {
+              setAuth(true);
+              navigation.navigate("Tab");
+            }}
+          >
+            <RNText style={styles.inputText}>Skip For now </RNText>
           </TouchableOpacity>
         </View>
       </RNContainer>
@@ -99,10 +144,9 @@ const LoginScreen = ({ navigation, setAuth }) => {
 
 export default LoginScreen;
 
-
 const styles = StyleSheet.create({
   Container: {
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: wp(5),
   },
   title: {
@@ -112,7 +156,7 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: FontSize.font11,
     fontFamily: FontFamily.Regular,
-    color: Colors.Grey
+    color: Colors.Grey,
   },
   inputText: {
     fontSize: FontSize.font12,
@@ -125,19 +169,19 @@ const styles = StyleSheet.create({
   loginButton: {
     ...RNStyles.flexRowCenter,
     gap: wp(2),
-    backgroundColor: '#F3F3F3',
+    backgroundColor: "#F3F3F3",
     padding: wp(3),
-    borderRadius: wp(2)
+    borderRadius: wp(2),
   },
   LoginText: {
     fontSize: FontSize.font14,
     fontFamily: FontFamily.Medium,
-    color: Colors.Black
+    color: Colors.Black,
   },
   forgetPasswordText: {
     fontSize: FontSize.font11,
     fontFamily: FontFamily.SemiBold,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   continue: {
     ...RNStyles.flexRowCenter,
@@ -147,13 +191,13 @@ const styles = StyleSheet.create({
   line: {
     flex: 1,
     padding: 0,
-    borderWidth: .8,
-    borderColor: '#F3F3F3',
-    marginTop: 2
+    borderWidth: 0.8,
+    borderColor: "#F3F3F3",
+    marginTop: 2,
   },
   requireStyle: {
-    color: Colors.Red, 
-    fontSize: FontSize.font18, 
-    fontFamily: FontFamily.Light
-  }
+    color: Colors.Red,
+    fontSize: FontSize.font18,
+    fontFamily: FontFamily.Light,
+  },
 });
