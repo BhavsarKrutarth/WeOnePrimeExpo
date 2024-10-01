@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {
   RNButton,
   RNCommonHeader,
@@ -31,21 +39,28 @@ const OfferDetails = () => {
 
   const renderSectionItem = ({ item }) => (
     <TouchableOpacity
-      style={[styles.sectionButton, selectedSection === item.title && { backgroundColor: '#ECECEC' }]}
+      style={[
+        styles.sectionButton,
+        selectedSection === item.title && { backgroundColor: "#ECECEC" },
+      ]}
       onPress={() => setSelectedSection(item.title)}
     >
-      <Text style={[styles.sectionText]}>
-        {item.title}
-      </Text>
+      <Text style={[styles.sectionText]}>{item.title}</Text>
     </TouchableOpacity>
   );
 
   return (
     <RNContainer>
       <RNCommonHeader title={"Company"} />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
         <View style={styles.imageContainer}>
-          <Image source={require("../../assets/images/amrutbanner.png")} style={styles.bannerImage} />
+          <Image
+            source={require("../../assets/images/amrutbanner.png")}
+            style={styles.bannerImage}
+          />
           <LinearGradient
             start={{ x: 0, y: 1.5 }}
             end={{ x: 0, y: 0 }}
@@ -53,18 +68,25 @@ const OfferDetails = () => {
             style={styles.gradient}
           />
           <TouchableOpacity style={styles.heartIcon}>
-            <Icon name={"heart"} style={{ fontSize: FontSize.font12, color: Colors.Red }} />
+            <Icon
+              name={"heart"}
+              style={{ fontSize: FontSize.font12, color: Colors.Red }}
+            />
           </TouchableOpacity>
           <View style={styles.infoContainer}>
             <RNImage source={Images.emp_logo} style={styles.logo} />
-            <Text style={styles.title}>{"Amrut"}{" "}</Text>
-            <Text style={styles.subtitle}>{"The fashion icon"}{" "}</Text>
+            <Text style={styles.title}>{"Amrut"} </Text>
+            <Text style={styles.subtitle}>{"The fashion icon"} </Text>
           </View>
         </View>
 
         <View style={{ paddingHorizontal: wp(5) }}>
           <View style={styles.howToUseContainer}>
-            <RNText color={Colors.White} size={FontSize.font15} family={FontFamily.Medium}>
+            <RNText
+              color={Colors.White}
+              size={FontSize.font15}
+              family={FontFamily.Medium}
+            >
               How to use:{" "}
             </RNText>
           </View>
@@ -75,7 +97,10 @@ const OfferDetails = () => {
           </RNText>
           <View style={styles.rewardContainer}>
             <View style={RNStyles.flexRow}>
-              <MaterialCommunityIcons name={"clock-time-three-outline"} style={{ fontSize: FontSize.font14 }} />
+              <MaterialCommunityIcons
+                name={"clock-time-three-outline"}
+                style={{ fontSize: FontSize.font14 }}
+              />
               <RNText size={FontSize.font13} family={FontFamily.Medium}>
                 15.18
               </RNText>
@@ -93,12 +118,17 @@ const OfferDetails = () => {
               />
             </View>
           </View>
-          <RNText size={FontSize.font8} color={Colors.DarkGrey} align={"center"}>
-            Month End offers: Buy classic woman suits at Rs. 599 only. Grab this offer now.
+          <RNText
+            size={FontSize.font8}
+            color={Colors.DarkGrey}
+            align={"center"}
+          >
+            Month End offers: Buy classic woman suits at Rs. 599 only. Grab this
+            offer now.
           </RNText>
         </View>
 
-        <View style={{marginVertical: hp(2)}}>
+        <View style={{ marginVertical: hp(2) }}>
           <FlatList
             horizontal
             data={sections}
@@ -191,7 +221,7 @@ const styles = StyleSheet.create({
   bulletPoint: {
     width: normalize(4),
     height: normalize(4),
-    backgroundColor: '#D1D1D1',
+    backgroundColor: "#D1D1D1",
     borderRadius: normalize(5),
     marginBottom: hp(0.1),
   },
@@ -202,7 +232,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(3),
     paddingVertical: hp(1),
     alignItems: "center",
-    marginVertical: hp(1)
+    marginVertical: hp(1),
   },
   sectionButton: {
     padding: wp(3),
@@ -211,16 +241,16 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.LightGrey,
   },
   SectionList: {
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   sectionText: {
     fontSize: FontSize.font14,
     color: Colors.Black,
-    fontFamily: FontFamily.SemiBold
+    fontFamily: FontFamily.SemiBold,
   },
   contentContainer: {
     backgroundColor: Colors.LightGrey,
     borderRadius: wp(2),
-    alignSelf: 'center'
+    alignSelf: "center",
   },
 });

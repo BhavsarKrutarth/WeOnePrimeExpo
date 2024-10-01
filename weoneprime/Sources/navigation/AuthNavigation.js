@@ -9,7 +9,7 @@ const AuthNavigation = ({ setAuth }) => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={"Carousel"} component={ImageCarousel} />
       <Stack.Screen name="Login">
-        {(props) => <LoginScreen {...props} setAuth={setAuth} />} 
+        {(props) => <LoginScreen {...props} setAuth={setAuth} />}
       </Stack.Screen>
       <Stack.Screen name="Register" component={RegisterScreen} />
     </Stack.Navigator>
