@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import {
   FlatList,
   Image,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import {
@@ -24,7 +26,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 const OfferDetails = () => {
   const [selectedSection, setSelectedSection] = useState("About");
-
+  const [modalVisible, setModalVisible] = useState(false);
   const sections = [
     { id: "1", title: "About" },
     { id: "2", title: "Terms & Conditions" },
@@ -32,7 +34,8 @@ const OfferDetails = () => {
   ];
 
   const sectionContent = {
-    About: "This is the about section content.",
+    About:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     "Terms & Conditions": "These are the terms and conditions.",
     FAQs: "Here are the frequently asked questions.",
   };
@@ -41,13 +44,23 @@ const OfferDetails = () => {
     <TouchableOpacity
       style={[
         styles.sectionButton,
-        selectedSection === item.title && { backgroundColor: "#ECECEC" },
+
+        selectedSection === item.title && { backgroundColor: Colors.LightGrey },
+
       ]}
       onPress={() => setSelectedSection(item.title)}
     >
       <Text style={[styles.sectionText]}>{item.title}</Text>
     </TouchableOpacity>
   );
+
+  const handleOffer = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   return (
     <RNContainer>
@@ -115,6 +128,7 @@ const OfferDetails = () => {
                 style={{ paddingVertical: hp(1), marginTop: hp(2) }}
                 textStyle={styles.buttonText}
                 gradientColors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
+                onPress={handleOffer}
               />
             </View>
           </View>
@@ -128,7 +142,16 @@ const OfferDetails = () => {
           </RNText>
         </View>
 
-        <View style={{ marginVertical: hp(2) }}>
+
+
+        <View
+          style={{
+            marginVertical: hp(2),
+            gap: wp(3),
+            paddingHorizontal: wp(3),
+          }}
+        >
+
           <FlatList
             horizontal
             data={sections}
@@ -138,12 +161,102 @@ const OfferDetails = () => {
             showsHorizontalScrollIndicator={false}
           />
           <View style={styles.contentContainer}>
-            <RNText size={FontSize.font13} family={FontFamily.Medium}>
+            <RNText style={styles.sectionContent}>
               {sectionContent[selectedSection]}
             </RNText>
           </View>
         </View>
+
+        <View style={styles.OfferDetails}>
+          <RNText style={[styles.sectionContent, { textAlign: "center" }]}>
+            Join weone prime to avail this offer
+          </RNText>
+          <RNButton
+            title={
+              <RNText style={styles.buttonText}>
+                EXTEND MEMBERSHIP FOR{" "}
+                <RNText
+                  style={[
+                    styles.buttonText,
+                    { textDecorationLine: "line-through" },
+                  ]}
+                >
+                  ₹1299{" "}
+                </RNText>
+                ₹999
+              </RNText>
+            }
+            textStyle={styles.buttonText}
+            gradientColors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
+          />
+        </View>
       </ScrollView>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <TouchableWithoutFeedback onPress={closeModal}>
+          <View style={styles.modalContainer}>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalContent}>
+                <LinearGradient
+                  colors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
+                  start={{ x: 0.5, y: 1.2 }}
+                  end={{ x: 0, y: 0 }}
+                  style={{
+                    height: wp(9),
+                    width: wp(9),
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: normalize(6),
+                  }}
+                >
+                  <RNImage
+                    style={{ height: wp(6), width: wp(6) }}
+                    source={Images.scan}
+                  />
+                </LinearGradient>
+                <RNText style={styles.sectionText}>Redeem in Showroom?</RNText>
+                <RNText size={FontSize.font8} color={Colors.DarkGrey}>
+                  scan code at a restaurant within 15 minutes.
+                </RNText>
+                <View style={[RNStyles.flexRowCenter, { gap: wp(3) }]}>
+                  <RNButton
+                    style={{
+                      backgroundColor: Colors.Black,
+                      paddingHorizontal: wp(15),
+                      paddingVertical: hp(1),
+                    }}
+                    textStyle={{
+                      fontSize: FontSize.font11,
+                      fontFamily: FontFamily.Medium,
+                    }}
+                    title="Cancel"
+                    onPress={closeModal}
+                  />
+                  <RNButton
+                    style={{
+                      backgroundColor: Colors.LightGrey,
+                      paddingHorizontal: wp(15),
+                      paddingVertical: hp(1),
+                    }}
+                    textStyle={{
+                      fontSize: FontSize.font11,
+                      fontFamily: FontFamily.Medium,
+                      color: Colors.Black,
+                    }}
+                    title="Redeem"
+                    onPress={closeModal}
+                  />
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </RNContainer>
   );
 };
@@ -227,7 +340,7 @@ const styles = StyleSheet.create({
   },
   rewardContainer: {
     borderWidth: 1,
-    borderColor: "#d1d1d1",
+    borderColor: "#D1D1D1",
     borderRadius: normalize(16),
     paddingHorizontal: wp(3),
     paddingVertical: hp(1),
@@ -235,10 +348,10 @@ const styles = StyleSheet.create({
     marginVertical: hp(1),
   },
   sectionButton: {
-    padding: wp(3),
-    marginRight: wp(3),
+    paddingVertical: wp(2),
+    paddingHorizontal: wp(5),
     borderRadius: wp(2),
-    backgroundColor: Colors.LightGrey,
+    marginRight: wp(1),
   },
   SectionList: {
     alignSelf: "center",
@@ -248,9 +361,36 @@ const styles = StyleSheet.create({
     color: Colors.Black,
     fontFamily: FontFamily.SemiBold,
   },
+  sectionContent: {
+    fontSize: FontSize.font12,
+    fontFamily: FontFamily.Medium,
+    color: Colors.DarkGrey,
+
+  },
   contentContainer: {
-    backgroundColor: Colors.LightGrey,
     borderRadius: wp(2),
     alignSelf: "center",
+  },
+  OfferDetails: {
+    padding: wp(3),
+    backgroundColor: Colors.LightGrey,
+    width: wp(100),
+    borderTopStartRadius: normalize(10),
+    borderTopEndRadius: normalize(10),
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: Colors.White,
+    padding: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    width: "100%",
+    gap: hp(1),
+
   },
 });

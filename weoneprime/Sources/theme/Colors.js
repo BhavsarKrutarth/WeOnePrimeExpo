@@ -8,6 +8,7 @@ const Colors = {
   Yellow: "#FFFF00",
   Grey: "#808080",
   DarkGrey: "#666666",
+  LightGrey: "#EEEEEE",
   Pink: "#FFC0CB",
   Orange: "#FFA500",
   Purple: "#9747ff",
@@ -17,3 +18,4 @@ const Colors = {
 };
 
 export default Colors;
+
