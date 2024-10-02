@@ -44,7 +44,9 @@ const OfferDetails = () => {
     <TouchableOpacity
       style={[
         styles.sectionButton,
+
         selectedSection === item.title && { backgroundColor: Colors.LightGrey },
+
       ]}
       onPress={() => setSelectedSection(item.title)}
     >
@@ -140,6 +142,8 @@ const OfferDetails = () => {
           </RNText>
         </View>
 
+
+
         <View
           style={{
             marginVertical: hp(2),
@@ -147,6 +151,7 @@ const OfferDetails = () => {
             paddingHorizontal: wp(3),
           }}
         >
+
           <FlatList
             horizontal
             data={sections}
@@ -360,6 +365,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.font12,
     fontFamily: FontFamily.Medium,
     color: Colors.DarkGrey,
+
   },
   contentContainer: {
     borderRadius: wp(2),
@@ -385,5 +391,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     width: "100%",
     gap: hp(1),
+
   },
 });

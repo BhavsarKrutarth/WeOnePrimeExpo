@@ -15,7 +15,9 @@ const Stack = createStackNavigator();
 
 const Routes = () => {
   const [isAuth, setAuth] = useState(true);
-  
+
+  useCustomFonts();
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -26,6 +28,7 @@ const Routes = () => {
             <Stack.Screen name="CategoryDetails" component={CategoryDetails} />
             <Stack.Screen name="OfferDetails" component={OfferDetails} />
             <Stack.Screen name="Tab" component={TabBar} />
+            <Stack.Screen name="OfferDetails" component={OfferDetails} />
             <Stack.Screen name="Fevorite" component={Fevorite} />
             <Stack.Screen name="Amenity" component={Amenities} />
           </>
