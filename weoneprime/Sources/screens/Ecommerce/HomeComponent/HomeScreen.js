@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
   dot: {
     width: normalize(8),
     height: normalize(8),
-    borderRadius: 4,
+    borderRadius: 4,  
     marginHorizontal: wp(1),
   },
   activeDot: {
