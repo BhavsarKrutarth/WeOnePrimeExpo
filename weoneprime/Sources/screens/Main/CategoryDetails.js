@@ -13,6 +13,7 @@ import { RNContainer, RNImage, RNStyles, RNText } from "../../common";
 import { Images } from "../../constants";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/AntDesign";
+import { ProductItem } from "../../components";
 
 export default function CategoryDetails() {
   const categories = [
@@ -107,78 +108,81 @@ export default function CategoryDetails() {
     </TouchableOpacity>
   );
 
-  const renderImages = () => (
-    <FlatList
-      data={selectedCategory.images}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item, index }) => (
-        <View>
-          <View
-            style={{
-              ...RNStyles.center,
-              backgroundColor: Colors.Black,
-              width: wp(12),
-              height: wp(12),
-              borderRadius: normalize(9),
-              position: "absolute",
-              zIndex: 1,
-              top: hp(-3),
-              alignSelf: "center",
-            }}
-          >
-            <RNImage
-              source={item.logo}
-              style={{ width: wp(10), height: wp(10) }}
-            />
-          </View>
-          <Image source={item.imageSource} style={styles.categoryImage} />
-          <TouchableOpacity
-            style={styles.likeButton}
-            onPress={() => onLikeButtonPress(index)}
-          >
-            <Icon
-              name={"heart"}
-              style={{
-                fontSize: FontSize.font12,
-                color: likedIndices.includes(index) ? "red" : Colors.White,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-      )}
-      contentContainerStyle={styles.imageList}
-      showsVerticalScrollIndicator={false}
-    />
-  );
-
   return (
     <RNContainer>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={{ gap: hp(3) }}>
-          <FlatList
-            data={categories}
-            renderItem={renderCategoryItem}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.categoriesList}
-          />
-          <View>{renderImages()}</View>
-        </View>
-      </ScrollView>
+      <View style={{ gap: hp(3), flex: 1 }}>
+        <FlatList
+          style={styles.imageList}
+          data={selectedCategory.images}
+          numColumns={2}
+          keyExtractor={(item, index) => index.toString()}
+          stickyHeaderIndices={[0]}
+          ListHeaderComponent={() => (
+            <View style={{ backgroundColor: Colors.White }}>
+              <FlatList
+                data={categories}
+                renderItem={renderCategoryItem}
+                keyExtractor={(item) => item.id}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.categoriesList}
+              />
+            </View>
+          )}
+          renderItem={({ item, index }) => (
+            <View style={{ marginHorizontal: wp(2), marginTop: hp(4) }}>
+              <View
+                style={{
+                  ...RNStyles.center,
+                  backgroundColor: Colors.Black,
+                  width: wp(12),
+                  height: wp(12),
+                  borderRadius: normalize(9),
+                  position: "absolute",
+                  zIndex: 1,
+                  top: hp(-3),
+                  alignSelf: "center",
+                }}
+              >
+                <RNImage
+                  source={item.logo}
+                  style={{ width: wp(10), height: wp(10) }}
+                />
+              </View>
+              <Image source={item.imageSource} style={styles.categoryImage} />
+              <TouchableOpacity
+                style={styles.likeButton}
+                onPress={() => onLikeButtonPress(index)}
+              >
+                <Icon
+                  name={"heart"}
+                  style={{
+                    fontSize: FontSize.font12,
+                    color: likedIndices.includes(index) ? "red" : Colors.White,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+
+      {/* <ProductItem /> */}
     </RNContainer>
   );
 }
 
 const styles = StyleSheet.create({
   imageList: {
-    ...RNStyles.flexWrapHorizontal,
-    justifyContent: "center",
-    gap: wp(3),
+    marginHorizontal: wp(1),
+    flex: 1,
   },
   categoriesList: {
     paddingLeft: wp(3),
     paddingTop: hp(2),
+    paddingBottom: hp(1),
+    // marginBottom: hp(2),
   },
   categoryItem: {
     ...RNStyles.flexRowCenter,

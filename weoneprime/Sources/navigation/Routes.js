@@ -9,6 +9,7 @@ import { Amenities, Fevorite, OfferDetails } from "../screens/Main";
 import TabBar from "./BottomTabs";
 import CategoryDetails from "../screens/Main/CategoryDetails";
 import HomeScreen from "../screens/Ecommerce/HomeComponent/HomeScreen";
+import { Collection, ProductDetails } from "../screens/Ecommerce";
 
 const Stack = createStackNavigator();
 
@@ -22,9 +23,8 @@ const Routes = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuth ? (
           <>
+            <Stack.Screen name="CategoryDetails" component={ProductDetails} />
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
-            <Stack.Screen name="CategoryDetails" component={CategoryDetails} />
-            <Stack.Screen name="OfferDetails" component={OfferDetails} />
             <Stack.Screen name="Tab" component={TabBar} />
             <Stack.Screen name="OfferDetails" component={OfferDetails} />
             <Stack.Screen name="Fevorite" component={Fevorite} />
