@@ -24,12 +24,11 @@ import {
   wp,
 } from "../../../theme";
 import { Images } from "../../../constants";
-import Entypo from "react-native-vector-icons/Entypo";
-import MaskedView from "@react-native-masked-view/masked-view";
-import { LinearGradient } from "expo-linear-gradient";
+import { renderCategoryItem, renderDealofDay, renderOffersItem, onCategorySelect, renderDealsItem, renderTodayEdit } from './modal';
 
-export default function HomeScreen() {
+export default function HomeScreen({ }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentdealIndex, setCurrentdealIndex] = useState(0);
   const flatListRef = useRef(null);
   const slideInterval = useRef(null);
 
@@ -48,16 +47,38 @@ export default function HomeScreen() {
   ];
 
   const Offers = [
-    { id: "1", name: "Titan, Casio...",OfferDesc: "Min 30% Off", logo: require("../../../assets/images/watch.png"), coloCode: '#bcdbff' },
-    { id: "2", name: "Titan, Casio...",OfferDesc: "Min 30% Off", logo: require("../../../assets/images/watch.png"), coloCode: "#A3CFAA" },
-    { id: "3", name: "Titan, Casio...",OfferDesc: "Min 30% Off", logo: require("../../../assets/images/watch.png"), coloCode: "#e2adc0" },
-   ];
+    { id: "1", name: "Titan, Casio...", OfferDesc: "Min 30% Off", logo: require("../../../assets/images/watch.png"), coloCode: '#bcdbff' },
+    { id: "2", name: "Titan, Casio...", OfferDesc: "Min 30% Off", logo: require("../../../assets/images/watch.png"), coloCode: "#A3CFAA" },
+    { id: "3", name: "Titan, Casio...", OfferDesc: "Min 30% Off", logo: require("../../../assets/images/watch.png"), coloCode: "#e2adc0" },
+  ];
 
-   const DealofDay = [
-    { id: "1", name: "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing",Product: "MAMAEARTH",productDesc: "Mamaearth Vitamin C Daily Glow Face Serum", logo: require("../../../assets/images/watch.png"), price: "UNDER 299" },
-    { id: "2", name: "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing",Product: "MAMAEARTH",productDesc: "Mamaearth Vitamin C Daily Glow Face Serum", logo: require("../../../assets/images/watch.png"), price: "UNDER 299" },
-    { id: "3", name: "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing",Product: "MAMAEARTH",productDesc: "Mamaearth Vitamin C Daily Glow Face Serum", logo: require("../../../assets/images/watch.png"), price: "UNDER 299" },
-   ];
+  const dealOfDayData = [
+    { id: "1", name: "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing", Product: "MAMAEARTH", productDesc: "Mamaearth Vitamin C Daily Glow Face Serum", logo: require("../../../assets/images/dealofday.png"), price: "UNDER 299" },
+    { id: "2", name: "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing", Product: "MAMAEARTH", productDesc: "Mamaearth Vitamin C Daily Glow Face Serum", logo: require("../../../assets/images/gift.png"), price: "UNDER 299" },
+    { id: "3", name: "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing", Product: "MAMAEARTH", productDesc: "Mamaearth Vitamin C Daily Glow Face Serum", logo: require("../../../assets/images/watch.png"), price: "UNDER 299" },
+  ];
+
+  const DealsItem = [
+    { id: "1", productDesc: "Blue, Fast Charging for Mobile", Product: "SmartBuy 10000 mAh 12 W Power bank", image: require("../../../assets/images/watch.png"), price: "1599", DiscPrice: "999", OfferRate: "53% Off" },
+    { id: "2", productDesc: "Blue, Fast Charging for Mobile", Product: "SmartBuy 10000 mAh 12 W Power bank", image: require("../../../assets/images/watch.png"), price: "1599", DiscPrice: "999", OfferRate: "53% Off" },
+    { id: "3", productDesc: "Blue, Fast Charging for Mobile", Product: "SmartBuy 10000 mAh 12 W Power bank", image: require("../../../assets/images/watch.png"), price: "1599", DiscPrice: "999", OfferRate: "53% Off" },
+  ];
+
+  const TodayEdit = [
+    { id: "1", productDesc: "Blue, Fast Charging for Mobile", Product: "SmartBuy 10000 mAh 12 W Power bank", image: require("../../../assets/images/watch.png"), price: "1599", DiscPrice: "999", OfferRate: "53% Off" },
+    { id: "2", productDesc: "Blue, Fast Charging for Mobile", Product: "SmartBuy 10000 mAh 12 W Power bank", image: require("../../../assets/images/watch.png"), price: "1599", DiscPrice: "999", OfferRate: "53% Off" },
+    { id: "3", productDesc: "Blue, Fast Charging for Mobile", Product: "SmartBuy 10000 mAh 12 W Power bank", image: require("../../../assets/images/watch.png"), price: "1599", DiscPrice: "999", OfferRate: "53% Off" },
+  ];
+
+  const handleNext = () => {
+    setCurrentdealIndex((prevIndex) => (prevIndex + 1) % dealOfDayData.length);
+  };
+
+  const handlePrevious = () => {
+    setCurrentdealIndex((prevIndex) =>
+      prevIndex === 0 ? dealOfDayData.length - 1 : prevIndex - 1
+    );
+  };
 
   const startAutoSlide = () => {
     slideInterval.current = setInterval(() => {
@@ -91,115 +112,6 @@ export default function HomeScreen() {
     }
   }).current;
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity style={{marginRight: wp(2)}}>
-      <RNImage source={item.image} style={styles.image} resizeMode="stretch" />
-    </TouchableOpacity>
-  );
-
-  const renderCategoryItem = ({ item }) => (
-    <TouchableOpacity onPress={() => onCategorySelect(item)}>
-      <View style={styles.categoryItem}>
-        <Image source={item.logo} style={{ width: wp(8), height: wp(8) }} />
-        <RNText size={FontSize.font11} family={FontFamily.Medium}>
-          {item.name}
-        </RNText>
-      </View>
-    </TouchableOpacity>
-  );
-
-  const renderDealofDay = ({ item }) => {
-    return (
-      <View style={{ padding: wp(5), alignItems: 'center' }}>
-        <RNText size={FontSize.font13} family={FontFamily.SemiBold}>
-          Deal of the Day
-        </RNText>
-        <RNText size={FontSize.font11} family={FontFamily.Regular} align={"center"} color={Colors.Grey}>
-          {item.name}
-        </RNText>
-        <View style={[RNStyles.flexRow, { gap: wp(10) }]}>
-          <TouchableOpacity style={styles.DealofDayIcon}>
-            <Entypo name={"chevron-left"} size={15} color={Colors.DarkGrey} />
-          </TouchableOpacity>
-          <RNImage source={require('../../../assets/images/dealofday.png')} style={{ width: wp(50), height: hp(25) }} />
-          <TouchableOpacity style={styles.DealofDayIcon}>
-            <Entypo name={"chevron-right"} size={15} color={Colors.DarkGrey} />
-          </TouchableOpacity>
-        </View>
-        <RNText size={FontSize.font10} family={FontFamily.SemiBold} color={Colors.Grey} letterSpacing={2}>
-          {item.Product}
-        </RNText>
-        <RNText size={FontSize.font11} family={FontFamily.SemiBold} align={"center"} pHorizontal={wp(18)}>
-          {item.productDesc}
-        </RNText>
-        <MaskedView
-          style={{ flexDirection: "row", height: 20 }}
-          maskElement={
-            <RNText size={FontSize.font10} family={FontFamily.SemiBold}>
-              {item.price}
-            </RNText>
-          }
-        > 
-          <LinearGradient
-            colors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
-            start={{ x: 1.2, y: 0 }}
-            end={{ x: 0, y: 0 }}
-            style={{ width: wp(20) }}
-          />
-        </MaskedView>
-      </View>
-    );
-  };
-  
-
-  const onCategorySelect = (item) => {
-    console.log("Selected Category:", item.name);
-  };
-
-  const renderOffersItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.offerContets}
-      onPress={() => onCategorySelect(item)}
-    >
-      <View style={{
-        backgroundColor: item.coloCode,
-        height: wp(20),
-        overflow: 'hidden',
-      }}>
-        <RNImage
-          source={require('../../../assets/images/OfferEffect.png')}
-          style={styles.effectImage}
-        />
-      </View>
-      <RNImage
-        source={item.logo}
-        style={{
-          width: wp(25),
-          height: wp(25),
-          position: 'absolute',
-          top: hp(0),
-          alignSelf: 'center',
-        }}
-      />
-      <View style={{
-        ...RNStyles.center,
-        height: wp(10),
-        borderWidth: 1.5,
-        borderColor: "#D6D6D6",
-        borderTopWidth: 0,
-        borderBottomLeftRadius: normalize(10),
-        borderBottomRightRadius: normalize(10),
-      }}>
-        <RNText size={FontSize.font10} family={FontFamily.Regular}>
-          {item.name}{" "}
-        </RNText>
-        <RNText size={FontSize.font11} family={FontFamily.SemiBold}>
-          {item.OfferDesc}{" "}
-        </RNText>
-      </View>
-    </TouchableOpacity>
-  );
-  
   return (
     <RNContainer style={styles.container}>
       <View style={styles.headerContainer}>
@@ -257,7 +169,7 @@ export default function HomeScreen() {
             <RNInput
               containerStyle={styles.inputField}
               iconstyle={{ width: wp(3), height: wp(3), tintColor: Colors.Grey }}
-              inputStyle={{borderRadius: 50, height: hp(4), borderColor: '#D6D6D6'}}
+              inputStyle={{ borderRadius: 50, height: hp(4), borderColor: '#D6D6D6' }}
               style={{
                 fontSize: FontSize.font11,
                 fontFamily: FontFamily.Medium,
@@ -268,24 +180,25 @@ export default function HomeScreen() {
             />
           </View>
 
-          {/* categoryItems View */}
-          <View>
-            <FlatList
-              data={categories}
-              renderItem={renderCategoryItem}
-              keyExtractor={(item) => item.id}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{ paddingVertical: hp(1), paddingLeft: wp(2) }}
-            />
-          </View>
+          {/* Category Items */}
+          <FlatList
+            data={categories}
+            renderItem={(item) => renderCategoryItem(item, onCategorySelect)}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
         </View>
 
         {/* Banner View */}
-        <View style={{ paddingHorizontal: wp(3),paddingVertical: hp(1.5) }}>
+        <View style={{ paddingHorizontal: wp(3), paddingVertical: hp(1.5) }}>
           <FlatList
             data={Data}
-            renderItem={renderItem}
+            renderItem={({ item }) => (
+              <TouchableOpacity style={{ marginRight: wp(2) }}>
+                <RNImage source={item.image} style={styles.image} resizeMode="stretch" />
+              </TouchableOpacity>
+            )}
             keyExtractor={(item) => item.id}
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -294,7 +207,7 @@ export default function HomeScreen() {
             onViewableItemsChanged={onViewableItemsChanged}
             viewabilityConfig={viewabilityConfig}
           />
-           {/* Dot Indicators */}
+          {/* Dot Indicators */}
           <View style={styles.dotsContainer}>
             {Data.map((_, index) => (
               <View
@@ -310,25 +223,60 @@ export default function HomeScreen() {
           </View>
         </View>
 
-       {/* Offer Container */}
-        <View>
+        {/* Offer Items */}
+        <FlatList
+          data={Offers}
+          renderItem={(item) => renderOffersItem(item, onCategorySelect)}
+          keyExtractor={(item) => item.id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: wp(3) }}
+        />
+
+        {/* Deal of the Day */}
+        <FlatList
+          data={[dealOfDayData[currentdealIndex]]}
+          renderItem={({ item }) =>
+            renderDealofDay({ item, handlePrevious, handleNext })
+          }
+          keyExtractor={(item) => item.id.toString()}
+          horizontal
+        />
+
+        {/* Steal Deals: Limited Units Only */}
+        <View style={{ paddingHorizontal: wp(3) }}>
+          <RNText size={FontSize.font13} family={FontFamily.SemiBold}>Steal Deals: Limited Units Only</RNText>
+          <RNText size={FontSize.font11} family={FontFamily.Light} color={Colors.Grey}>Reference site about Lorem Ipsum</RNText>
           <FlatList
-            data={Offers}
-            renderItem={renderOffersItem}
-            keyExtractor={(item) => item.id}
+            data={DealsItem}
+            renderItem={({ item }) =>
+              renderDealsItem({ item })
+            }
+            keyExtractor={(item) => item.id.toString()}
+            contentContainerStyle={{ ...RNStyles.flexWrapHorizontal, gap: wp(2.5), paddingBottom: hp(4) }}
+          />
+        <TouchableOpacity style={styles.orderButton}>
+          <RNText size={FontSize.font11} family={FontFamily.SemiBold} color={Colors.White} align={"center"}>Place Order</RNText>
+        </TouchableOpacity>
+        </View>
+
+        {/* TODAY’S EDIT */}
+        <View style={{ paddingLeft: wp(3), paddingTop: hp(5) }}>
+          <RNText size={FontSize.font13} family={FontFamily.SemiBold}>TODAY’S EDIT</RNText>
+          <RNText size={FontSize.font11} family={FontFamily.SemiBold} color={Colors.Grey} pBottom={hp(2)}>EXCLUSIVE DEALS UNLOCED</RNText>
+          <FlatList
+            data={TodayEdit}
+            renderItem={({ item }) =>
+              renderTodayEdit({ item })
+            }
             horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{ paddingHorizontal: wp(3)}}
+            keyExtractor={(item) => item.id.toString()}
+            contentContainerStyle={{ ...RNStyles.flexRow, gap: wp(2.5), paddingBottom: hp(4) }}
           />
         </View>
-        {/* Deal of the day */}
-        <FlatList
-          data={DealofDay}
-          renderItem={renderDealofDay}
-          keyExtractor={(item) => item.id}
-          showsHorizontalScrollIndicator={false}
-          style={{ paddingVertical: hp(1), paddingLeft: wp(2) }}
-        />
+
+        {/* Exclusive */}
+
       </ScrollView>
     </RNContainer>
   );
@@ -351,13 +299,6 @@ const styles = StyleSheet.create({
     height: hp(4),
     paddingHorizontal: wp(3),
   },
-  categoryItem: {
-    ...RNStyles.center,
-    backgroundColor: Colors.LightGrey,
-    paddingVertical: hp(1),
-    borderRadius: normalize(4),
-    marginRight: wp(5),
-  },
   image: {
     width: wp(94),
     height: hp(20),
@@ -373,7 +314,7 @@ const styles = StyleSheet.create({
   dot: {
     width: normalize(8),
     height: normalize(8),
-    borderRadius: 4,  
+    borderRadius: 4,
     marginHorizontal: wp(1),
   },
   activeDot: {
@@ -385,19 +326,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.DarkGrey
   },
-  offerContets: {
-    height: wp(30),
-    width: wp(30),
-    marginRight: wp(2),
-    borderRadius: normalize(10),
-    overflow: 'hidden',
-  },
-  DealofDayIcon: { borderWidth: 1, borderColor: "#D6D6D6", borderRadius: 50, padding: wp(1) },
-  effectImage: {
-    width: wp(45),
-    height: wp(45),
-    position: 'absolute',
-    top: hp(-2),
-    left: wp(-2),
+  orderButton: {
+    backgroundColor: Colors.Black,
+    borderRadius: normalize(4.5),
+    alignSelf: 'center',
+    paddingHorizontal: wp(8),
+    paddingVertical: wp(1.5),
   },
 });

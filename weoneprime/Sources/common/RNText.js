@@ -17,6 +17,8 @@ const RNText = ({
   pHorizontal,
   pVertical,
   spacing,
+  line,
+  Padding,
   onPress,
   ...restProps
 }) => {
@@ -26,6 +28,7 @@ const RNText = ({
     fontFamily: family ?? FontFamily.Regular,
     textAlign: align ?? 'left',
     fontWeight: weight,
+    padding: Padding,
     paddingTop: pTop,
     paddingLeft: pLeft,
     paddingRight: pRight,
@@ -33,6 +36,7 @@ const RNText = ({
     paddingHorizontal: pHorizontal,
     paddingVertical: pVertical,
     letterSpacing: spacing,
+    textDecorationLine: line
   };
   return (
     <Text
