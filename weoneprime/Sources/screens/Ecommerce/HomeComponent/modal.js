@@ -1,11 +1,24 @@
-import React from 'react';
-import { TouchableOpacity, View, Image, FlatList, StyleSheet } from 'react-native';
+import React from "react";
+import {
+  TouchableOpacity,
+  View,
+  Image,
+  FlatList,
+  StyleSheet,
+} from "react-native";
 import { RNText, RNImage, RNStyles } from "../../../common";
-import { wp, hp, normalize, FontSize, FontFamily, Colors } from '../../../theme';
-import Entypo from 'react-native-vector-icons/Entypo';
+import {
+  wp,
+  hp,
+  normalize,
+  FontSize,
+  FontFamily,
+  Colors,
+} from "../../../theme";
+import Entypo from "react-native-vector-icons/Entypo";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
+import MaskedView from "@react-native-masked-view/masked-view";
+import { LinearGradient } from "expo-linear-gradient";
 
 // Render Category Item
 export const renderCategoryItem = ({ item, onCategorySelect }) => (
@@ -21,11 +34,17 @@ export const renderCategoryItem = ({ item, onCategorySelect }) => (
 
 // Render Deal of the Day
 export const renderDealofDay = ({ item, handlePrevious, handleNext }) => (
-  <View style={{ padding: 20, alignItems: 'center', width: wp(100) }}>
+  <View style={{ padding: 20, alignItems: "center", width: wp(100) }}>
     <RNText size={14} family={FontFamily.SemiBold}>
       Deal of the Day{" "}
     </RNText>
-    <RNText size={11} family={FontFamily.Light} align={"center"} color={Colors.Grey} pHorizontal={wp(5)}>
+    <RNText
+      size={11}
+      family={FontFamily.Light}
+      align={"center"}
+      color={Colors.Grey}
+      pHorizontal={wp(5)}
+    >
       {item.name}
     </RNText>
     <View style={[RNStyles.flexRow, { gap: wp(8) }]}>
@@ -37,16 +56,28 @@ export const renderDealofDay = ({ item, handlePrevious, handleNext }) => (
         <Entypo name={"chevron-right"} size={15} color={"#909090"} />
       </TouchableOpacity>
     </View>
-    <RNText size={9} family={FontFamily.SemiBold} color={Colors.Grey} letterSpacing={2} pBottom={hp(.5)}>
+    <RNText
+      size={9}
+      family={FontFamily.SemiBold}
+      color={Colors.Grey}
+      letterSpacing={2}
+      pBottom={hp(0.5)}
+    >
       {item.Product}
     </RNText>
-    <RNText size={11} family={FontFamily.SemiBold} align={"center"} pHorizontal={wp(20)} pBottom={hp(.5)}>
+    <RNText
+      size={11}
+      family={FontFamily.SemiBold}
+      align={"center"}
+      pHorizontal={wp(20)}
+      pBottom={hp(0.5)}
+    >
       {item.productDesc}
     </RNText>
     <MaskedView
-      style={{ flexDirection: "row", height: 20, }}
+      style={{ flexDirection: "row", height: 20 }}
       maskElement={
-        <RNText size={10} family={FontFamily.SemiBold} align={"center"} >
+        <RNText size={10} family={FontFamily.SemiBold} align={"center"}>
           {item.price}
         </RNText>
       }
@@ -67,13 +98,15 @@ export const renderOffersItem = ({ item, onCategorySelect }) => (
     style={styles.offerContets}
     onPress={() => onCategorySelect(item)}
   >
-    <View style={{
-      backgroundColor: item.coloCode,
-      height: wp(20),
-      overflow: 'hidden',
-    }}>
+    <View
+      style={{
+        backgroundColor: item.coloCode,
+        height: wp(20),
+        overflow: "hidden",
+      }}
+    >
       <RNImage
-        source={require('../../../assets/images/OfferEffect.png')}
+        source={require("../../../assets/images/OfferEffect.png")}
         style={styles.effectImage}
       />
     </View>
@@ -82,20 +115,22 @@ export const renderOffersItem = ({ item, onCategorySelect }) => (
       style={{
         width: wp(25),
         height: wp(25),
-        position: 'absolute',
+        position: "absolute",
         top: hp(0),
-        alignSelf: 'center',
+        alignSelf: "center",
       }}
     />
-    <View style={{
-      ...RNStyles.center,
-      height: wp(10),
-      borderWidth: 1.5,
-      borderColor: "#D6D6D6",
-      borderTopWidth: 0,
-      borderBottomLeftRadius: normalize(10),
-      borderBottomRightRadius: normalize(10),
-    }}>
+    <View
+      style={{
+        ...RNStyles.center,
+        height: wp(10),
+        borderWidth: 1.5,
+        borderColor: "#D6D6D6",
+        borderTopWidth: 0,
+        borderBottomLeftRadius: normalize(10),
+        borderBottomRightRadius: normalize(10),
+      }}
+    >
       <RNText size={FontSize.font10} family={FontFamily.Regular}>
         {item.name}{" "}
       </RNText>
@@ -108,8 +143,16 @@ export const renderOffersItem = ({ item, onCategorySelect }) => (
 
 // Steal Deals: Limited Units Only
 export const renderDealsItem = ({ item }) => (
-  <View style={{ width: wp(45.5), gap: hp(.5), paddingTop: hp(1) }}>
-    <View style={{ width: wp(45.5), height: hp(28), borderWidth: 2, borderColor: '#D9D9D9', ...RNStyles.center }}>
+  <View style={{ width: wp(45.5), gap: hp(0.5), paddingTop: hp(1) }}>
+    <View
+      style={{
+        width: wp(45.5),
+        height: hp(28),
+        borderWidth: 2,
+        borderColor: "#D9D9D9",
+        ...RNStyles.center,
+      }}
+    >
       <RNImage source={item.image} style={{ width: wp(40), height: wp(40) }} />
       <TouchableOpacity
         style={styles.likeButton}
@@ -124,32 +167,115 @@ export const renderDealsItem = ({ item }) => (
         />
       </TouchableOpacity>
     </View>
-    <RNText size={FontSize.font10} family={FontFamily.Light} color={Colors.Grey}>{item.productDesc}</RNText>
-    <RNText size={FontSize.font11} family={FontFamily.SemiBold}>{item.Product}</RNText>
+    <RNText
+      size={FontSize.font10}
+      family={FontFamily.Light}
+      color={Colors.Grey}
+    >
+      {item.productDesc}
+    </RNText>
+    <RNText size={FontSize.font11} family={FontFamily.SemiBold}>
+      {item.Product}
+    </RNText>
     <View style={[RNStyles.flexRow, { gap: wp(3) }]}>
-      <RNText size={FontSize.font11} family={FontFamily.SemiBold}>{item.DiscPrice}</RNText>
-      <RNText size={FontSize.font11} family={FontFamily.SemiBold} color={Colors.Grey} line={'line-through'}>₹{item.price}</RNText>
-      <RNText size={FontSize.font11} family={FontFamily.SemiBold} color={"#FF696C"}>₹{item.OfferRate}</RNText>
+      <RNText size={FontSize.font11} family={FontFamily.SemiBold}>
+        {item.DiscPrice}
+      </RNText>
+      <RNText
+        size={FontSize.font11}
+        family={FontFamily.SemiBold}
+        color={Colors.Grey}
+        line={"line-through"}
+      >
+        ₹{item.price}
+      </RNText>
+      <RNText
+        size={FontSize.font11}
+        family={FontFamily.SemiBold}
+        color={"#FF696C"}
+      >
+        ₹{item.OfferRate}
+      </RNText>
     </View>
   </View>
 );
 
-// Steal Deals: Limited Units Only
+// Today's edit
 export const renderTodayEdit = ({ item }) => (
-  <View style={{ width: wp(60), height: wp(70), gap: hp(.5), paddingTop: hp(1), borderWidth: 2, borderColor: '#D9D9D9', marginBottom: 20 }}>
-    <View style={{ ...RNStyles.center, borderBottomWidth: 2, borderBottomColor: '#D9D9D9' }}>
-      <View style={{ position: 'absolute', backgroundColor: Colors.Black, top: 0, left: 0 }}>
-        <RNText size={FontSize.font12} family={FontFamily.SemiBold} color={Colors.White} Padding={wp(1)}>IN SPOTLIGHT{" "}</RNText>
+  <View
+    style={{
+      width: wp(60),
+      height: wp(70),
+      gap: hp(0.5),
+      paddingTop: hp(1),
+      borderWidth: 1.5,
+      borderColor: "#D9D9D9",
+      marginBottom: 20,
+    }}
+  >
+    <View
+      style={{
+        ...RNStyles.center,
+        borderBottomWidth: 2,
+        borderBottomColor: "#D9D9D9",
+      }}
+    >
+      <View
+        style={{
+          position: "absolute",
+          backgroundColor: Colors.Black,
+          top: 0,
+          left: 0,
+        }}
+      >
+        <RNText
+          size={FontSize.font12}
+          family={FontFamily.SemiBold}
+          color={Colors.White}
+          Padding={wp(1)}
+        >
+          IN SPOTLIGHT{" "}
+        </RNText>
       </View>
       <RNImage source={item.image} style={{ width: wp(50), height: wp(45) }} />
     </View>
-    <RNText size={FontSize.font10} family={FontFamily.Light} color={Colors.Grey}>{item.productDesc}</RNText>
-    <RNText size={FontSize.font11} family={FontFamily.SemiBold}>{item.Product}</RNText>
+    <RNText
+      size={FontSize.font10}
+      family={FontFamily.Light}
+      color={Colors.Grey}
+    >
+      {item.productDesc}
+    </RNText>
+    <RNText size={FontSize.font11} family={FontFamily.SemiBold}>
+      {item.Product}
+    </RNText>
     <View style={[RNStyles.flexRow, { gap: wp(3) }]}>
-      <RNText size={FontSize.font11} family={FontFamily.SemiBold}>{item.DiscPrice}</RNText>
-      <RNText size={FontSize.font11} family={FontFamily.SemiBold} color={Colors.Grey} line={'line-through'}>₹{item.price}</RNText>
-      <RNText size={FontSize.font11} family={FontFamily.SemiBold} color={"#FF696C"}>₹{item.OfferRate}</RNText>
+      <RNText size={FontSize.font11} family={FontFamily.SemiBold}>
+        {item.DiscPrice}
+      </RNText>
+      <RNText
+        size={FontSize.font11}
+        family={FontFamily.SemiBold}
+        color={Colors.Grey}
+        line={"line-through"}
+      >
+        ₹{item.price}
+      </RNText>
+      <RNText
+        size={FontSize.font11}
+        family={FontFamily.SemiBold}
+        color={"#FF696C"}
+      >
+        ₹{item.OfferRate}
+      </RNText>
     </View>
+  </View>
+);
+
+// Exclusive
+export const renderExclusive = ({ item, separators }) => (
+  <View style={{ marginRight: wp(5) }}>
+    <RNImage source={item.image} style={{ width: wp(15), height: wp(15) }} />
   </View>
 );
 
@@ -167,19 +293,22 @@ const styles = StyleSheet.create({
     marginRight: wp(5),
   },
   DealofDayIcon: {
-    borderWidth: 1, borderColor: "#D6D6D6", borderRadius: 50, padding: wp(2)
+    borderWidth: 1,
+    borderColor: "#D6D6D6",
+    borderRadius: 50,
+    padding: wp(2),
   },
   offerContets: {
     height: wp(30),
     width: wp(30),
     marginRight: wp(2),
     borderRadius: normalize(10),
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   effectImage: {
     width: wp(45),
     height: wp(45),
-    position: 'absolute',
+    position: "absolute",
     top: hp(-2),
     left: wp(-2),
   },
