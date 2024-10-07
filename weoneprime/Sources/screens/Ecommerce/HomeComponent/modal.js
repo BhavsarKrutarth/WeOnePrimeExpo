@@ -189,7 +189,7 @@ export const renderTodayEdit = ({ item }) => (
       style={{
         ...RNStyles.center,
         borderBottomWidth: 2,
-        borderBottomColor: "#D9D9D9",
+        borderBottomColor: Colors.D9D9D9,
       }}
     >
       <View
@@ -204,7 +204,7 @@ export const renderTodayEdit = ({ item }) => (
           IN SPOTLIGHT{" "}
         </RNText>
       </View>
-      <RNImage source={item.image} style={{ width: wp(50), height: wp(45) }} />
+      <Image source={item.image} style={{ width: wp(50), height: wp(45) }} />
     </View>
     <RNText
       size={FontSize.font10}
@@ -243,6 +243,49 @@ export const renderTodayEdit = ({ item }) => (
 export const renderExclusive = ({ item, separators }) => (
   <View style={{ marginRight: wp(5) }}>
     <RNImage source={item.image} style={{ width: wp(15), height: wp(15) }} />
+  </View>
+);
+
+export const renderSuggestedItem = ({ item }) => (
+  <View style={styles.cartContents}>
+    <RNImage source={item.image} style={{ width: wp(45.5),height: hp(25) }} />
+    <View style={{ paddingHorizontal: wp(1.8), borderTopWidth: 1, borderTopColor: Colors.D9D9D9, gap: hp(1), paddingTop: hp(1) }}>
+      <RNText size={FontSize.font12} family={FontFamily.SemiBold} >
+        {item.Product}
+      </RNText>
+      <View style={[RNStyles.flexRow, { gap: wp(12) }]}>
+        <View style={[RNStyles.flexRow,  { gap: wp(1) }]}>
+          <RNText size={FontSize.font11} family={FontFamily.SemiBold}>
+            {item.DiscPrice}
+          </RNText>
+          <RNText
+            size={FontSize.font11}
+            family={FontFamily.SemiBold}
+            color={Colors.Grey}
+            line={"line-through"}
+          >
+            ₹{item.price}
+          </RNText>
+        </View>
+        <RNText
+          size={FontSize.font11}
+          family={FontFamily.SemiBold}
+          color={"#FF696C"}
+        >
+          ₹{item.OfferRate}
+        </RNText>
+      </View>
+      <TouchableOpacity style={{ borderWidth: 1, borderColor: Colors.D9D9D9, padding: hp(.8), borderRadius: normalize(7) }}>
+        <RNText
+          size={16}
+          family={FontFamily.SemiBold}
+          color={Colors.Black}
+          align={"center"}
+        >
+          Place Order
+        </RNText>
+      </TouchableOpacity>
+    </View>
   </View>
 );
 
@@ -304,7 +347,7 @@ const styles = StyleSheet.create({
     gap: hp(0.5),
     paddingTop: hp(1),
     borderWidth: 1.5,
-    borderColor: "#D9D9D9",
+    borderColor: Colors.D9D9D9,
     marginBottom: 20,
   },
   t_subcontainer: {
@@ -317,7 +360,7 @@ const styles = StyleSheet.create({
     width: wp(45.5),
     height: hp(28),
     borderWidth: 2,
-    borderColor: "#D9D9D9",
+    borderColor: Colors.D9D9D9,
     ...RNStyles.center,
   },
   logoContent: {
@@ -326,5 +369,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: hp(0),
     alignSelf: "center",
+  },
+  cartContents: {
+    width: wp(45.5),
+    height: hp(40),
+    borderWidth: 2,
+    borderColor: Colors.D9D9D9,
   }
 });

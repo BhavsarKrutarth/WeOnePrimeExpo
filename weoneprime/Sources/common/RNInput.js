@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     padding: wp(2),
   },
   icon: {
-    width: wp(3), height: wp(3), tintColor: Colors.Black
+    width: wp(4), height: wp(4), tintColor: Colors.Black
   },
 });
 
