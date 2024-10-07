@@ -18,7 +18,7 @@ const RNCommonHeader = ({ title }) => {
           style={{ width: wp(4), height: wp(4), resizeMode: "contain" }}
         />
       </TouchableOpacity>
-      <RNText size={FontSize.font13} family={FontFamily.Medium}>
+      <RNText size={FontSize.font14} family={FontFamily.Medium}>
         {title}
       </RNText>
       <TouchableOpacity style={{ padding: wp(4) }}>
