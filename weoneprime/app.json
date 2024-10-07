@@ -12,16 +12,35 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.weoneprime",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.274641210203-cetf1d58ut3vtkef0cfhteo4epkb94jt.apps.googleusercontent.com"
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.weoneprime",
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AIzaSyB9iomRghSQ_kp40qMTyuQzv3zM76vHEKI",
+          "certificateHash": "12:35:4b:cb:b9:ec:6c:62:29:83:26:37:b9:31:62:62:ca:b3:94:5d"
+        }
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "googleSignIn": {
+          "clientId": "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com"
+        }
+      }
     },
     "plugins": [
       "expo-font"

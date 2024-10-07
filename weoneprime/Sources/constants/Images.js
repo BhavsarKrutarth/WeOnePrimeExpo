@@ -40,6 +40,7 @@ const Images = {
   nodata: require(ImagePath + "nodata" + png),
   food: require(ImagePath + "food" + png),
   scan: require(ImagePath + "scan" + png),
+  search: require(ImagePath + "search" + png)
 };
 
 export default Images;
