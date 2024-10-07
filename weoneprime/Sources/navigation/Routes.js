@@ -10,9 +10,10 @@ import TabBar from "./BottomTabs";
 import CategoryDetails from "../screens/Main/CategoryDetails";
 import HomeScreen from "../screens/Ecommerce/HomeComponent/HomeScreen";
 import Redeem from "../screens/Main/Redeem";
-import { RNHeader, RNImage, RNStyles } from "../common";
+import { RNCommonHeader, RNHeader, RNImage, RNStyles } from "../common";
 import { Images } from "../constants";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Cart from "../screens/Ecommerce/Cart";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ const Routes = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuth ? (
           <>
+            <Stack.Screen name="Cart" component={Cart} options={{ headerShown: true,header: () => <RNCommonHeader title={"Cart"} />}} />
             <Stack.Screen
               name="HomeScreen"
               component={HomeScreen}

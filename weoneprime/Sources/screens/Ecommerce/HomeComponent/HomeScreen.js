@@ -35,7 +35,7 @@ import {
 } from "./modal";
 import Entypo from "react-native-vector-icons/Entypo";
 
-export default function HomeScreen({}) {
+export default function HomeScreen({ }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentdealIndex, setCurrentdealIndex] = useState(0);
   const flatListRef = useRef(null);

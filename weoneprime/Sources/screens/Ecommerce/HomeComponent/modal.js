@@ -95,7 +95,7 @@ export const renderDealofDay = ({ item, handlePrevious, handleNext }) => (
 // Render Offers Item
 export const renderOffersItem = ({ item, onCategorySelect }) => (
   <TouchableOpacity
-    style={styles.offerContets}
+    style={styles.offerContainer}
     onPress={() => onCategorySelect(item)}
   >
     <View
@@ -112,24 +112,10 @@ export const renderOffersItem = ({ item, onCategorySelect }) => (
     </View>
     <RNImage
       source={item.logo}
-      style={{
-        width: wp(25),
-        height: wp(25),
-        position: "absolute",
-        top: hp(0),
-        alignSelf: "center",
-      }}
+      style={styles.logoContent}
     />
     <View
-      style={{
-        ...RNStyles.center,
-        height: wp(10),
-        borderWidth: 1.5,
-        borderColor: "#D6D6D6",
-        borderTopWidth: 0,
-        borderBottomLeftRadius: normalize(10),
-        borderBottomRightRadius: normalize(10),
-      }}
+      style={styles.OfferContents}
     >
       <RNText size={FontSize.font10} family={FontFamily.Regular}>
         {item.name}{" "}
@@ -145,13 +131,7 @@ export const renderOffersItem = ({ item, onCategorySelect }) => (
 export const renderDealsItem = ({ item }) => (
   <View style={{ width: wp(45.5), gap: hp(0.5), paddingTop: hp(1) }}>
     <View
-      style={{
-        width: wp(45.5),
-        height: hp(28),
-        borderWidth: 2,
-        borderColor: "#D9D9D9",
-        ...RNStyles.center,
-      }}
+      style={styles.limitedContents}
     >
       <RNImage source={item.image} style={{ width: wp(40), height: wp(40) }} />
       <TouchableOpacity
@@ -203,15 +183,7 @@ export const renderDealsItem = ({ item }) => (
 // Today's edit
 export const renderTodayEdit = ({ item }) => (
   <View
-    style={{
-      width: wp(60),
-      height: wp(70),
-      gap: hp(0.5),
-      paddingTop: hp(1),
-      borderWidth: 1.5,
-      borderColor: "#D9D9D9",
-      marginBottom: 20,
-    }}
+    style={styles.t_editContents}
   >
     <View
       style={{
@@ -221,12 +193,7 @@ export const renderTodayEdit = ({ item }) => (
       }}
     >
       <View
-        style={{
-          position: "absolute",
-          backgroundColor: Colors.Black,
-          top: 0,
-          left: 0,
-        }}
+        style={styles.t_subcontainer}
       >
         <RNText
           size={FontSize.font12}
@@ -298,12 +265,21 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: wp(2),
   },
-  offerContets: {
+  offerContainer: {
     height: wp(30),
     width: wp(30),
     marginRight: wp(2),
     borderRadius: normalize(10),
     overflow: "hidden",
+  },
+  OfferContents: {
+    ...RNStyles.center,
+    height: wp(10),
+    borderWidth: 1.5,
+    borderColor: "#D6D6D6",
+    borderTopWidth: 0,
+    borderBottomLeftRadius: normalize(10),
+    borderBottomRightRadius: normalize(10),
   },
   effectImage: {
     width: wp(45),
@@ -322,4 +298,33 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     right: wp(2),
   },
+  t_editContents: {
+    width: wp(60),
+    height: wp(70),
+    gap: hp(0.5),
+    paddingTop: hp(1),
+    borderWidth: 1.5,
+    borderColor: "#D9D9D9",
+    marginBottom: 20,
+  },
+  t_subcontainer: {
+    position: "absolute",
+    backgroundColor: Colors.Black,
+    top: 0,
+    left: 0,
+  },
+  limitedContents: {
+    width: wp(45.5),
+    height: hp(28),
+    borderWidth: 2,
+    borderColor: "#D9D9D9",
+    ...RNStyles.center,
+  },
+  logoContent: {
+    width: wp(25),
+    height: wp(25),
+    position: "absolute",
+    top: hp(0),
+    alignSelf: "center",
+  }
 });

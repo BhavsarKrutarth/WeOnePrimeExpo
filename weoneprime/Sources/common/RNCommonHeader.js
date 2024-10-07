@@ -1,9 +1,8 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { Colors, FontFamily, FontSize, hp, isIOS, wp } from "../theme";
+import { Colors, FontFamily, FontSize, wp } from "../theme";
 import RNText from "./RNText";
 import { Images } from "../constants";
-import RNStyles from "./RNStyles";
 import { useNavigation } from "@react-navigation/native";
 
 const RNCommonHeader = ({ title }) => {
