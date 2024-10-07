@@ -11,6 +11,7 @@ import { Images } from "../constants";
 
 const RNInput = React.forwardRef((props, ref) => {
   const {
+    inputStyle,
     placeholder,
     placeholderTextColor,
     style,
@@ -36,7 +37,7 @@ const RNInput = React.forwardRef((props, ref) => {
   } = props;
 
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, inputStyle]}>
       {Icon && <Image source={Icon} style={styles.icon} />}
       <TextInput
         ref={ref}
@@ -84,11 +85,12 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     flexDirection: "row",
     alignItems: "center",
-    height: hp(5)
+    height: hp(5),
+    paddingHorizontal: wp(4)
   },
   input: {
     flex: 1,
-    paddingHorizontal: wp(3),
+    paddingHorizontal: wp(2),
     paddingVertical: hp(1),
     fontSize: FontSize.font16,
     fontFamily: FontFamily.Regular,
@@ -98,9 +100,7 @@ const styles = StyleSheet.create({
     padding: wp(2),
   },
   icon: {
-    height: wp(5),
-    width: wp(5),
-    tintColor: Colors.Gray,
+    width: wp(3), height: wp(3), tintColor: Colors.Black
   },
 });
 

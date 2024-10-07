@@ -12,6 +12,7 @@ import {
 } from "../theme";
 import RNText from "./RNText";
 import RNStyles from "./RNStyles";
+import RNImage from "./RNImage";
 
 const RNHeader = ({
   title,
@@ -23,9 +24,12 @@ const RNHeader = ({
   titleStyle,
   leftIconStyle,
   rightIconStyle,
+  centerImage,
+  centerImageStyle,
 }) => {
   useCustomFonts();
   const navigation = useNavigation();
+
   return (
     <View style={[styles.Container, containerStyle]}>
       {LeftIcon ? (
@@ -43,15 +47,38 @@ const RNHeader = ({
       ) : (
         <View style={styles.Left} />
       )}
-      <RNText style={[styles.title, titleStyle]}>{title}</RNText>
+
+      {centerImage ? (
+        <RNImage
+          source={centerImage}
+          style={[RNStyles.image50, centerImageStyle]}
+        />
+      ) : (
+        <RNText style={[styles.title, titleStyle]}>{title}</RNText>
+      )}
+
       {RightIcon ? (
-        <TouchableOpacity onPress={onRightPress} style={styles.Right}>
-          <Image
-            source={RightIcon}
-            resizeMode={"contain"}
-            style={[RNStyles.image90, rightIconStyle]}
-          />
-        </TouchableOpacity>
+        <View style={[styles.Right]}>
+          {Array.isArray(RightIcon) ? (
+            RightIcon.map((icon, index) => (
+              <TouchableOpacity key={index} onPress={onRightPress}>
+                <Image
+                  source={icon}
+                  resizeMode={"contain"}
+                  style={[RNStyles.image90, rightIconStyle]}
+                />
+              </TouchableOpacity>
+            ))
+          ) : (
+            <TouchableOpacity onPress={onRightPress}>
+              <Image
+                source={RightIcon}
+                resizeMode={"contain"}
+                style={[RNStyles.image90, rightIconStyle]}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
       ) : (
         <View style={styles.Right} />
       )}
@@ -83,9 +110,8 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.Medium,
   },
   Right: {
-    ...RNStyles.center,
-    width: wp(6),
-    height: wp(6),
+    ...RNStyles.flexRowCenter,
+    gap: wp(2),
   },
 });
 
