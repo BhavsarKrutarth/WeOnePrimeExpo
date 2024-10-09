@@ -13,8 +13,8 @@ import { Images } from "../../../constants";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../../theme";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function ExploreData() {
-  const Data = [
+export default function ExploreData({ data }) {
+  const Data = data?.SubDetails || [
     {
       id: 1,
       image: Images.exploreimg,
@@ -37,7 +37,7 @@ export default function ExploreData() {
 
   const renderItem = ({ item }) => (
     <Pressable style={styles.card}>
-      <Image source={item.image} style={styles.image} />
+      <Image source={item.BannerImage} style={styles.image} />
       <LinearGradient
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
@@ -48,11 +48,11 @@ export default function ExploreData() {
         <TouchableOpacity style={styles.availButton}>
           <Text style={styles.availText}>Avail Now </Text>
         </TouchableOpacity>
-        <Text style={styles.subtitle}>{item.subtitle}</Text>
+        <Text style={styles.subtitle}>{item.ExploreMoreOfferDesc}</Text>
         <View
           style={{ width: 50, height: 1, backgroundColor: Colors.DarkGrey }}
         />
-        <Text style={styles.price}>{item.price}</Text>
+        <Text style={styles.price}>Worth {item.price || "₹0"}</Text>
       </View>
     </Pressable>
   );
@@ -71,7 +71,7 @@ export default function ExploreData() {
       <FlatList
         data={Data}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => index.toString()}
         horizontal
         showsHorizontalScrollIndicator={false}
       />

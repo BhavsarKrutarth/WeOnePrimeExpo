@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,6 +14,7 @@ import { Images } from "../../constants";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/AntDesign";
 import { ProductItem } from "../../components";
+import FetchMethod from "../../api/FetchMethod";
 
 export default function CategoryDetails() {
   const categories = [
@@ -59,6 +60,7 @@ export default function CategoryDetails() {
 
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [likedIndices, setLikedIndices] = useState([]);
+  const [list, setList] = useState([]);
 
   const onCategorySelect = (category) => {
     setSelectedCategory(category);
@@ -73,6 +75,22 @@ export default function CategoryDetails() {
       setLikedIndices([...likedIndices, index]);
     }
   };
+
+  useEffect(() => {
+    getListApi();
+  }, []);
+
+  const getListApi = async () => {
+    try {
+      const response = await FetchMethod.GET({
+        EndPoint: `CompanyList/GetSpecificData?WP_Categoryid=${2}`,
+      });
+      console.log("sadasdasdsad", response.Companies);
+      setList(response.Companies);
+    } catch (error) {}
+  };
+
+  console.log("sadasdasdsadasddsad", JSON.stringify(list, null, 2));
 
   const renderCategoryItem = ({ item }) => (
     <TouchableOpacity onPress={() => onCategorySelect(item)}>
@@ -113,7 +131,7 @@ export default function CategoryDetails() {
       <View style={{ gap: hp(3), flex: 1 }}>
         <FlatList
           style={styles.imageList}
-          data={selectedCategory.images}
+          data={list}
           numColumns={2}
           keyExtractor={(item, index) => index.toString()}
           stickyHeaderIndices={[0]}
@@ -134,7 +152,6 @@ export default function CategoryDetails() {
               <View
                 style={{
                   ...RNStyles.center,
-                  backgroundColor: Colors.Black,
                   width: wp(12),
                   height: wp(12),
                   borderRadius: normalize(9),
@@ -145,11 +162,11 @@ export default function CategoryDetails() {
                 }}
               >
                 <RNImage
-                  source={item.logo}
+                  source={item.CompanyLogo}
                   style={{ width: wp(10), height: wp(10) }}
                 />
               </View>
-              <Image source={item.imageSource} style={styles.categoryImage} />
+              <Image source={item.CompanyImage} style={styles.categoryImage} />
               <TouchableOpacity
                 style={styles.likeButton}
                 onPress={() => onLikeButtonPress(index)}

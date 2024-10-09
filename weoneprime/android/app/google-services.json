@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "274641210203",
+    "project_id": "weoneprime",
+    "storage_bucket": "weoneprime.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274641210203:android:4b9a26b0b833f2ee13a87e",
+        "android_client_info": {
+          "package_name": "com.weoneprime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274641210203-ksr8n2q2bknj230gnv5b1t32bh83m374.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.weoneprime",
+            "certificate_hash": "12354bcbb9ec6c6229832637b9316262cab3945d"
+          }
+        },
+        {
+          "client_id": "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9iomRghSQ_kp40qMTyuQzv3zM76vHEKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "274641210203-cetf1d58ut3vtkef0cfhteo4epkb94jt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.weoneprime"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

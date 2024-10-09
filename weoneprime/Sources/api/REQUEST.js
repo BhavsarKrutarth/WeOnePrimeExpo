@@ -14,9 +14,9 @@ const REQUEST = async ({
     const Headers = Header(NeedToken, appData?.User?.token, IsformData);
     const fullUrl = `${URL.AppUrl}${EndPoint}`;
 
-    console.log("Request URL:", fullUrl);
-    console.log("Request Headers:", Headers);
-    console.log("Request Params:", Params);
+    // console.log("Request URL:", fullUrl);
+    // console.log("Request Headers:", Headers);
+    // console.log("Request Params:", Params);
 
     const response = await Axios({
       method: Method,
@@ -25,7 +25,7 @@ const REQUEST = async ({
       data: Params,
     });
 
-    console.log("Response Data:", response.data);
+    // console.log("Response Data:", response.data);
     return response.data;
   } catch (error) {
     console.log("Error Response:", error?.response?.data);
