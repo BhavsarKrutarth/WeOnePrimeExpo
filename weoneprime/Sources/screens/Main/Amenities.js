@@ -25,7 +25,7 @@ export default function Amenities() {
       try {
         const response = await FetchMethod.GET({
           EndPoint: "/CompanyList",
-        });
+        });                
         if (response && response.Companies) {
           setData(response.Companies);
         }

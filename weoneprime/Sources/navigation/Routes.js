@@ -19,11 +19,11 @@ const Routes = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuth ? (
           <>
+            <Stack.Screen name="Tab" component={TabBar} />
             <Stack.Screen name="Amenity" component={Amenities} />
             <Stack.Screen name="Redeem" component={Redeem} />
             <Stack.Screen name="CategoryDetails" component={CategoryDetails} />
             <Stack.Screen name="OfferDetails" component={OfferDetails} />
-            <Stack.Screen name="Tab" component={TabBar} />
             <Stack.Screen name="Fevorite" component={Fevorite} />
           </>
         ) : (

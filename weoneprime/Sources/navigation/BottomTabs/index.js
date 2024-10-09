@@ -8,6 +8,7 @@ import { Images } from "../../constants";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, StyleSheet, View } from "react-native";
+import CategoryDetails from "../../screens/Main/CategoryDetails";
 
 const Tab = createBottomTabNavigator();
 
@@ -43,7 +44,7 @@ const TabBar = () => {
     >
       <Tab.Screen
         name={NavRoutes.EXPLORE}
-        component={Explore}
+        component={CategoryDetails}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
