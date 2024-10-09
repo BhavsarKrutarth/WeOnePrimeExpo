@@ -21,18 +21,14 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const data = await FetchMethod.GET({
-        EndPoint: `${
-          URL.HomeScreenUrl
-        }?UserLoginid=${1}&TotalRecored=${5}&PageIndex=${10}&PageCount=${1}`,
+        EndPoint: `HomeScreen?UserLoginid=1&TotalRecored=1&PageIndex=1&PageCount=1`,
       });
-
+      console.log('data',data);   
       setData(data);
     } catch (error) {
       console.log("Error in fetching data:", error);
     }
   };
-
-  console.log(JSON.stringify(data, null, 2));
 
   return (
     <RNContainer style={{ flex: 1 }}>

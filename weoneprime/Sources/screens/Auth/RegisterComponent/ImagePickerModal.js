@@ -12,12 +12,12 @@ const ImagePickerModal = ({ modalVisible, setModalVisible, setRegisterData }) =>
       Alert.alert("Permission required", "Permission to access the camera is required!");
       return;
     }
-
+  
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       base64: true,
     });
-
+  
     if (!result.canceled && result.assets && result.assets.length > 0) {
       const base64Data = result.assets[0].base64;
       setRegisterData((prevState) => ({
@@ -25,7 +25,7 @@ const ImagePickerModal = ({ modalVisible, setModalVisible, setRegisterData }) =>
         userImage: base64Data,
       }));
     }
-  };
+  }; 
 
   const handleImagePick = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();

@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -40,9 +41,8 @@ const RegisterScreen = ({ navigation, setAuth }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  
   const handleRegistration = async () => {
-    setRegisterData("");
     const errors = {
       username: !registerData.userName ? "Please enter your name" : "",
       email: !registerData.userEmailId
@@ -67,14 +67,19 @@ const RegisterScreen = ({ navigation, setAuth }) => {
           : "",
     };
     setIsError(errors);
+  
     try {
       const response = await FetchMethod.POST({
         EndPoint: "/Registration",
         Params: registerData,
       });
-      console.log(response);
-      setAuth(true);
-      navigation.navigate('Tab')
+      
+      if (response.ResponseMessage === "User is exists") {
+        Alert.alert("Registration Error", "User already exists. Please try logging in.");
+      } else {
+        setAuth(true);
+        navigation.navigate('Tab');
+      }
     } catch (error) {
       console.log('error', error);
     }
