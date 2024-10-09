@@ -37,7 +37,7 @@ export default function ExploreData({ data }) {
 
   const renderItem = ({ item }) => (
     <Pressable style={styles.card}>
-      <Image source={item.BannerImage} style={styles.image} />
+      <Image source={{ uri: item.BannerImage }} style={styles.image} />
       <LinearGradient
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}

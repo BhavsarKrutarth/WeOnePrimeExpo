@@ -24,13 +24,13 @@ export default function Amenities() {
     const fetchData = async () => {
       try {
         const response = await FetchMethod.GET({
-          EndPoint: "/CompanyList",
-        });                
+          EndPoint: "CompanyList",
+        });
         if (response && response.Companies) {
           setData(response.Companies);
         }
       } catch (error) {
-        console.log('error:', error);
+        console.log("error:", error);
       }
     };
     fetchData();
@@ -51,7 +51,9 @@ export default function Amenities() {
     return (
       <Pressable
         style={styles.card}
-        onPress={() => navigation.navigate("OfferDetails", { companyId: item.WP_Companyid })} 
+        onPress={() =>
+          navigation.navigate("OfferDetails", { companyId: item.WP_Companyid })
+        }
       >
         <Image source={{ uri: item.CompanyImage }} style={styles.image} />
         <LinearGradient
@@ -89,11 +91,13 @@ export default function Amenities() {
 
         <View style={styles.infoContainer}>
           <RNImage
-            source={{ uri: item.CompanyLogo }} 
+            source={{ uri: item.CompanyLogo }}
             style={{ height: wp(13), width: wp(13) }}
           />
           <Text style={styles.title}>{item.CompanyName}</Text>
-          <Text style={styles.CompanysDescription}>{item.CompanysDescription}</Text>
+          <Text style={styles.CompanysDescription}>
+            {item.CompanysDescription}
+          </Text>
         </View>
       </Pressable>
     );
@@ -108,7 +112,7 @@ export default function Amenities() {
           data={data}
           renderItem={renderItem}
           keyExtractor={(item) => item.WP_Companyid.toString()}
-          numColumns={2} 
+          numColumns={2}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View style={{ height: hp(1.5) }} />}
         />
