@@ -159,14 +159,18 @@ export default function CategoryDetails() {
                   zIndex: 1,
                   top: hp(-3),
                   alignSelf: "center",
+                  backgroundColor: Colors.Black,
                 }}
               >
                 <RNImage
-                  source={item.CompanyLogo}
+                  source={{ uri: item.CompanyLogo }}
                   style={{ width: wp(10), height: wp(10) }}
                 />
               </View>
-              <Image source={item.CompanyImage} style={styles.categoryImage} />
+              <Image
+                source={{ uri: item.CompanyImage }}
+                style={styles.categoryImage}
+              />
               <TouchableOpacity
                 style={styles.likeButton}
                 onPress={() => onLikeButtonPress(index)}

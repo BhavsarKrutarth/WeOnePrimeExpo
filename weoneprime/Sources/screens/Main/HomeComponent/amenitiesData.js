@@ -55,10 +55,16 @@ const AmenitiesData = ({ data }) => {
         {amenities.map((item, index) => (
           <Pressable key={index} style={styles.cardContainer}>
             <View style={styles.imageContainer}>
-              <RNImage source={item.CompanyImage} style={styles.image} />
+              <RNImage
+                source={{ uri: item.CompanyImage }}
+                style={styles.image}
+              />
               <View style={styles.subImageContainer}>
                 <View style={styles.subImageWrapper}>
-                  <RNImage source={item.CompanyLogo} style={styles.subLogo} />
+                  <RNImage
+                    source={{ uri: item.CompanyLogo }}
+                    style={styles.subLogo}
+                  />
                 </View>
               </View>
             </View>

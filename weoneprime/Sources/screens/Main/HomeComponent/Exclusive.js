@@ -44,7 +44,11 @@ export default function Exclusive({ data, dataLength }) {
 
   const renderItem = ({ item }) => (
     <Pressable style={styles.card}>
-      <RNImage source={item.image} style={styles.image} resizeMode={"strach"} />
+      <RNImage
+        source={{ uri: item.image }}
+        style={styles.image}
+        resizeMode={"strach"}
+      />
       <LinearGradient
         start={{ x: 0, y: 0.95 }}
         end={{ x: 0, y: -0.7 }}
