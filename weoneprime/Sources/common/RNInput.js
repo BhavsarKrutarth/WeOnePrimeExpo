@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: hp(5),
-    paddingHorizontal: wp(4)
+    paddingHorizontal: wp(2)
   },
   input: {
     flex: 1,

@@ -7,62 +7,34 @@ import {
   TouchableOpacity,
   Pressable,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RNCommonHeader, RNContainer, RNImage, RNStyles } from "../../common";
-import { Images } from "../../constants";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
+import FetchMethod from "../../api/FetchMethod";
 
 export default function Amenities() {
   const navigation = useNavigation();
   const [selectedHearts, setSelectedHearts] = useState([]);
+  const [data, setData] = useState([]);
 
-  const Data = [
-    {
-      id: 1,
-      image: require("../../assets/images/amrutbanner.png"),
-      brandLogo: Images.emp_logo,
-      title: "Amrut",
-      subtitle: "The fashion icon ",
-    },
-    {
-      id: 2,
-      image: Images.exploreimg,
-      brandLogo: Images.emp_logo,
-      title: "Inox",
-      subtitle: "Live the movie",
-    },
-    {
-      id: 3,
-      image: Images.exploreimg,
-      brandLogo: Images.emp_logo,
-      title: "Coffee Culture",
-      subtitle: "The taste of freshness",
-    },
-    {
-      id: 4,
-      image: Images.exploreimg,
-      brandLogo: Images.emp_logo,
-      title: "Gollers",
-      subtitle: "Gollers locho khaman",
-    },
-    {
-      id: 5,
-      image: Images.exploreimg,
-      brandLogo: Images.emp_logo,
-      title: "Coffee Culture",
-      subtitle: "The taste of freshness",
-    },
-    {
-      id: 6,
-      image: Images.exploreimg,
-      brandLogo: Images.emp_logo,
-      title: "Gollers",
-      subtitle: "Gollers locho khaman",
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await FetchMethod.GET({
+          EndPoint: "/CompanyList",
+        });
+        if (response && response.Companies) {
+          setData(response.Companies);
+        }
+      } catch (error) {
+        console.log('error:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleHeartPress = (id) => {
     setSelectedHearts((prevSelectedHearts) => {
@@ -75,18 +47,17 @@ export default function Amenities() {
   };
 
   const renderItem = ({ item }) => {
-    const isSelected = selectedHearts.includes(item.id);
-
+    const isSelected = selectedHearts.includes(item.WP_Companyid);
     return (
       <Pressable
         style={styles.card}
-        onPress={() => navigation.navigate("OfferDetails")}
+        onPress={() => navigation.navigate("OfferDetails", { companyId: item.WP_Companyid })} 
       >
-        <Image source={item.image} style={styles.image} />
+        <Image source={{ uri: item.CompanyImage }} style={styles.image} />
         <LinearGradient
-          start={{ x: 0, y: 0.8 }}
-          end={{ x: 0, y: -1 }}
-          colors={["white", "transparent"]}
+          start={{ x: 0, y: 1.2 }}
+          end={{ x: 0, y: 0 }}
+          colors={["white", "white", "#ffffff2b", "transparent"]}
           style={styles.gradient}
         />
         <TouchableOpacity
@@ -95,7 +66,7 @@ export default function Amenities() {
             height: wp(7),
             width: wp(7),
             backgroundColor: isSelected
-              ? "rgba(222, 33, 39, 0.9)"
+              ? "rgba(255, 255, 255, 0.35)"
               : "rgba(255, 255, 255, 0.35)",
             position: "absolute",
             top: hp(1),
@@ -103,7 +74,7 @@ export default function Amenities() {
             right: wp(2),
           }}
           onPress={() => {
-            handleHeartPress(item.id), navigation.navigate("Fevorite");
+            handleHeartPress(item.WP_Companyid);
           }}
         >
           <Icon
@@ -118,11 +89,11 @@ export default function Amenities() {
 
         <View style={styles.infoContainer}>
           <RNImage
-            source={item.brandLogo}
+            source={{ uri: item.CompanyLogo }} 
             style={{ height: wp(13), width: wp(13) }}
           />
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.subtitle}>{item.subtitle}</Text>
+          <Text style={styles.title}>{item.CompanyName}</Text>
+          <Text style={styles.CompanysDescription}>{item.CompanysDescription}</Text>
         </View>
       </Pressable>
     );
@@ -134,10 +105,10 @@ export default function Amenities() {
       <View style={styles.ExploreData}>
         <FlatList
           style={{ paddingTop: hp(2) }}
-          data={Data}
+          data={data}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-          numColumns={2}
+          keyExtractor={(item) => item.WP_Companyid.toString()}
+          numColumns={2} 
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View style={{ height: hp(1.5) }} />}
         />
@@ -162,7 +133,6 @@ const styles = StyleSheet.create({
   image: {
     width: wp(45),
     height: wp(45),
-    // resizeMode: "cover",
   },
   gradient: {
     position: "absolute",
@@ -185,7 +155,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.SemiBold,
     color: Colors.Black,
   },
-  subtitle: {
+  CompanysDescription: {
     fontSize: FontSize.font11,
     fontFamily: FontFamily.Light,
     marginBottom: hp(1),

@@ -11,7 +11,7 @@ import Redeem from "../screens/Main/Redeem";
 const Stack = createStackNavigator();
 
 const Routes = () => {
-  const [isAuth, setAuth] = useState(false);
+  const [isAuth, setAuth] = useState(true);
   useCustomFonts();
 
   return (
@@ -19,12 +19,12 @@ const Routes = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuth ? (
           <>
+            <Stack.Screen name="Amenity" component={Amenities} />
             <Stack.Screen name="Redeem" component={Redeem} />
             <Stack.Screen name="CategoryDetails" component={CategoryDetails} />
             <Stack.Screen name="OfferDetails" component={OfferDetails} />
             <Stack.Screen name="Tab" component={TabBar} />
             <Stack.Screen name="Fevorite" component={Fevorite} />
-            <Stack.Screen name="Amenity" component={Amenities} />
           </>
         ) : (
           <Stack.Screen name="Auth">

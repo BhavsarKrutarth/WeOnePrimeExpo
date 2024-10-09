@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
+  LayoutAnimation,
   Modal,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  UIManager,
   View,
 } from "react-native";
 import {
@@ -22,35 +25,108 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Images } from "../../constants";
 import { Colors, FontFamily, FontSize, hp, normalize, wp } from "../../theme";
 import Icon from "react-native-vector-icons/AntDesign";
+import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import FetchMethod from "../../api/FetchMethod";
+import RenderHtml from 'react-native-render-html';
 
-const OfferDetails = () => {
+const OfferDetails = ({ route }) => {
+  const { companyId } = route.params;
   const [selectedSection, setSelectedSection] = useState("About");
   const [modalVisible, setModalVisible] = useState(false);
+  const [data, setData] = useState([]);
+  const [expandedFAQ, setExpandedFAQ] = useState(null); 
+  // console.log(data.);
+  
+  const source = {
+    html: data.HowToUse && data.HowToUse.length > 0 ? data.HowToUse[0].Description : ""
+  };
+  
+  const Terms = {
+    html: data.TermCondtion ? data.TermCondtion : ""
+  };  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await FetchMethod.GET({
+          EndPoint: `/CompanyList/${companyId}`,
+        });
+        if (response && response.Companies) {
+          setData(response.Companies[0]);
+        }
+      } catch (error) {
+        console.log('error:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (
+    Platform.OS === 'android' &&
+    UIManager.setLayoutAnimationEnabledExperimental
+  ) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+
   const sections = [
     { id: "1", title: "About" },
     { id: "2", title: "Terms & Conditions" },
     { id: "3", title: "FAQs" },
   ];
 
+  const toggleFAQ = (faqId) => {
+    setExpandedFAQ(faqId === expandedFAQ ? null : faqId); 
+  };
+
+  const renderFAQ = () => (
+    <View>
+      {data.WP_CompanyFAQ?.map((faq) => (
+        <View 
+          key={faq.QuestionID} 
+          style={{ 
+            backgroundColor: Colors.LightGrey, 
+            borderRadius: normalize(10), 
+            marginVertical: hp(.5),
+          }}>
+          <TouchableOpacity 
+            style={styles.faqContainer} 
+            onPress={() => {LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);toggleFAQ(faq.QuestionID)}}
+          >
+            <RNText style={styles.questionText}>{faq.QuestionText}</RNText>
+            <Entypo 
+              name={expandedFAQ === faq.QuestionID ? "chevron-up" : "chevron-down"} 
+              size={wp(5)} 
+              color={Colors.DarkGrey} 
+            />
+          </TouchableOpacity>
+          {expandedFAQ === faq.QuestionID && (
+            <Text style={styles.answerText}>{faq.AnswerText}</Text>
+          )}
+        </View>
+      ))}
+    </View>
+  );
+
   const sectionContent = {
-    About:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    "Terms & Conditions": "These are the terms and conditions.",
-    FAQs: "Here are the frequently asked questions.",
+    About: (
+      <RNText style={styles.contentText}>{data.About}</RNText>
+    ),
+    "Terms & Conditions": (
+      <RenderHtml source={Terms} />
+    ),
+    FAQs: <View style={{marginBottom: hp(2)}}>{renderFAQ()}</View>,
   };
 
   const renderSectionItem = ({ item }) => (
     <TouchableOpacity
       style={[
         styles.sectionButton,
-
         selectedSection === item.title && { backgroundColor: Colors.LightGrey },
-
       ]}
       onPress={() => setSelectedSection(item.title)}
     >
-      <Text style={[styles.sectionText]}>{item.title}</Text>
+      <Text style={styles.sectionText}>{item.title}</Text>
     </TouchableOpacity>
   );
 
@@ -71,7 +147,7 @@ const OfferDetails = () => {
       >
         <View style={styles.imageContainer}>
           <Image
-            source={require("../../assets/images/amrutbanner.png")}
+            source={{ uri: data.CompanyImage }}
             style={styles.bannerImage}
           />
           <LinearGradient
@@ -87,9 +163,9 @@ const OfferDetails = () => {
             />
           </TouchableOpacity>
           <View style={styles.infoContainer}>
-            <RNImage source={Images.emp_logo} style={styles.logo} />
-            <Text style={styles.title}>{"Amrut"} </Text>
-            <Text style={styles.subtitle}>{"The fashion icon"} </Text>
+            <RNImage source={{ uri: data.CompanyLogo }} style={styles.logo} />
+            <Text style={styles.title}>{data.CompanyName}</Text>
+            <Text style={styles.subtitle}>{data.CompanysDescription} </Text>
           </View>
         </View>
 
@@ -103,11 +179,19 @@ const OfferDetails = () => {
               How to use:{" "}
             </RNText>
           </View>
-          <RNText size={FontSize.font10}>
-            <View style={styles.bulletPoint} />
-            {"    "}
-            Generate your unique coupon code
-          </RNText>
+          <RenderHtml
+            // contentWidth={width}
+            source={source}
+          />
+          <View style={styles.howToUseContainer}>
+            <RNText
+              color={Colors.White}
+              size={FontSize.font15}
+              family={FontFamily.Medium}
+            >
+              About Amrut:{" "}
+            </RNText>
+          </View>
           <View style={styles.rewardContainer}>
             <View style={RNStyles.flexRow}>
               <MaterialCommunityIcons
@@ -136,22 +220,14 @@ const OfferDetails = () => {
             size={FontSize.font8}
             color={Colors.DarkGrey}
             align={"center"}
+            pBottom={hp(2)}
           >
             Month End offers: Buy classic woman suits at Rs. 599 only. Grab this
             offer now.
           </RNText>
         </View>
 
-
-
-        <View
-          style={{
-            marginVertical: hp(2),
-            gap: wp(3),
-            paddingHorizontal: wp(3),
-          }}
-        >
-
+        <View style={{ paddingHorizontal: wp(5) }}>
           <FlatList
             horizontal
             data={sections}
@@ -161,9 +237,7 @@ const OfferDetails = () => {
             showsHorizontalScrollIndicator={false}
           />
           <View style={styles.contentContainer}>
-            <RNText style={styles.sectionContent}>
-              {sectionContent[selectedSection]}
-            </RNText>
+            {sectionContent[selectedSection]}
           </View>
         </View>
 
@@ -351,10 +425,7 @@ const styles = StyleSheet.create({
     paddingVertical: wp(2),
     paddingHorizontal: wp(5),
     borderRadius: wp(2),
-    marginRight: wp(1),
-  },
-  SectionList: {
-    alignSelf: "center",
+    marginVertical: hp(2)
   },
   sectionText: {
     fontSize: FontSize.font14,
@@ -365,7 +436,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.font12,
     fontFamily: FontFamily.Medium,
     color: Colors.DarkGrey,
-
   },
   contentContainer: {
     borderRadius: wp(2),
@@ -391,6 +461,29 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     width: "100%",
     gap: hp(1),
-
   },
+  faqContainer: {
+    ...RNStyles.flexRowBetween,
+    width: wp(94),      
+    padding: wp(3),
+    paddingVertical: hp(2)
+  },
+  questionText: {
+    fontSize: FontSize.font13,
+    fontFamily: FontFamily.SemiBold,
+    color: Colors.DarkGrey,
+  },
+  answerText: {
+    fontSize: FontSize.font12,
+    fontFamily: FontFamily.Regular,
+    color: Colors.DarkGrey,
+    paddingHorizontal: wp(2),
+    paddingBottom: hp(2)
+  },
+  contentText: {
+    fontSize: FontSize.font11,
+    fontFamily: FontFamily.Regular,
+    color: Colors.DarkGrey,
+    paddingBottom: hp(3)
+  }
 });
