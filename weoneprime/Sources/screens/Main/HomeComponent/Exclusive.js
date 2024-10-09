@@ -21,39 +21,8 @@ import {
 } from "../../../theme";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function Exclusive() {
-  const Data = [
-    {
-      id: 1,
-      image: Images.exclusive1,
-      subtitle: "Buy 1 & Get 1 Coffee",
-      price: "Absolutely Free...! Worth ₹499",
-    },
-    {
-      id: 2,
-      image: Images.exclusive1,
-      subtitle: "Buy 1 & Get 1 Coffee",
-      price: "Absolutely Free...! Worth ₹499",
-    },
-    {
-      id: 3,
-      image: Images.exclusive1,
-      subtitle: "Buy 1 & Get 1 Coffee",
-      price: "Absolutely Free...! Worth ₹499",
-    },
-    {
-      id: 4,
-      image: Images.exclusive1,
-      subtitle: "Buy 1 & Get 1 Coffee",
-      price: "Absolutely Free...! Worth ₹499",
-    },
-    {
-      id: 5,
-      image: Images.exclusive1,
-      subtitle: "Buy 1 & Get 1 Coffee",
-      price: "Absolutely Free...! Worth ₹499",
-    },
-  ];
+export default function Exclusive({ data, dataLength }) {
+  const Data = data?.SubDetails;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
@@ -61,13 +30,15 @@ export default function Exclusive() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        const nextIndex = prevIndex === Data.length - 1 ? 0 : prevIndex + 1;
-        flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
-        return nextIndex;
-      });
-    }, intervalTime);
+      if (dataLength) {
+        setCurrentIndex((prevIndex) => {
+          const nextIndex = (prevIndex = dataLength - 1 ? 0 : prevIndex + 1);
 
+          // flatListRef.current.scrollToIndex({ animated: true, index: nextIndex  });
+          return nextIndex;
+        });
+      }
+    }, intervalTime);
     return () => clearInterval(interval);
   }, []);
 
@@ -93,7 +64,7 @@ export default function Exclusive() {
   const renderDots = () => {
     return (
       <View style={styles.dotsContainer}>
-        {Data.map((_, index) => (
+        {Data?.map((_, index) => (
           <View
             key={index}
             style={[
@@ -121,7 +92,7 @@ export default function Exclusive() {
         ref={flatListRef}
         data={Data}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => index.toString()}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}

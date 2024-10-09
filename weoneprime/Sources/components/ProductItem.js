@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.D9D9D9,
     backgroundColor: Colors.White,
     marginBottom: hp(2),
-    marginHorizontal: wp(2),
+    // marginHorizontal: wp(2),
   },
   imageView: {
     width: "100%",

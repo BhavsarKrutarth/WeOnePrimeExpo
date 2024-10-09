@@ -13,9 +13,9 @@ import { RNImage, RNText, RNStyles } from "../../../common";
 import { Images } from "../../../constants";
 import { useNavigation } from "@react-navigation/native";
 
-const AmenitiesData = () => {
+const AmenitiesData = ({ data }) => {
   const navigation = useNavigation();
-  const amenities = [
+  const amenities = data?.SubDetails || [
     {
       id: 1,
       image: Images.exclusive1,
@@ -52,19 +52,21 @@ const AmenitiesData = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.horizontalScrollView}
       >
-        {amenities.map((item) => (
-          <Pressable key={item.id} style={styles.cardContainer}>
+        {amenities.map((item, index) => (
+          <Pressable key={index} style={styles.cardContainer}>
             <View style={styles.imageContainer}>
-              <RNImage source={item.image} style={styles.image} />
+              <RNImage source={item.CompanyImage} style={styles.image} />
               <View style={styles.subImageContainer}>
                 <View style={styles.subImageWrapper}>
-                  <RNImage source={item.subImage} style={styles.subLogo} />
+                  <RNImage source={item.CompanyLogo} style={styles.subLogo} />
                 </View>
               </View>
             </View>
             <View style={styles.textContainer}>
-              <RNText style={styles.cardTitle}>{item.title}</RNText>
-              <RNText style={styles.cardSubtitle}>{item.subtitle}</RNText>
+              <RNText style={styles.cardTitle}>{item.CompanyName}</RNText>
+              <RNText style={styles.cardSubtitle}>
+                {item.CompanysDescription}
+              </RNText>
             </View>
           </Pressable>
         ))}

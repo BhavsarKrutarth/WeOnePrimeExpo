@@ -4,6 +4,7 @@ import { Colors, FontFamily, FontSize, wp } from "../theme";
 import RNText from "./RNText";
 import { Images } from "../constants";
 import { useNavigation } from "@react-navigation/native";
+import RNContainer from "./RNContainer";
 
 const RNCommonHeader = ({ title }) => {
   const navigation = useNavigation();
