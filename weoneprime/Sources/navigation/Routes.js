@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Index from "./BottomTabs";
 import AuthNavigation from "./AuthNavigation";
-import { Colors, hp, useCustomFonts, wp } from "../theme";
+import { useCustomFonts } from "../theme";
 import { Amenities, Fevorite, OfferDetails } from "../screens/Main";
 import TabBar from "./BottomTabs";
 import CategoryDetails from "../screens/Main/CategoryDetails";
-import HomeScreen from "../screens/Ecommerce/HomeComponent/HomeScreen";
-import { Collection, ProductDetails } from "../screens/Ecommerce";
 import Redeem from "../screens/Main/Redeem";
 import { RNCommonHeader, RNHeader, RNImage, RNStyles } from "../common";
 import { Images } from "../constants";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Cart from "../screens/Ecommerce/Cart";
+
 
 const Stack = createStackNavigator();
 
@@ -69,11 +67,13 @@ const Routes = () => {
                 ),
               }}
             />
+
             <Stack.Screen name="Redeem" component={Redeem} />
             {/* <Stack.Screen name="CategoryDetails" component={CategoryDetails} /> */}
             <Stack.Screen name="OfferDetails" component={OfferDetails} />
 
             <Stack.Screen name="Fevorite" component={Fevorite} />
+
             <Stack.Screen name="Amenity" component={Amenities} />
             <Stack.Screen
               name="Cart"
@@ -83,6 +83,7 @@ const Routes = () => {
                 header: () => <RNCommonHeader title={"Cart"} />,
               }}
             />
+
           </>
         ) : (
           <Stack.Screen name="Auth">

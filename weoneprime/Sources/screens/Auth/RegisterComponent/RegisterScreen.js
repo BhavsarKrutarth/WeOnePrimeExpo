@@ -30,6 +30,7 @@ const RegisterScreen = ({ navigation, setAuth }) => {
     userType: "MobileApp",
   });
   const [isError, setIsError] = useState({
+    username: false,
     email: false,
     phone: false,
     password: false,
@@ -41,14 +42,29 @@ const RegisterScreen = ({ navigation, setAuth }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleRegistration = async () => {
+    setRegisterData("");
     const errors = {
-      email: !Validation.isEmailValid(registerData.userEmailId),
-      phone: registerData.userPhoneNo.length < 10,
-      password: !Validation.isPasswordValid(registerData.userPassword),
-      confirmPassword: !Validation.isSamePasswords(
-        registerData.userPassword,
-        confirmPassword
-      ),
+      username: !registerData.userName ? "Please enter your name" : "",
+      email: !registerData.userEmailId
+        ? "Please enter your email"
+        : !Validation.isEmailValid(registerData.userEmailId)
+          ? "Email is not valid"
+          : "",
+      phone: !registerData.userPhoneNo
+        ? "Please enter your mobile number"
+        : registerData.userPhoneNo.length < 10
+          ? "Mobile number must be at least 10 digits"
+          : "",
+      password: !registerData.userPassword
+        ? "Please enter your password"
+        : !Validation.isPasswordValid(registerData.userPassword)
+          ? "Password must be at least 8 characters"
+          : "",
+      confirmPassword: !confirmPassword
+        ? "Please confirm your password"
+        : !Validation.isSamePasswords(registerData.userPassword, confirmPassword)
+          ? "Passwords do not match"
+          : "",
     };
     setIsError(errors);
     try {
@@ -56,11 +72,11 @@ const RegisterScreen = ({ navigation, setAuth }) => {
         EndPoint: "/Registration",
         Params: registerData,
       });
-      // console.log(response);
+      console.log(response);
       setAuth(true);
       navigation.navigate('Tab')
     } catch (error) {
-      console.log(error);
+      console.log('error', error);
     }
   };
 
@@ -104,15 +120,20 @@ const RegisterScreen = ({ navigation, setAuth }) => {
           </View>
           <View style={{ gap: hp(2) }}>
             <View style={{ gap: hp(0.5) }}>
-              <RNText style={styles.inputText}>First Name{" "}</RNText>
+              <RNText style={styles.inputText}>First Name{" "}<RNText style={[styles.inputText, styles.requireStyle]}>*</RNText></RNText>
               <RNInput
                 style={styles.inputContainer}
                 value={registerData.userName}
                 onChangeText={handleChange("userName")}
               />
+              {isError.username && (
+                <RNText style={styles.errorText}>
+                  {isError.username}
+                </RNText>
+              )}
             </View>
             <View style={{ gap: hp(0.5) }}>
-              <RNText style={styles.inputText}>Mobile No{" "}</RNText>
+              <RNText style={styles.inputText}>Mobile No{" "}<RNText style={[styles.inputText, styles.requireStyle]}>*</RNText></RNText>
               <RNInput
                 style={styles.inputContainer}
                 value={registerData.userPhoneNo}
@@ -121,7 +142,7 @@ const RegisterScreen = ({ navigation, setAuth }) => {
               />
               {isError.phone && (
                 <RNText style={styles.errorText}>
-                  Mobile number not valid
+                  {isError.phone}
                 </RNText>
               )}
             </View>
@@ -133,11 +154,11 @@ const RegisterScreen = ({ navigation, setAuth }) => {
                 onChangeText={handleChange("userEmailId")}
               />
               {isError.email && (
-                <RNText style={styles.errorText}>Email not valid</RNText>
+                <RNText style={styles.errorText}>{isError.email}</RNText>
               )}
             </View>
             <View style={{ gap: hp(0.5) }}>
-              <Text style={styles.inputText}>Password</Text>
+              <Text style={styles.inputText}>Password<RNText style={[styles.inputText, styles.requireStyle]}>*</RNText></Text>
               <RNInput
                 style={styles.inputContainer}
                 value={registerData.userPassword}
@@ -148,7 +169,7 @@ const RegisterScreen = ({ navigation, setAuth }) => {
               />
               {isError.password && (
                 <RNText style={styles.errorText}>
-                  Password must be at least 8 characters
+                  {isError.password}
                 </RNText>
               )}
             </View>
@@ -162,9 +183,9 @@ const RegisterScreen = ({ navigation, setAuth }) => {
                 toggleVisibility={() => setShowConfirmPassword(!showConfirmPassword)}
                 iconSource={showConfirmPassword ? Images.eyeOn : Images.eyeOff}
               />
-              
+
               {isError.confirmPassword && (
-                <RNText style={styles.errorText}>Passwords do not match</RNText>
+                <RNText style={styles.errorText}>{isError.confirmPassword}</RNText>
               )}
             </View>
           </View>
