@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Pressable,
+  ActivityIndicator, // Import ActivityIndicator for the loader
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { RNCommonHeader, RNContainer, RNImage, RNStyles } from "../../common";
@@ -19,6 +20,7 @@ export default function Amenities() {
   const navigation = useNavigation();
   const [selectedHearts, setSelectedHearts] = useState([]);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +33,8 @@ export default function Amenities() {
         }
       } catch (error) {
         console.log("error:", error);
+      } finally {
+        setLoading(false); 
       }
     };
     fetchData();
@@ -107,15 +111,19 @@ export default function Amenities() {
     <RNContainer style={{ flex: 1 }}>
       <RNCommonHeader title={"Our Amenities"} />
       <View style={styles.ExploreData}>
-        <FlatList
-          style={{ paddingTop: hp(2) }}
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.WP_Companyid.toString()}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={{ height: hp(1.5) }} />}
-        />
+        {loading ? ( 
+          <ActivityIndicator size="large" color={Colors.DarkGrey} style={RNStyles.flexCenter} />
+        ) : (
+          <FlatList
+            style={{ paddingTop: hp(2) }}
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.WP_Companyid.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View style={{ height: hp(1.5) }} />}
+          />
+        )}
       </View>
     </RNContainer>
   );

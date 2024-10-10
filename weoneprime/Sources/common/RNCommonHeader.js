@@ -6,10 +6,10 @@ import { Images } from "../constants";
 import { useNavigation } from "@react-navigation/native";
 import RNContainer from "./RNContainer";
 
-const RNCommonHeader = ({ title }) => {
+const RNCommonHeader = ({ title, style }) => {
   const navigation = useNavigation();
   return (
-    <View style={styles.headerContainer}>
+    <View style={[styles.headerContainer, style]}>
       <TouchableOpacity
         style={{ padding: wp(4) }}
         onPress={() => navigation.goBack()}

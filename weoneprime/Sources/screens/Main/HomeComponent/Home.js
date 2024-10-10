@@ -21,7 +21,9 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const data = await FetchMethod.GET({
-        EndPoint: `HomeScreen?UserLoginid=1&TotalRecored=1&PageIndex=1&PageCount=1`,
+        EndPoint: `${
+          URL.HomeScreenUrl
+        }?UserLoginid=${1}&TotalRecored=${5}&PageIndex=${10}&PageCount=${1}`,
       });
       // console.log("data", JSON.stringify(data, null, 2));
       setData(data);
