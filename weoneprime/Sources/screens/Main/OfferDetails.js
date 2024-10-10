@@ -28,23 +28,26 @@ import Icon from "react-native-vector-icons/AntDesign";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FetchMethod from "../../api/FetchMethod";
-import RenderHtml from 'react-native-render-html';
+import RenderHtml from "react-native-render-html";
 
 const OfferDetails = ({ route }) => {
   const { companyId } = route.params;
   const [selectedSection, setSelectedSection] = useState("About");
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState([]);
-  const [expandedFAQ, setExpandedFAQ] = useState(null); 
+  const [expandedFAQ, setExpandedFAQ] = useState(null);
   // console.log(data.);
-  
+
   const source = {
-    html: data.HowToUse && data.HowToUse.length > 0 ? data.HowToUse[0].Description : ""
+    html:
+      data.HowToUse && data.HowToUse.length > 0
+        ? data.HowToUse[0].Description
+        : "",
   };
-  
+
   const Terms = {
-    html: data.TermCondtion ? data.TermCondtion : ""
-  };  
+    html: data.TermCondtion ? data.TermCondtion : "",
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,14 +59,14 @@ const OfferDetails = ({ route }) => {
           setData(response.Companies[0]);
         }
       } catch (error) {
-        console.log('error:', error);
+        console.log("error:", error);
       }
     };
     fetchData();
   }, []);
 
   if (
-    Platform.OS === 'android' &&
+    Platform.OS === "android" &&
     UIManager.setLayoutAnimationEnabledExperimental
   ) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -76,28 +79,36 @@ const OfferDetails = ({ route }) => {
   ];
 
   const toggleFAQ = (faqId) => {
-    setExpandedFAQ(faqId === expandedFAQ ? null : faqId); 
+    setExpandedFAQ(faqId === expandedFAQ ? null : faqId);
   };
 
   const renderFAQ = () => (
     <View>
       {data.WP_CompanyFAQ?.map((faq) => (
-        <View 
-          key={faq.QuestionID} 
-          style={{ 
-            backgroundColor: Colors.LightGrey, 
-            borderRadius: normalize(10), 
-            marginVertical: hp(.5),
-          }}>
-          <TouchableOpacity 
-            style={styles.faqContainer} 
-            onPress={() => {LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);toggleFAQ(faq.QuestionID)}}
+        <View
+          key={faq.QuestionID}
+          style={{
+            backgroundColor: Colors.LightGrey,
+            borderRadius: normalize(10),
+            marginVertical: hp(0.5),
+          }}
+        >
+          <TouchableOpacity
+            style={styles.faqContainer}
+            onPress={() => {
+              LayoutAnimation.configureNext(
+                LayoutAnimation.Presets.easeInEaseOut
+              );
+              toggleFAQ(faq.QuestionID);
+            }}
           >
             <RNText style={styles.questionText}>{faq.QuestionText}</RNText>
-            <Entypo 
-              name={expandedFAQ === faq.QuestionID ? "chevron-up" : "chevron-down"} 
-              size={wp(5)} 
-              color={Colors.DarkGrey} 
+            <Entypo
+              name={
+                expandedFAQ === faq.QuestionID ? "chevron-up" : "chevron-down"
+              }
+              size={wp(5)}
+              color={Colors.DarkGrey}
             />
           </TouchableOpacity>
           {expandedFAQ === faq.QuestionID && (
@@ -109,13 +120,9 @@ const OfferDetails = ({ route }) => {
   );
 
   const sectionContent = {
-    About: (
-      <RNText style={styles.contentText}>{data.About}</RNText>
-    ),
-    "Terms & Conditions": (
-      <RenderHtml source={Terms} />
-    ),
-    FAQs: <View style={{marginBottom: hp(2)}}>{renderFAQ()}</View>,
+    About: <RNText style={styles.contentText}>{data.About}</RNText>,
+    "Terms & Conditions": <RenderHtml source={Terms} />,
+    FAQs: <View style={{ marginBottom: hp(2) }}>{renderFAQ()}</View>,
   };
 
   const renderSectionItem = ({ item }) => (
@@ -425,7 +432,7 @@ const styles = StyleSheet.create({
     paddingVertical: wp(2),
     paddingHorizontal: wp(5),
     borderRadius: wp(2),
-    marginVertical: hp(2)
+    marginVertical: hp(2),
   },
   sectionText: {
     fontSize: FontSize.font14,
@@ -464,9 +471,9 @@ const styles = StyleSheet.create({
   },
   faqContainer: {
     ...RNStyles.flexRowBetween,
-    width: wp(94),      
+    width: wp(94),
     padding: wp(3),
-    paddingVertical: hp(2)
+    paddingVertical: hp(2),
   },
   questionText: {
     fontSize: FontSize.font13,
@@ -478,12 +485,12 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.Regular,
     color: Colors.DarkGrey,
     paddingHorizontal: wp(2),
-    paddingBottom: hp(2)
+    paddingBottom: hp(2),
   },
   contentText: {
     fontSize: FontSize.font11,
     fontFamily: FontFamily.Regular,
     color: Colors.DarkGrey,
-    paddingBottom: hp(3)
-  }
+    paddingBottom: hp(3),
+  },
 });

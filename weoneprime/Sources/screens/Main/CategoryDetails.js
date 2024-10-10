@@ -85,12 +85,12 @@ export default function CategoryDetails() {
       const response = await FetchMethod.GET({
         EndPoint: `CompanyList/GetSpecificData?WP_Categoryid=${2}`,
       });
-      console.log("sadasdasdsad", response.Companies);
+      // console.log("sadasdasdsad", response.Companies);
       setList(response.Companies);
     } catch (error) {}
   };
 
-  console.log("sadasdasdsadasddsad", JSON.stringify(list, null, 2));
+  // console.log("sadasdasdsadasddsad", JSON.stringify(list, null, 2));
 
   const renderCategoryItem = ({ item }) => (
     <TouchableOpacity onPress={() => onCategorySelect(item)}>

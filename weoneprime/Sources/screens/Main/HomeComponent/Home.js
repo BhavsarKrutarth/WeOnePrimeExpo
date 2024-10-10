@@ -23,7 +23,7 @@ const Home = () => {
       const data = await FetchMethod.GET({
         EndPoint: `HomeScreen?UserLoginid=1&TotalRecored=1&PageIndex=1&PageCount=1`,
       });
-      console.log('data',data);   
+      // console.log("data", JSON.stringify(data, null, 2));
       setData(data);
     } catch (error) {
       console.log("Error in fetching data:", error);
