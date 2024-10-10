@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   LayoutAnimation,
@@ -30,33 +31,35 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import FetchMethod from "../../api/FetchMethod";
 import RenderHtml from 'react-native-render-html';
 
-const OfferDetails = ({ route }) => {
+const OfferDetails = ({ route, navigation }) => {
   const { companyId } = route.params;
   const [selectedSection, setSelectedSection] = useState("About");
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState([]);
-  const [expandedFAQ, setExpandedFAQ] = useState(null); 
-  // console.log(data.);
-  
+  const [expandedFAQ, setExpandedFAQ] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const source = {
     html: data.HowToUse && data.HowToUse.length > 0 ? data.HowToUse[0].Description : ""
   };
-  
+
   const Terms = {
     html: data.TermCondtion ? data.TermCondtion : ""
-  };  
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await FetchMethod.GET({
-          EndPoint: `/CompanyList/${companyId}`,
+          EndPoint: `CompanyList/${companyId}`,
         });
         if (response && response.Companies) {
           setData(response.Companies[0]);
         }
       } catch (error) {
         console.log('error:', error);
+      } finally {
+        setLoading(false)
       }
     };
     fetchData();
@@ -76,28 +79,28 @@ const OfferDetails = ({ route }) => {
   ];
 
   const toggleFAQ = (faqId) => {
-    setExpandedFAQ(faqId === expandedFAQ ? null : faqId); 
+    setExpandedFAQ(faqId === expandedFAQ ? null : faqId);
   };
 
   const renderFAQ = () => (
     <View>
       {data.WP_CompanyFAQ?.map((faq) => (
-        <View 
-          key={faq.QuestionID} 
-          style={{ 
-            backgroundColor: Colors.LightGrey, 
-            borderRadius: normalize(10), 
+        <View
+          key={faq.QuestionID}
+          style={{
+            backgroundColor: Colors.LightGrey,
+            borderRadius: normalize(10),
             marginVertical: hp(.5),
           }}>
-          <TouchableOpacity 
-            style={styles.faqContainer} 
-            onPress={() => {LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);toggleFAQ(faq.QuestionID)}}
+          <TouchableOpacity
+            style={styles.faqContainer}
+            onPress={() => { LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); toggleFAQ(faq.QuestionID) }}
           >
             <RNText style={styles.questionText}>{faq.QuestionText}</RNText>
-            <Entypo 
-              name={expandedFAQ === faq.QuestionID ? "chevron-up" : "chevron-down"} 
-              size={wp(5)} 
-              color={Colors.DarkGrey} 
+            <Entypo
+              name={expandedFAQ === faq.QuestionID ? "chevron-up" : "chevron-down"}
+              size={wp(5)}
+              color={Colors.DarkGrey}
             />
           </TouchableOpacity>
           {expandedFAQ === faq.QuestionID && (
@@ -115,7 +118,7 @@ const OfferDetails = ({ route }) => {
     "Terms & Conditions": (
       <RenderHtml source={Terms} />
     ),
-    FAQs: <View style={{marginBottom: hp(2)}}>{renderFAQ()}</View>,
+    FAQs: <View style={{ marginBottom: hp(2) }}>{renderFAQ()}</View>,
   };
 
   const renderSectionItem = ({ item }) => (
@@ -141,130 +144,135 @@ const OfferDetails = ({ route }) => {
   return (
     <RNContainer>
       <RNCommonHeader title={"Company"} />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
-        <View style={styles.imageContainer}>
-          <Image
-            source={{ uri: data.CompanyImage }}
-            style={styles.bannerImage}
-          />
-          <LinearGradient
-            start={{ x: 0, y: 1.5 }}
-            end={{ x: 0, y: 0 }}
-            colors={["white", "white", "#ffffff2b", "transparent"]}
-            style={styles.gradient}
-          />
-          <TouchableOpacity style={styles.heartIcon}>
-            <Icon
-              name={"heart"}
-              style={{ fontSize: FontSize.font12, color: Colors.Red }}
+
+      {loading ? (
+        <ActivityIndicator size="large" color={Colors.DarkGrey} style={RNStyles.flexCenter} />
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
+          <View style={styles.imageContainer}>
+            <Image
+              source={{ uri: data.CompanyImage }}
+              style={styles.bannerImage}
             />
-          </TouchableOpacity>
-          <View style={styles.infoContainer}>
-            <RNImage source={{ uri: data.CompanyLogo }} style={styles.logo} />
-            <Text style={styles.title}>{data.CompanyName}</Text>
-            <Text style={styles.subtitle}>{data.CompanysDescription} </Text>
-          </View>
-        </View>
-
-        <View style={{ paddingHorizontal: wp(5) }}>
-          <View style={styles.howToUseContainer}>
-            <RNText
-              color={Colors.White}
-              size={FontSize.font15}
-              family={FontFamily.Medium}
-            >
-              How to use:{" "}
-            </RNText>
-          </View>
-          <RenderHtml
-            // contentWidth={width}
-            source={source}
-          />
-          <View style={styles.howToUseContainer}>
-            <RNText
-              color={Colors.White}
-              size={FontSize.font15}
-              family={FontFamily.Medium}
-            >
-              About Amrut:{" "}
-            </RNText>
-          </View>
-          <View style={styles.rewardContainer}>
-            <View style={RNStyles.flexRow}>
-              <MaterialCommunityIcons
-                name={"clock-time-three-outline"}
-                style={{ fontSize: FontSize.font14 }}
+            <LinearGradient
+              start={{ x: 0, y: 1.5 }}
+              end={{ x: 0, y: 0 }}
+              colors={["white", "white", "#ffffff2b", "transparent"]}
+              style={styles.gradient}
+            />
+            <TouchableOpacity style={styles.heartIcon}>
+              <Icon
+                name={"heart"}
+                style={{ fontSize: FontSize.font12, color: Colors.Red }}
               />
-              <RNText size={FontSize.font13} family={FontFamily.Medium}>
-                15.18
+            </TouchableOpacity>
+            <View style={styles.infoContainer}>
+              <RNImage source={{ uri: data.CompanyLogo }} style={styles.logo} />
+              <Text style={styles.title}>{data.CompanyName}</Text>
+              <Text style={styles.subtitle}>{data.CompanysDescription} </Text>
+            </View>
+          </View>
+
+          <View style={{ paddingHorizontal: wp(5) }}>
+            <View style={styles.howToUseContainer}>
+              <RNText
+                color={Colors.White}
+                size={FontSize.font15}
+                family={FontFamily.Medium}
+              >
+                How to use:{" "}
               </RNText>
             </View>
-            <RNText size={FontSize.font10}>
-              Reward ready to scan in our shop
-            </RNText>
-
-            <View>
-              <RNButton
-                title="Scan Now"
-                style={{ paddingVertical: hp(1), marginTop: hp(2) }}
-                textStyle={styles.buttonText}
-                gradientColors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
-                onPress={handleOffer}
-              />
+            <RenderHtml
+              // contentWidth={width}
+              source={source}
+            />
+            <View style={styles.howToUseContainer}>
+              <RNText
+                color={Colors.White}
+                size={FontSize.font15}
+                family={FontFamily.Medium}
+              >
+                About Amrut:{" "}
+              </RNText>
             </View>
-          </View>
-          <RNText
-            size={FontSize.font8}
-            color={Colors.DarkGrey}
-            align={"center"}
-            pBottom={hp(2)}
-          >
-            Month End offers: Buy classic woman suits at Rs. 599 only. Grab this
-            offer now.
-          </RNText>
-        </View>
-
-        <View style={{ paddingHorizontal: wp(5) }}>
-          <FlatList
-            horizontal
-            data={sections}
-            renderItem={renderSectionItem}
-            keyExtractor={(item) => item.id}
-            style={styles.SectionList}
-            showsHorizontalScrollIndicator={false}
-          />
-          <View style={styles.contentContainer}>
-            {sectionContent[selectedSection]}
-          </View>
-        </View>
-
-        <View style={styles.OfferDetails}>
-          <RNText style={[styles.sectionContent, { textAlign: "center" }]}>
-            Join weone prime to avail this offer
-          </RNText>
-          <RNButton
-            title={
-              <RNText style={styles.buttonText}>
-                EXTEND MEMBERSHIP FOR{" "}
-                <RNText
-                  style={[
-                    styles.buttonText,
-                    { textDecorationLine: "line-through" },
-                  ]}
-                >
-                  ₹1299{" "}
+            <View style={styles.rewardContainer}>
+              <View style={RNStyles.flexRow}>
+                <MaterialCommunityIcons
+                  name={"clock-time-three-outline"}
+                  style={{ fontSize: FontSize.font14 }}
+                />
+                <RNText size={FontSize.font13} family={FontFamily.Medium}>
+                  15.18
                 </RNText>
-                ₹999
+              </View>
+              <RNText size={FontSize.font10}>
+                Reward ready to scan in our shop
               </RNText>
-            }
-            textStyle={styles.buttonText}
-            gradientColors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
-          />
-        </View>
-      </ScrollView>
+
+              <View>
+                <RNButton
+                  title="Scan Now"
+                  style={{ paddingVertical: hp(1), marginTop: hp(2) }}
+                  textStyle={styles.buttonText}
+                  gradientColors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
+                  onPress={handleOffer}
+                />
+              </View>
+            </View>
+            <RNText
+              size={FontSize.font8}
+              color={Colors.DarkGrey}
+              align={"center"}
+              pBottom={hp(2)}
+            >
+              Month End offers: Buy classic woman suits at Rs. 599 only. Grab this
+              offer now.
+            </RNText>
+          </View>
+
+          <View style={{ paddingHorizontal: wp(5) }}>
+            <FlatList
+              horizontal
+              data={sections}
+              renderItem={renderSectionItem}
+              keyExtractor={(item) => item.id}
+              style={styles.SectionList}
+              showsHorizontalScrollIndicator={false}
+            />
+            <View style={styles.contentContainer}>
+              {sectionContent[selectedSection]}
+            </View>
+          </View>
+
+          <View style={styles.OfferDetails}>
+            <RNText style={[styles.sectionContent, { textAlign: "center" }]}>
+              Join weone prime to avail this offer
+            </RNText>
+            <RNButton
+              title={
+                <RNText style={styles.buttonText}>
+                  EXTEND MEMBERSHIP FOR{" "}
+                  <RNText
+                    style={[
+                      styles.buttonText,
+                      { textDecorationLine: "line-through" },
+                    ]}
+                  >
+                    ₹1299{" "}
+                  </RNText>
+                  ₹999
+                </RNText>
+              }
+              textStyle={styles.buttonText}
+              gradientColors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
+            />
+          </View>
+        </ScrollView>
+      )}
 
       <Modal
         animationType="slide"
@@ -323,7 +331,7 @@ const OfferDetails = ({ route }) => {
                       color: Colors.Black,
                     }}
                     title="Redeem"
-                    onPress={closeModal}
+                    onPress={() => navigation.navigate("Redeem")}
                   />
                 </View>
               </View>
@@ -464,7 +472,7 @@ const styles = StyleSheet.create({
   },
   faqContainer: {
     ...RNStyles.flexRowBetween,
-    width: wp(94),      
+    width: wp(94),
     padding: wp(3),
     paddingVertical: hp(2)
   },

@@ -7,7 +7,7 @@ import { RNHeader, RNText } from "../../common";
 import { Images } from "../../constants";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
 import { LinearGradient } from "expo-linear-gradient";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, Platform, StyleSheet, View } from "react-native";
 import CategoryDetails from "../../screens/Main/CategoryDetails";
 
 const Tab = createBottomTabNavigator();
@@ -46,12 +46,21 @@ const TabBar = () => {
         name={NavRoutes.EXPLORE}
         component={CategoryDetails}
         options={{
+          header: () => (
+            <RNHeader
+              LeftIcon={require('../../assets/images/morningIcon.png')}
+              RightIcon={Images.profile}
+              containerStyle={{ paddingLeft: wp(14) }}
+              rightIconStyle={{ width: wp(8), height: wp(8) }}
+              leftIconStyle={{ width: wp(30)  }}
+            />
+          ),
           tabBarIcon: ({ focused }) => (
             <View
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: hp(1.1),
+                top: Platform.OS == 'ios' ? hp(1.1) : hp(-.5),
               }}
             >
               <Image
@@ -89,7 +98,7 @@ const TabBar = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 position: "absolute",
-                top: hp(1.5),
+                top: Platform.OS == 'ios' ? hp(1.5) : hp(1.2),
                 zIndex: 10,
               }}
             >
@@ -135,7 +144,7 @@ const TabBar = () => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: hp(1.1),
+                top: Platform.OS == 'ios' ? hp(1.1) : hp(-.5),
               }}
             >
               <Image
