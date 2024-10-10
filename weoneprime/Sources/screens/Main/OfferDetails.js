@@ -29,7 +29,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FetchMethod from "../../api/FetchMethod";
-import RenderHtml from 'react-native-render-html';
+import RenderHtml from "react-native-render-html";
 
 const OfferDetails = ({ route, navigation }) => {
   const { companyId } = route.params;
@@ -40,11 +40,14 @@ const OfferDetails = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
 
   const source = {
-    html: data.HowToUse && data.HowToUse.length > 0 ? data.HowToUse[0].Description : ""
+    html:
+      data.HowToUse && data.HowToUse.length > 0
+        ? data.HowToUse[0].Description
+        : "",
   };
 
   const Terms = {
-    html: data.TermCondtion ? data.TermCondtion : ""
+    html: data.TermCondtion ? data.TermCondtion : "",
   };
 
   useEffect(() => {
@@ -57,7 +60,7 @@ const OfferDetails = ({ route, navigation }) => {
           setData(response.Companies[0]);
         }
       } catch (error) {
-        console.log('error:', error);
+        console.log("error:", error);
       } finally {
         setLoading(false)
       }
@@ -66,7 +69,7 @@ const OfferDetails = ({ route, navigation }) => {
   }, []);
 
   if (
-    Platform.OS === 'android' &&
+    Platform.OS === "android" &&
     UIManager.setLayoutAnimationEnabledExperimental
   ) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -90,7 +93,24 @@ const OfferDetails = ({ route, navigation }) => {
           style={{
             backgroundColor: Colors.LightGrey,
             borderRadius: normalize(10),
-            marginVertical: hp(.5),
+            marginVertical: hp(0.5),
+          }}
+        >
+          <TouchableOpacity
+            style={styles.faqContainer}
+            onPress={() => {
+              LayoutAnimation.configureNext(
+                LayoutAnimation.Presets.easeInEaseOut
+              );
+              toggleFAQ(faq.QuestionID);
+            }}
+          >
+            <RNText style={styles.questionText}>{faq.QuestionText}</RNText>
+             <Entypo
+              name={expandedFAQ === faq.QuestionID ? "chevron-up" : "chevron-down"}
+              size={wp(5)}
+              color={Colors.DarkGrey}
+            />
           }}>
           <TouchableOpacity
             style={styles.faqContainer}
@@ -112,6 +132,8 @@ const OfferDetails = ({ route, navigation }) => {
   );
 
   const sectionContent = {
+    About: <RNText style={styles.contentText}>{data.About}</RNText>,
+    "Terms & Conditions": <RenderHtml source={Terms} />,
     About: (
       <RNText style={styles.contentText}>{data.About}</RNText>
     ),
@@ -433,7 +455,7 @@ const styles = StyleSheet.create({
     paddingVertical: wp(2),
     paddingHorizontal: wp(5),
     borderRadius: wp(2),
-    marginVertical: hp(2)
+    marginVertical: hp(2),
   },
   sectionText: {
     fontSize: FontSize.font14,
@@ -474,7 +496,7 @@ const styles = StyleSheet.create({
     ...RNStyles.flexRowBetween,
     width: wp(94),
     padding: wp(3),
-    paddingVertical: hp(2)
+    paddingVertical: hp(2),
   },
   questionText: {
     fontSize: FontSize.font13,
@@ -486,12 +508,12 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.Regular,
     color: Colors.DarkGrey,
     paddingHorizontal: wp(2),
-    paddingBottom: hp(2)
+    paddingBottom: hp(2),
   },
   contentText: {
     fontSize: FontSize.font11,
     fontFamily: FontFamily.Regular,
     color: Colors.DarkGrey,
-    paddingBottom: hp(3)
-  }
+    paddingBottom: hp(3),
+  },
 });

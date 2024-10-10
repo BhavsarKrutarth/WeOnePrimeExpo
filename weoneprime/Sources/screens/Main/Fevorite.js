@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   RNCommonHeader,
   RNContainer,
@@ -20,11 +20,23 @@ import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/AntDesign";
 import { LinearGradient } from "expo-linear-gradient";
+import FetchMethod from "../../api/FetchMethod";
+import Animated, {
+  FadeIn,
+  FadeOut,
+  FlipInEasyX,
+  FlipOutEasyX,
+  LinearTransition,
+  ReduceMotion,
+  SequencedTransition,
+  SlideInRight,
+  SlideOutLeft,
+} from "react-native-reanimated";
 
 const Fevorite = () => {
   const navigation = useNavigation();
   const [selectedHearts, setSelectedHearts] = useState([]);
-
+  const [data, setData] = useState([]);
   const Data = [
     {
       id: 1,
@@ -71,76 +83,106 @@ const Fevorite = () => {
   ];
 
   const handleHeartPress = (id) => {
-    setSelectedHearts((prevSelectedHearts) => {
-      if (prevSelectedHearts.includes(id)) {
-        return prevSelectedHearts.filter((heartId) => heartId !== id);
-      } else {
-        return [...prevSelectedHearts, id];
-      }
-    });
+    const newData = data.filter((data) => data.MyFavoritesid !== id);
+    setData(newData);
+  };
+
+  useEffect(() => {
+    getFevData();
+  }, []);
+
+  const getFevData = async () => {
+    try {
+      const response = await FetchMethod.GET({
+        EndPoint: `FavoritesData?UserLoginid=${1}`,
+      });
+      setData(response);
+      // console.log("response", JSON.stringify(response, null, 2));
+    } catch (error) {
+      console.log("error fetching favorites", error);
+    }
   };
 
   const renderItem = ({ item }) => {
-    const isSelected = selectedHearts.includes(item.id);
+    const isSelected = selectedHearts.includes(item.MyFavoritesid);
 
     return (
-      <Pressable style={styles.card}>
-        <Image source={item.image} style={styles.image} />
-        <LinearGradient
-          start={{ x: 0, y: 0.8 }}
-          end={{ x: 0, y: -1 }}
-          colors={["white", "transparent"]}
-          style={styles.gradient}
-        />
+      <Animated.View
+        layout={LinearTransition}
+        exiting={FadeOut}
+        style={styles.card}
+      >
         <TouchableOpacity
-          style={{
-            ...RNStyles.center,
-            height: wp(7),
-            width: wp(7),
-            backgroundColor: isSelected
-              ? "rgba(222, 33, 39, 0.9)"
-              : "rgba(255, 255, 255, 0.35)",
-            position: "absolute",
-            top: hp(1),
-            borderRadius: 50,
-            right: wp(2),
-          }}
-          onPress={() => {
-            handleHeartPress(item.id), navigation.navigate("Fevorite");
-          }}
+          activeOpacity={0.8}
+          onPress={() =>
+            navigation.navigate("OfferDetails", {
+              companyId: item.Company.WP_Companyid,
+            })
+          }
         >
-          <Icon
-            name={"heart"}
-            solid={isSelected}
+          <Image
+            source={{ uri: item?.Company?.CompanyImage }}
+            style={styles.image}
+          />
+          <LinearGradient
+            start={{ x: 0, y: 1.2 }}
+            end={{ x: 0, y: 0 }}
+            colors={["white", "transparent"]}
+            style={styles.gradient}
+          />
+          <TouchableOpacity
             style={{
-              fontSize: FontSize.font12,
-              color: isSelected ? Colors.Red : Colors.White,
+              ...RNStyles.center,
+              height: wp(7),
+              width: wp(7),
+              backgroundColor: isSelected
+                ? "rgba(222, 33, 39, 0.5)"
+                : "rgba(255, 255, 255, 0.35)",
+              position: "absolute",
+              top: hp(1),
+              borderRadius: 50,
+              right: wp(2),
             }}
-          />
-        </TouchableOpacity>
+            onPress={() => {
+              handleHeartPress(item.MyFavoritesid),
+                navigation.navigate("Fevorite");
+            }}
+          >
+            <Icon
+              name={"heart"}
+              solid={isSelected}
+              style={{
+                fontSize: FontSize.font12,
+                color: isSelected ? Colors.Red : Colors.White,
+              }}
+            />
+          </TouchableOpacity>
 
-        <View style={styles.infoContainer}>
-          <RNImage
-            source={item.brandLogo}
-            style={{ height: wp(13), width: wp(13) }}
-          />
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.subtitle}>{item.subtitle}</Text>
-        </View>
-      </Pressable>
+          <View style={styles.infoContainer}>
+            <RNImage
+              source={{ uri: item?.Company?.CompanyLogo }}
+              style={{ height: wp(13), width: wp(13) }}
+            />
+            <Text style={styles.title}>{item?.Company?.CompanyName}</Text>
+            <Text style={styles.subtitle}>
+              {item.Company.CompanysDescription}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </Animated.View>
     );
   };
 
   return (
     <RNContainer>
       <RNCommonHeader title={"My Fevorite"} />
-      {true ? (
+      {data.length != 0 ? (
         <View style={styles.ExploreData}>
           <FlatList
-            style={{ paddingTop: hp(2) }}
-            data={Data}
+            style={{ paddingTop: hp(2), flex: 1 }}
+            data={data}
             renderItem={renderItem}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item, index) => index.toString()}
             numColumns={2}
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={() => <View style={{ height: hp(1.5) }} />}
@@ -224,7 +266,7 @@ const styles = StyleSheet.create({
   image: {
     width: wp(45),
     height: wp(45),
-    // resizeMode: "cover",
+    resizeMode: "center",
   },
   gradient: {
     position: "absolute",

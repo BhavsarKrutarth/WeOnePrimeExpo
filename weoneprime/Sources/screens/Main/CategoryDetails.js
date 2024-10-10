@@ -56,6 +56,7 @@ export default function CategoryDetails() {
       const response = await FetchMethod.GET({
         EndPoint: endpoint,
       });
+
       setList(response.Companies);
     } catch (error) {
       console.error("Error fetching category data: ", error);
@@ -65,6 +66,7 @@ export default function CategoryDetails() {
   const onCategorySelect = (category) => {
     setSelectedCategory(category);
   };
+
 
   const onLikeButtonPress = async (index, WP_Companyid) => {
     const isLiked = likedIndices.includes(index);
@@ -83,7 +85,7 @@ export default function CategoryDetails() {
       console.error("Error updating favorites: ", error);
     }
   };
-  
+
 
   const renderCategoryItem = ({ item }) => (
     <TouchableOpacity onPress={() => onCategorySelect(item)}>

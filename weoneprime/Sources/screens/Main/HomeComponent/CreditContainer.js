@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
+  Image,
 } from "react-native";
 import { RNImage, RNText, RNStyles, RNContainer } from "../../../common";
 import { Images } from "../../../constants";
@@ -11,6 +12,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../../theme";
 
 const CreditContainer = ({ data }) => {
+  console.log(data.singelBanner.SubDetails);
+
   const amenities = [
     {
       id: 1,
@@ -141,7 +144,11 @@ const CreditContainer = ({ data }) => {
   return (
     <RNContainer style={{ paddingVertical: hp(3), gap: hp(3) }}>
       <View style={{ width: wp(100), ...RNStyles.center }}>
-        <LinearGradient
+        <Image
+          style={[styles.creditContainer]}
+          source={{ uri: data.singelBanner.SubDetails[0].BannerImage }}
+        />
+        {/* <LinearGradient
           start={{ x: 1.2, y: 0 }}
           end={{ x: 0, y: 0 }}
           colors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
@@ -202,7 +209,7 @@ const CreditContainer = ({ data }) => {
               </RNText>
             </ImageBackground>
           </View>
-        </LinearGradient>
+        </LinearGradient> */}
       </View>
 
       <View style={{ width: wp(100), gap: hp(1), alignItems: "center" }}>
@@ -258,10 +265,11 @@ const CreditContainer = ({ data }) => {
 
 const styles = StyleSheet.create({
   creditContainer: {
-    ...RNStyles.center,
+    // ...RNStyles.center,
     width: wp(94),
-    height: hp(11),
+    height: hp(9),
     borderRadius: 6,
+    resizeMode: "contain",
   },
   innerContainer: {
     ...RNStyles.flexRowBetween,

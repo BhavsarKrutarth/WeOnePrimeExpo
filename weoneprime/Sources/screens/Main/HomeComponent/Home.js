@@ -25,14 +25,12 @@ const Home = () => {
           URL.HomeScreenUrl
         }?UserLoginid=${1}&TotalRecored=${5}&PageIndex=${10}&PageCount=${1}`,
       });
-      console.log(data); 
+      // console.log("data", JSON.stringify(data, null, 2));
       setData(data);
     } catch (error) {
       console.log("Error in fetching data:", error);
     }
   };
-
-  console.log(JSON.stringify(data, null, 2));
 
   return (
     <RNContainer style={{ flex: 1 }}>
