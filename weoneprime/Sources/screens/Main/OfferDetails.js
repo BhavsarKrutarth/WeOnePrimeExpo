@@ -62,7 +62,7 @@ const OfferDetails = ({ route, navigation }) => {
       } catch (error) {
         console.log("error:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
     fetchData();
@@ -106,19 +106,10 @@ const OfferDetails = ({ route, navigation }) => {
             }}
           >
             <RNText style={styles.questionText}>{faq.QuestionText}</RNText>
-             <Entypo
-              name={expandedFAQ === faq.QuestionID ? "chevron-up" : "chevron-down"}
-              size={wp(5)}
-              color={Colors.DarkGrey}
-            />
-          }}>
-          <TouchableOpacity
-            style={styles.faqContainer}
-            onPress={() => { LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); toggleFAQ(faq.QuestionID) }}
-          >
-            <RNText style={styles.questionText}>{faq.QuestionText}</RNText>
             <Entypo
-              name={expandedFAQ === faq.QuestionID ? "chevron-up" : "chevron-down"}
+              name={
+                expandedFAQ === faq.QuestionID ? "chevron-up" : "chevron-down"
+              }
               size={wp(5)}
               color={Colors.DarkGrey}
             />
@@ -134,12 +125,6 @@ const OfferDetails = ({ route, navigation }) => {
   const sectionContent = {
     About: <RNText style={styles.contentText}>{data.About}</RNText>,
     "Terms & Conditions": <RenderHtml source={Terms} />,
-    About: (
-      <RNText style={styles.contentText}>{data.About}</RNText>
-    ),
-    "Terms & Conditions": (
-      <RenderHtml source={Terms} />
-    ),
     FAQs: <View style={{ marginBottom: hp(2) }}>{renderFAQ()}</View>,
   };
 
@@ -168,7 +153,11 @@ const OfferDetails = ({ route, navigation }) => {
       <RNCommonHeader title={"Company"} />
 
       {loading ? (
-        <ActivityIndicator size="large" color={Colors.DarkGrey} style={RNStyles.flexCenter} />
+        <ActivityIndicator
+          size="large"
+          color={Colors.DarkGrey}
+          style={RNStyles.flexCenter}
+        />
       ) : (
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -251,8 +240,8 @@ const OfferDetails = ({ route, navigation }) => {
               align={"center"}
               pBottom={hp(2)}
             >
-              Month End offers: Buy classic woman suits at Rs. 599 only. Grab this
-              offer now.
+              Month End offers: Buy classic woman suits at Rs. 599 only. Grab
+              this offer now.
             </RNText>
           </View>
 
