@@ -150,7 +150,7 @@ const OfferDetails = ({ route, navigation }) => {
 
   return (
     <RNContainer>
-      <RNCommonHeader title={"Company"} />
+      <RNCommonHeader title={data.CompanyName} />
 
       {loading ? (
         <ActivityIndicator
@@ -182,8 +182,10 @@ const OfferDetails = ({ route, navigation }) => {
             </TouchableOpacity>
             <View style={styles.infoContainer}>
               <RNImage source={{ uri: data.CompanyLogo }} style={styles.logo} />
-              <Text style={styles.title}>{data.CompanyName}</Text>
-              <Text style={styles.subtitle}>{data.CompanysDescription} </Text>
+              <RNText style={styles.title}>{data.CompanyName}</RNText>
+              <RNText style={styles.subtitle}>
+                {data.CompanysDescription}{" "}
+              </RNText>
             </View>
           </View>
 
@@ -342,7 +344,10 @@ const OfferDetails = ({ route, navigation }) => {
                       color: Colors.Black,
                     }}
                     title="Redeem"
-                    onPress={() => navigation.navigate("Redeem")}
+                    onPress={() => {
+                      closeModal();
+                      navigation.navigate("Redeem");
+                    }}
                   />
                 </View>
               </View>
@@ -459,6 +464,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     borderRadius: wp(2),
     alignSelf: "center",
+    paddingHorizontal: wp(5),
   },
   OfferDetails: {
     padding: wp(3),

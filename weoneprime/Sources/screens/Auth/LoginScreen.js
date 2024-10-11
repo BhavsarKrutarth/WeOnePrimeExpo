@@ -21,10 +21,12 @@ import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { Images } from "../../constants";
-import { auth } from "./firebase"; 
+import { auth } from "./firebase";
 import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
+import * as AppleAuthentication from "expo-apple-authentication";
+import { jwtDecode } from "jwt-decode";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -35,14 +37,17 @@ const LoginScreen = ({ navigation, setAuth }) => {
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: "https://auth.expo.io/@nency_2403/weoneprime",
-    iosClientId: "274641210203-cetf1d58ut3vtkef0cfhteo4epkb94jt.apps.googleusercontent.com",
-    androidClientId: "274641210203-ksr8n2q2bknj230gnv5b1t32bh83m374.apps.googleusercontent.com",
-    webClientId: "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com",
+    iosClientId:
+      "274641210203-cetf1d58ut3vtkef0cfhteo4epkb94jt.apps.googleusercontent.com",
+    androidClientId:
+      "274641210203-ksr8n2q2bknj230gnv5b1t32bh83m374.apps.googleusercontent.com",
+    webClientId:
+      "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com",
     scopes: ["profile", "email"],
   });
 
   useEffect(() => {
-    console.log('Google Auth Response:', response); 
+    console.log("Google Auth Response:", response);
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
@@ -62,8 +67,36 @@ const LoginScreen = ({ navigation, setAuth }) => {
       console.error("Google login failed:", response?.error);
     }
   }, [response]);
-  
+
   const handleLogin = () => {};
+
+  const loginWithApple = async () => {
+    try {
+      const credential = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+      });
+
+      const decoded = jwtDecode(credential.identityToken);
+      console.log(
+        "decoded   " + JSON.stringify(decoded, null, 2),
+        "credentials: " + JSON.stringify(credential, null, 2)
+      );
+      // signed in
+    } catch (e) {
+      console.log(e);
+      if (e.code === "ERR_REQUEST_CANCELED") {
+        console.log(e);
+
+        // handle that the user canceled the sign-in flow
+      } else {
+        console.log(e);
+        // handle other errors
+      }
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -154,14 +187,20 @@ const LoginScreen = ({ navigation, setAuth }) => {
               </RNText>
               <View style={styles.line} />
             </View>
-            <TouchableOpacity style={styles.loginButton} onPress={() => promptAsync()}>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={() => promptAsync()}
+            >
               <RNImage
                 source={Images.Google}
                 style={{ width: wp(5), height: wp(5) }}
               />
               <RNText style={styles.LoginText}>Log in With Google </RNText>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.loginButton}>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={() => loginWithApple()}
+            >
               <RNImage
                 source={Images.Apple}
                 style={{ width: wp(5), height: wp(5) }}
@@ -208,6 +247,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.font16,
     fontFamily: FontFamily.Medium,
   },
+
   loginButton: {
     ...RNStyles.flexRowCenter,
     gap: wp(2),

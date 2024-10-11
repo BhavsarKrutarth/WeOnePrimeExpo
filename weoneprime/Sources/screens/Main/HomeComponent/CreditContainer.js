@@ -12,8 +12,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../../theme";
 
 const CreditContainer = ({ data }) => {
-  console.log(data.singelBanner.SubDetails);
-
   const amenities = [
     {
       id: 1,
@@ -146,7 +144,7 @@ const CreditContainer = ({ data }) => {
       <View style={{ width: wp(100), ...RNStyles.center }}>
         <Image
           style={[styles.creditContainer]}
-          source={{ uri: data.singelBanner.SubDetails[0].BannerImage }}
+          source={{ uri: data?.singelBanner?.SubDetails[0]?.BannerImage }}
         />
         {/* <LinearGradient
           start={{ x: 1.2, y: 0 }}

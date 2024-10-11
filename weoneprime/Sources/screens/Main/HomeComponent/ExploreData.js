@@ -12,8 +12,10 @@ import { RNImage, RNText } from "../../../common";
 import { Images } from "../../../constants";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../../theme";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ExploreData({ data }) {
+  const navigation = useNavigation();
   const Data = data?.SubDetails || [
     {
       id: 1,
@@ -36,7 +38,14 @@ export default function ExploreData({ data }) {
   ];
 
   const renderItem = ({ item }) => (
-    <Pressable style={styles.card}>
+    <Pressable
+      style={styles.card}
+      onPress={() =>
+        navigation.navigate("OfferDetails", {
+          companyId: item.WP_Companyid,
+        })
+      }
+    >
       <Image source={{ uri: item.BannerImage }} style={styles.image} />
       <LinearGradient
         start={{ x: 0, y: 1 }}

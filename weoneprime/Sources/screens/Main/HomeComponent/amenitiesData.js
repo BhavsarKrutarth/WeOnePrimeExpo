@@ -53,7 +53,15 @@ const AmenitiesData = ({ data }) => {
         contentContainerStyle={styles.horizontalScrollView}
       >
         {amenities.map((item, index) => (
-          <Pressable key={index} style={styles.cardContainer}>
+          <Pressable
+            key={index}
+            style={styles.cardContainer}
+            onPress={() =>
+              navigation.navigate("OfferDetails", {
+                companyId: item.WP_Companyid,
+              })
+            }
+          >
             <View style={styles.imageContainer}>
               <RNImage
                 source={{ uri: item.CompanyImage }}
