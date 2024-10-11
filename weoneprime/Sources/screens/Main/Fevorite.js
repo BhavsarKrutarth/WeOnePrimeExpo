@@ -82,9 +82,22 @@ const Fevorite = () => {
     },
   ];
 
-  const handleHeartPress = (id) => {
+  const handleHeartPress = async (id) => {
     const newData = data.filter((data) => data.MyFavoritesid !== id);
     setData(newData);
+    try {
+      const response = await FetchMethod.DELETE({
+        EndPoint: `FavoritesData?UserLoginid=${1}`,
+        Params: {
+          UserLoginid: 1,
+          WP_Companyid: id,
+        },
+      });
+
+      // console.log("response", JSON.stringify(response, null, 2));
+    } catch (error) {
+      console.log("error fetching favorites", error);
+    }
   };
 
   useEffect(() => {

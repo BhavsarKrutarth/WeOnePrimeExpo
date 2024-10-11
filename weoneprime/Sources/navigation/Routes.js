@@ -3,14 +3,20 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AuthNavigation from "./AuthNavigation";
 import { useCustomFonts } from "../theme";
-import { Amenities, Fevorite, OfferDetails, Redeem, Saving } from "../screens/Main";
+import {
+  Amenities,
+  Fevorite,
+  OfferDetails,
+  Redeem,
+  Saving,
+} from "../screens/Main";
 import TabBar from "./BottomTabs";
 import CategoryDetails from "../screens/Main/CategoryDetails";
 
 const Stack = createStackNavigator();
 
 const Routes = () => {
-  const [isAuth, setAuth] = useState(true);
+  const [isAuth, setAuth] = useState(false);
   useCustomFonts();
 
   return (

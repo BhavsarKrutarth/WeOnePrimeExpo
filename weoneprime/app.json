@@ -12,6 +12,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "usesAppleSignIn": true,
       "supportsTablet": true,
       "bundleIdentifier": "com.weoneprime",
       "config": {
@@ -43,7 +44,9 @@
       }
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-apple-authentication",
+      "@react-native-google-signin/google-signin"
     ]
   }
 }
