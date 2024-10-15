@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Provider } from "react-redux";
 import { Routes } from "./Sources/navigation";
-import { useCustomFonts } from "./Sources/theme";
+import Store from "./Sources/redux";
+// import { Routes } from "./navigation";
+// import { Provider } from "react-redux";
+// import Store from "./redux";
 
 const App = () => {
-  useCustomFonts();
-  return <Routes/>;
+  return (
+    <Provider store={Store}>
+      <Routes />
+    </Provider>
+  );
 };
 
 export default App;

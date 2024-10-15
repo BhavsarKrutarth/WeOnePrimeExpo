@@ -27,6 +27,7 @@ import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { jwtDecode } from "jwt-decode";
+import FetchMethod from "../../api/FetchMethod";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -54,9 +55,9 @@ const LoginScreen = ({ navigation, setAuth }) => {
       signInWithCredential(auth, credential)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log("Logged in with Google!", user);
+          console.log("Logged in with Google!", JSON.stringify(user, null, 2));
           setAuth(true);
-          navigation.navigate("Tab");
+          // navigation.navigate("Tab");
         })
         .catch((error) => {
           console.error("Google Sign-In error", error);
@@ -68,7 +69,28 @@ const LoginScreen = ({ navigation, setAuth }) => {
     }
   }, [response]);
 
-  const handleLogin = () => {};
+  const handleLogin = async () => {
+    console.log({
+      UserEmailId: email,
+      UserPassword: password,
+    });
+
+    try {
+      const response = await FetchMethod.POST({
+        EndPoint:
+          "Registration/User_Emailid_and_password_check?UserEmailId=actoscriptreactdev04%40gmail.com&UserPassword=acto%40123",
+        // Params: {
+        //   UserEmailId: email,
+        //   UserPassword: password,
+        // },
+      });
+      setAuth(true);
+      //  navigation.navigate("Tab");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const loginWithApple = async () => {
     try {
@@ -84,6 +106,7 @@ const LoginScreen = ({ navigation, setAuth }) => {
         "decoded   " + JSON.stringify(decoded, null, 2),
         "credentials: " + JSON.stringify(credential, null, 2)
       );
+      setAuth(true);
       // signed in
     } catch (e) {
       console.log(e);
@@ -178,6 +201,13 @@ const LoginScreen = ({ navigation, setAuth }) => {
               gradientColors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
               onPress={handleLogin}
             />
+            <RNText
+              align={"center"}
+              style={[styles.subTitle, { color: Colors.Black }]}
+              onPress={() => navigation.navigate("Register")}
+            >
+              Register here
+            </RNText>
           </View>
           <View style={{ flex: 1, justifyContent: "center", gap: wp(3) }}>
             <View style={styles.continue}>
@@ -195,7 +225,7 @@ const LoginScreen = ({ navigation, setAuth }) => {
                 source={Images.Google}
                 style={{ width: wp(5), height: wp(5) }}
               />
-              <RNText style={styles.LoginText}>Log in With Google </RNText>
+              <RNText style={styles.LoginText}>Log in With Google</RNText>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.loginButton}
@@ -205,7 +235,7 @@ const LoginScreen = ({ navigation, setAuth }) => {
                 source={Images.Apple}
                 style={{ width: wp(5), height: wp(5) }}
               />
-              <RNText style={styles.LoginText}>Continue with Apple </RNText>
+              <RNText style={styles.LoginText}>Continue with Apple</RNText>
             </TouchableOpacity>
             <TouchableOpacity
               style={{ alignItems: "center" }}
@@ -214,7 +244,7 @@ const LoginScreen = ({ navigation, setAuth }) => {
                 navigation.navigate("Tab");
               }}
             >
-              <RNText style={styles.inputText}>Skip For now </RNText>
+              <RNText style={styles.inputText}>Skip For now</RNText>
             </TouchableOpacity>
           </View>
         </RNContainer>
@@ -235,7 +265,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.SemiBold,
   },
   subTitle: {
-    fontSize: FontSize.font11,
+    fontSize: FontSize.font12,
     fontFamily: FontFamily.Regular,
     color: Colors.Grey,
   },

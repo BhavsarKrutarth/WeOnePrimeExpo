@@ -30,9 +30,11 @@ import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FetchMethod from "../../api/FetchMethod";
 import RenderHtml from "react-native-render-html";
+import { useSelector } from "react-redux";
 
 const OfferDetails = ({ route, navigation }) => {
   const { companyId } = route.params;
+  const { balanceData } = useSelector(({ BalaceData }) => BalaceData);
   const [selectedSection, setSelectedSection] = useState("About");
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState([]);
@@ -49,6 +51,8 @@ const OfferDetails = ({ route, navigation }) => {
   const Terms = {
     html: data.TermCondtion ? data.TermCondtion : "",
   };
+
+  console.log("balanceData", balanceData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -147,6 +151,8 @@ const OfferDetails = ({ route, navigation }) => {
   const closeModal = () => {
     setModalVisible(false);
   };
+
+  console.log(JSON.stringify(source, null, 2));
 
   return (
     <RNContainer>
@@ -275,9 +281,9 @@ const OfferDetails = ({ route, navigation }) => {
                       { textDecorationLine: "line-through" },
                     ]}
                   >
-                    ₹1299{" "}
-                  </RNText>
-                  ₹999
+                    {balanceData.compare_price}
+                  </RNText>{" "}
+                  {balanceData.final_Price}
                 </RNText>
               }
               textStyle={styles.buttonText}
@@ -358,6 +364,7 @@ const OfferDetails = ({ route, navigation }) => {
     </RNContainer>
   );
 };
+353330111547802;
 
 export default OfferDetails;
 

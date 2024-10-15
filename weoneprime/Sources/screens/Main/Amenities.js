@@ -20,7 +20,7 @@ export default function Amenities() {
   const navigation = useNavigation();
   const [selectedHearts, setSelectedHearts] = useState([]);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +34,7 @@ export default function Amenities() {
       } catch (error) {
         console.log("error:", error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchData();
@@ -111,8 +111,12 @@ export default function Amenities() {
     <RNContainer style={{ flex: 1 }}>
       <RNCommonHeader title={"Our Amenities"} />
       <View style={styles.ExploreData}>
-        {loading ? ( 
-          <ActivityIndicator size="large" color={Colors.DarkGrey} style={RNStyles.flexCenter} />
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color={Colors.DarkGrey}
+            style={RNStyles.flexCenter}
+          />
         ) : (
           <FlatList
             style={{ paddingTop: hp(2) }}
@@ -138,9 +142,10 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: wp(2),
     width: wp(45),
-    height: wp(42),
+    height: wp(45),
     marginHorizontal: wp(1.5),
     overflow: "hidden",
+    marginBottom: hp(2),
   },
   image: {
     width: wp(45),

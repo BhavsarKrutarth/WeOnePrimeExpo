@@ -1,8 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import {} from './Reducers';
+import { configureStore } from "@reduxjs/toolkit";
+import { AuthReducers, BalanceReducers } from "./Reducers";
 
 const Store = configureStore({
-  reducer: {},
+  reducer: {
+    Auth: AuthReducers,
+    BalaceData: BalanceReducers,
+    // AddProject: AddProjectReducers,
+  },
 });
 
 export default Store;
