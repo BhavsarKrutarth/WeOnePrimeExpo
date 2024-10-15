@@ -36,18 +36,17 @@ const LoginScreen = ({ navigation, setAuth }) => {
   const [password, setPassword] = useState("");
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: "https://auth.expo.io/@nency_2403/weoneprime",
+    // expoClientId: "https://auth.expo.io/@nency_2403/weoneprime",
     iosClientId:
       "274641210203-cetf1d58ut3vtkef0cfhteo4epkb94jt.apps.googleusercontent.com",
     androidClientId:
       "274641210203-ksr8n2q2bknj230gnv5b1t32bh83m374.apps.googleusercontent.com",
-    webClientId:
-      "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com",
+    // webClientId:
+    //   "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com",
     scopes: ["profile", "email"],
   });
 
   useEffect(() => {
-    console.log("Google Auth Response:", response);
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
@@ -61,14 +60,10 @@ const LoginScreen = ({ navigation, setAuth }) => {
         .catch((error) => {
           console.error("Google Sign-In error", error);
         });
-    } else if (response?.type === "dismiss") {
-      console.log("User dismissed the Google login");
-    } else if (response?.type === "error") {
-      console.error("Google login failed:", response?.error);
     }
   }, [response]);
 
-  const handleLogin = () => {};
+  const handleLogin = () => { };
 
   const loginWithApple = async () => {
     try {
@@ -109,10 +104,10 @@ const LoginScreen = ({ navigation, setAuth }) => {
         showsVerticalScrollIndicator={false}
       >
         <RNContainer style={styles.Container}>
-          <View style={{ flex: 1, justifyContent: "center" }}>
-            <Image source={Images.Logo} />
-          </View>
-          <View style={{ gap: hp(5), flex: 1.8 }}>
+          <View style={{  gap: hp(5) }}>
+            <View>
+              <Image source={Images.Logo} />
+            </View>
             <View>
               <RNText style={styles.title}>Hey, hello 👋</RNText>
               <RNText style={styles.subTitle}>
@@ -179,7 +174,7 @@ const LoginScreen = ({ navigation, setAuth }) => {
               onPress={handleLogin}
             />
           </View>
-          <View style={{ flex: 1, justifyContent: "center", gap: wp(3) }}>
+          <View style={{gap: hp(2) }}>
             <View style={styles.continue}>
               <View style={styles.line} />
               <RNText style={[styles.subTitle, { color: "#B3B3B3" }]}>
@@ -197,7 +192,7 @@ const LoginScreen = ({ navigation, setAuth }) => {
               />
               <RNText style={styles.LoginText}>Log in With Google </RNText>
             </TouchableOpacity>
-            <TouchableOpacity
+            {Platform.OS === 'ios' && <TouchableOpacity
               style={styles.loginButton}
               onPress={() => loginWithApple()}
             >
@@ -206,7 +201,8 @@ const LoginScreen = ({ navigation, setAuth }) => {
                 style={{ width: wp(5), height: wp(5) }}
               />
               <RNText style={styles.LoginText}>Continue with Apple </RNText>
-            </TouchableOpacity>
+            </TouchableOpacity>}
+
             <TouchableOpacity
               style={{ alignItems: "center" }}
               onPress={() => {
@@ -229,6 +225,7 @@ const styles = StyleSheet.create({
   Container: {
     justifyContent: "center",
     padding: wp(5),
+    gap: hp(5)
   },
   title: {
     fontSize: FontSize.font18,
