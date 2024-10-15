@@ -7,14 +7,19 @@ import {
   Pressable,
   Image,
 } from "react-native";
-import React from "react";
-import { FontFamily, FontSize, hp, wp, Colors } from "../../../theme";
+import React, { useEffect, useState } from "react";
+import { FontFamily, FontSize, hp, wp, Colors, width } from "../../../theme";
 import { RNImage, RNText, RNStyles } from "../../../common";
 import { Images } from "../../../constants";
 import { useNavigation } from "@react-navigation/native";
+import FetchMethod from "../../../api/FetchMethod";
+import { getBalanceData } from "../../../redux/ExtraReducers";
+import { useDispatch } from "react-redux";
 
 const AmenitiesData = ({ data }) => {
   const navigation = useNavigation();
+  const [balances, setBalances] = useState({});
+  const dispatch = useDispatch();
   const amenities = data?.SubDetails || [
     {
       id: 1,
@@ -39,6 +44,23 @@ const AmenitiesData = ({ data }) => {
     },
   ];
 
+  useEffect(() => {
+    dispatch(getBalanceData());
+  }, []);
+
+  const fetchBalances = async () => {
+    try {
+      const balance = await FetchMethod.GET({
+        EndPoint: `Membership`,
+      });
+      setBalances(balance);
+      console.log("ajsakSKAHsh", balance);
+    } catch (error) {
+      console.log("error fetch -->", error);
+    }
+    // Fetching balances from API
+  };
+
   return (
     <View style={styles.amenitiesContainer}>
       <View style={RNStyles.flexRowBetween}>
@@ -59,6 +81,7 @@ const AmenitiesData = ({ data }) => {
             onPress={() =>
               navigation.navigate("OfferDetails", {
                 companyId: item.WP_Companyid,
+                balanceData: balances,
               })
             }
           >
@@ -78,7 +101,10 @@ const AmenitiesData = ({ data }) => {
             </View>
             <View style={styles.textContainer}>
               <RNText style={styles.cardTitle}>{item.CompanyName}</RNText>
-              <RNText style={styles.cardSubtitle}>
+              <RNText
+                numOfLines={1}
+                style={[styles.cardSubtitle, { width: wp(20) }]}
+              >
                 {item.CompanysDescription}
               </RNText>
             </View>

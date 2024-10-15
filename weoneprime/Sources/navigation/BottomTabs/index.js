@@ -48,11 +48,11 @@ const TabBar = () => {
         options={{
           header: () => (
             <RNHeader
-              LeftIcon={require('../../assets/images/morningIcon.png')}
+              LeftIcon={require("../../assets/images/morningIcon.png")}
               RightIcon={Images.profile}
               containerStyle={{ paddingLeft: wp(14) }}
               rightIconStyle={{ width: wp(8), height: wp(8) }}
-              leftIconStyle={{ width: wp(30)  }}
+              leftIconStyle={{ width: wp(30) }}
             />
           ),
           tabBarIcon: ({ focused }) => (
@@ -60,7 +60,7 @@ const TabBar = () => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: Platform.OS == 'ios' ? hp(1.1) : hp(-.5),
+                top: Platform.OS == "ios" ? hp(1.1) : hp(-0.5),
               }}
             >
               <Image
@@ -98,7 +98,7 @@ const TabBar = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 position: "absolute",
-                top: Platform.OS == 'ios' ? hp(1.5) : hp(1.2),
+                top: Platform.OS == "ios" ? hp(1.5) : hp(1.2),
                 zIndex: 10,
               }}
             >
@@ -139,12 +139,13 @@ const TabBar = () => {
         name={NavRoutes.SETTING}
         component={Setting}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: Platform.OS == 'ios' ? hp(1.1) : hp(-.5),
+                top: Platform.OS == "ios" ? hp(1.1) : hp(-0.5),
               }}
             >
               <Image

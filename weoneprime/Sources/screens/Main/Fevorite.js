@@ -191,13 +191,14 @@ const Fevorite = () => {
       <RNCommonHeader title={"My Fevorite"} />
       {data.length != 0 ? (
         <View style={styles.ExploreData}>
-          <FlatList
+          <Animated.FlatList
             style={{ paddingTop: hp(2), flex: 1 }}
             data={data}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
             numColumns={2}
             showsVerticalScrollIndicator={false}
+            itemLayoutAnimation={LinearTransition}
             ItemSeparatorComponent={() => <View style={{ height: hp(1.5) }} />}
           />
         </View>
