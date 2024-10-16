@@ -8,10 +8,17 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Colors, FontFamily, FontSize, hp, normalize, wp } from "../../theme";
-import { RNCommonHeader, RNContainer, RNImage, RNStyles, RNText } from "../../common";
+import {
+  RNCommonHeader,
+  RNContainer,
+  RNImage,
+  RNStyles,
+  RNText,
+} from "../../common";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/AntDesign";
 import FetchMethod from "../../api/FetchMethod";
+import { Images } from "../../constants";
 
 export default function CategoryDetails() {
   const [categories, setCategories] = useState([]);
@@ -19,7 +26,7 @@ export default function CategoryDetails() {
   const [list, setList] = useState([]);
   const [likedIndices, setLikedIndices] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     getCategoriesApi();
   }, []);
@@ -32,11 +39,11 @@ export default function CategoryDetails() {
       const allCategory = {
         CategoryId: 0,
         CategoryName: "All",
-        CategoryImage: "https://your-placeholder-image-url.com/all.png", 
+        CategoryImage: "https://your-placeholder-image-url.com/all.png",
       };
-      const updatedCategories = [allCategory, ...response.Categories]; 
+      const updatedCategories = [allCategory, ...response.Categories];
       setCategories(updatedCategories);
-      setSelectedCategory(allCategory); 
+      setSelectedCategory(allCategory);
     } catch (error) {
       console.error("Error fetching categories: ", error);
     } finally {
@@ -67,25 +74,25 @@ export default function CategoryDetails() {
     setSelectedCategory(category);
   };
 
-
   const onLikeButtonPress = async (index, WP_Companyid) => {
     const isLiked = likedIndices.includes(index);
     setLikedIndices((prev) =>
-      isLiked ? prev.filter((likedIndex) => likedIndex !== index) : [...prev, index]
-    ); 
+      isLiked
+        ? prev.filter((likedIndex) => likedIndex !== index)
+        : [...prev, index]
+    );
     try {
       if (!isLiked) {
         const endpoint = `FavoritesData?UserLoginid=1&WP_Companyid=${WP_Companyid}`;
         const response = await FetchMethod.POST({
           EndPoint: endpoint,
         });
-        console.log(response);        
+        console.log(response);
       }
     } catch (error) {
       console.error("Error updating favorites: ", error);
     }
   };
-
 
   const renderCategoryItem = ({ item }) => (
     <TouchableOpacity onPress={() => onCategorySelect(item)}>
@@ -98,8 +105,8 @@ export default function CategoryDetails() {
         >
           <View style={[RNStyles.flexRowCenter, { gap: wp(2) }]}>
             <RNImage
-              source={{ uri: item.CategoryImage }}
-              style={{ width: wp(3), height: wp(3) }}
+              source={Images.category}
+              style={{ width: wp(3.5), height: wp(3.5) }}
             />
             <RNText
               size={FontSize.font11}
@@ -125,72 +132,77 @@ export default function CategoryDetails() {
   );
 
   return (
-    <RNContainer>     
+    <RNContainer>
       {loading ? (
-        <ActivityIndicator size="large" color={Colors.DarkGrey} style={RNStyles.flexCenter} />
+        <ActivityIndicator
+          size="large"
+          color={Colors.DarkGrey}
+          style={RNStyles.flexCenter}
+        />
       ) : (
-      <View style={{ gap: hp(3), flex: 1 }}>
-        <FlatList
-          style={styles.imageList}
-          data={list}
-          numColumns={2}
-          keyExtractor={(item, index) => index.toString()}
-          stickyHeaderIndices={[0]}
-          contentContainerStyle={{paddingBottom: hp(12)}}
-          ListHeaderComponent={() => (
-            <View style={{ backgroundColor: Colors.White }}>
-              <FlatList
-                data={categories}
-                renderItem={renderCategoryItem}
-                keyExtractor={(item) => item.CategoryId.toString()}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.categoriesList}
-              />
-            </View>
-          )}
-          renderItem={({ item, index }) => (
-            <View style={{ marginHorizontal: wp(2), marginTop: hp(4) }}>
-              <View
-                style={{
-                  ...RNStyles.center,
-                  width: wp(12),
-                  height: wp(12),
-                  borderRadius: normalize(9),
-                  position: "absolute",
-                  zIndex: 1,
-                  top: hp(-3),
-                  alignSelf: "center",
-                  backgroundColor: Colors.Black,
-                }}
-              >
-                <RNImage
-                  source={{ uri: item.CompanyLogo }}
-                  style={{ width: wp(10), height: wp(10) }}
+        <View style={{ gap: hp(3), flex: 1 }}>
+          <FlatList
+            style={styles.imageList}
+            data={list}
+            numColumns={2}
+            keyExtractor={(item, index) => index.toString()}
+            stickyHeaderIndices={[0]}
+            contentContainerStyle={{ paddingBottom: hp(12) }}
+            ListHeaderComponent={() => (
+              <View style={{ backgroundColor: Colors.White }}>
+                <FlatList
+                  data={categories}
+                  renderItem={renderCategoryItem}
+                  keyExtractor={(item) => item.CategoryId.toString()}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.categoriesList}
                 />
               </View>
-              <Image
-                source={{ uri: item.CompanyImage }}
-                style={styles.categoryImage}
-              />
-              <TouchableOpacity
-                style={styles.likeButton}
-                onPress={() => onLikeButtonPress(index, item.WP_Companyid)}
-              >
-                <Icon
-                  name={"heart"}
+            )}
+            renderItem={({ item, index }) => (
+              <View style={{ marginHorizontal: wp(2), marginTop: hp(4) }}>
+                <View
                   style={{
-                    fontSize: FontSize.font12,
-                    color: likedIndices.includes(index) ? "red" : Colors.White,
+                    ...RNStyles.center,
+                    width: wp(12),
+                    height: wp(12),
+                    borderRadius: normalize(9),
+                    position: "absolute",
+                    zIndex: 1,
+                    top: hp(-3),
+                    alignSelf: "center",
+                    backgroundColor: Colors.Black,
                   }}
+                >
+                  <RNImage
+                    source={{ uri: item.CompanyLogo }}
+                    style={{ width: wp(10), height: wp(10) }}
+                  />
+                </View>
+                <Image
+                  source={{ uri: item.CompanyImage }}
+                  style={styles.categoryImage}
                 />
-              </TouchableOpacity>
-            </View>
-          )}
-          
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
+                <TouchableOpacity
+                  style={styles.likeButton}
+                  onPress={() => onLikeButtonPress(index, item.WP_Companyid)}
+                >
+                  <Icon
+                    name={"heart"}
+                    style={{
+                      fontSize: FontSize.font12,
+                      color: likedIndices.includes(index)
+                        ? "red"
+                        : Colors.White,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
       )}
     </RNContainer>
   );

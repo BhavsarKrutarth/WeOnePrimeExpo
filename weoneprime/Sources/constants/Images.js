@@ -17,6 +17,7 @@ const Images = {
   eyeOn: require(ImagePath + "eye-on" + png),
   camera: require(ImagePath + "camera" + png),
   gallary: require(ImagePath + "gallary" + png),
+  category: require(ImagePath + "category" + png),
   close: require(ImagePath + "close" + png),
   Google: require(ImagePath + "Google" + png),
   Apple: require(ImagePath + "apple" + png),

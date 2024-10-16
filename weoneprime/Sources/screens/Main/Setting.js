@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   RNCommonHeader,
   RNContainer,
@@ -17,8 +17,14 @@ import { Images } from "../../constants";
 import { wp, hp, FontSize, FontFamily, Colors } from "../../theme";
 import { FlatList } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import FetchMethod from "../../api/FetchMethod";
+import moment from "moment";
 
 export default function Setting({ navigation }) {
+  const [transaction, setTransaction] = useState([]);
+  const [balanceData, setBalanceData] = useState({});
+
   const menuOptions = [
     {
       title: "Have a gift/referral code?",
@@ -52,6 +58,27 @@ export default function Setting({ navigation }) {
     },
   ];
 
+  const insets = useSafeAreaInsets();
+
+  useEffect(() => {
+    transactionData();
+  }, []);
+
+  const transactionData = async () => {
+    try {
+      const response = await FetchMethod.GET({
+        EndPoint: `UserTransaction/GetUserTransactionAndBalance?UserLoginID=${34}`,
+      });
+      if (response.ResponseCode == 0) {
+        console.log(response);
+        setBalanceData(response.BalanceData[0]);
+        setTransaction(response.TransactionData);
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
   const renderItem = ({ item, index }) => (
     <TouchableOpacity
       style={{
@@ -77,11 +104,16 @@ export default function Setting({ navigation }) {
         </View>
         <View style={{ gap: wp(1) }}>
           <RNText style={styles.title}>{item.title} </RNText>
-          <RNText style={styles.subTitle}>{item.description}</RNText>
+          <RNText style={styles.subTitle}>
+            {moment(item.CreatedAt).format("lll")}
+          </RNText>
         </View>
       </View>
       <View style={{ gap: wp(2) }}>
-        <RNText style={styles.title}>+₹276.75</RNText>
+        <RNText style={styles.title}>
+          {item.UserType == "minus" ? "- " : "+ "}
+          {item.BalanceAmount}
+        </RNText>
         <RNText align={"right"} style={styles.subTitle}>
           Successful
         </RNText>
@@ -90,13 +122,18 @@ export default function Setting({ navigation }) {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      {/* <StatusBar translucent={true} /> */}
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "white",
+      }}
+    >
+      <StatusBar translucent={true} backgroundColor={Colors.Transparent} />
       <LinearGradient
         colors={["#D8E5F1", "#E0DEF2", "#EADEF2", "#F1E2E7"]}
         start={{ x: 1, y: 0 }}
         end={{ x: 0, y: 0 }}
-        style={{ paddingTop: StatusBar.currentHeight + hp(4) }}
+        style={{ paddingTop: insets.top }}
       >
         <RNCommonHeader
           title={"My Saving"}
@@ -117,7 +154,9 @@ export default function Setting({ navigation }) {
           </View>
           <View>
             <RNText size={FontSize.font10}>Total saving</RNText>
-            <RNText size={FontSize.font12}>₹5225 </RNText>
+            <RNText align={"right"} size={FontSize.font12}>
+              {balanceData.TotalSaving}{" "}
+            </RNText>
           </View>
         </View>
         <View
@@ -129,11 +168,11 @@ export default function Setting({ navigation }) {
           }}
         >
           <RNText size={FontSize.font10}>Total Balance</RNText>
-          <RNText size={FontSize.font12}>₹8555 </RNText>
+          <RNText size={FontSize.font12}>{balanceData.UserBalance}</RNText>
         </View>
       </LinearGradient>
       <FlatList
-        data={menuOptions}
+        data={transaction}
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
       />

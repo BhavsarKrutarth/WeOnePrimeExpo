@@ -54,7 +54,8 @@ const OfferDetails = ({ route, navigation }) => {
   const Terms = {
     html: data.TermCondtion ? data.TermCondtion : "",
   };
-
+  
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -461,6 +462,7 @@ const styles = StyleSheet.create({
     borderRadius: wp(5),
     marginBottom: hp(2),
   },
+
   bulletPoint: {
     width: normalize(4),
     height: normalize(4),
@@ -468,6 +470,7 @@ const styles = StyleSheet.create({
     borderRadius: normalize(5),
     marginBottom: hp(0.1),
   },
+
   rewardContainer: {
     borderWidth: 1,
     borderColor: "#D1D1D1",
