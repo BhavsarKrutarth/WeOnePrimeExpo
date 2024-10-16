@@ -23,7 +23,8 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function Exclusive({ data, dataLength }) {
   const Data = data?.SubDetails;
-
+  console.log(Data);
+  
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
   const intervalTime = 3000;
@@ -33,8 +34,6 @@ export default function Exclusive({ data, dataLength }) {
       if (dataLength) {
         setCurrentIndex((prevIndex) => {
           const nextIndex = (prevIndex = dataLength - 1 ? 0 : prevIndex + 1);
-
-          // flatListRef.current.scrollToIndex({ animated: true, index: nextIndex  });
           return nextIndex;
         });
       }
@@ -45,7 +44,7 @@ export default function Exclusive({ data, dataLength }) {
   const renderItem = ({ item }) => (
     <Pressable style={styles.card}>
       <RNImage
-        source={{ uri: item.image }}
+        source={{ uri: item.BannerImage }}
         style={styles.image}
         resizeMode={"strach"}
       />

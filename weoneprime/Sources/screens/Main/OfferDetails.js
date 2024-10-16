@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   UIManager,
+  Vibration,
   View,
 } from "react-native";
 import {
@@ -30,10 +31,12 @@ import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FetchMethod from "../../api/FetchMethod";
 import RenderHtml from "react-native-render-html";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { SET_REDEEMDATA } from "../../redux/Reducers/RedeemReducer";
 
 const OfferDetails = ({ route, navigation }) => {
   const { companyId } = route.params;
+  const dispatch = useDispatch();
   const { balanceData } = useSelector(({ BalaceData }) => BalaceData);
   const [selectedSection, setSelectedSection] = useState("About");
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,9 +54,8 @@ const OfferDetails = ({ route, navigation }) => {
   const Terms = {
     html: data.TermCondtion ? data.TermCondtion : "",
   };
-
-  // console.log("balanceData", balanceData);
-
+  
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -126,6 +128,38 @@ const OfferDetails = ({ route, navigation }) => {
     </View>
   );
 
+  const handleRedeemData = async () => {
+    try {
+      const response = await FetchMethod.GET({
+        EndPoint: `ScanCompany/GetScanData?WP_Companyid=${companyId}&UserLoginid=1`,
+      });
+      if (response && response.scanData.ResponseCode === 0) {
+        dispatch(SET_REDEEMDATA(response.scanData));
+        closeModal();
+        navigation.navigate("Redeem");
+      } else {
+        alert("Unable to redeem. Please try again later.");
+      }
+    } catch (error) {
+      alert("An error occurred. Please try again.");
+    }
+  };
+
+  const RequestSubscriber = async () => {
+    try {
+      Vibration.vibrate();
+      const response = await FetchMethod.POST({
+        EndPoint: `Membership?UserLoginid=1`
+      })
+      console.log('response',response);
+      if (response != "") {
+        
+      }
+    } catch (error) {
+      console.log('error',error); 
+    }
+  }
+
   const sectionContent = {
     About: <RNText style={styles.contentText}>{data.About}</RNText>,
     "Terms & Conditions": <RenderHtml source={Terms} />,
@@ -151,8 +185,6 @@ const OfferDetails = ({ route, navigation }) => {
   const closeModal = () => {
     setModalVisible(false);
   };
-
-  console.log(JSON.stringify(source, null, 2));
 
   return (
     <RNContainer>
@@ -205,10 +237,7 @@ const OfferDetails = ({ route, navigation }) => {
                 How to use:{" "}
               </RNText>
             </View>
-            <RenderHtml
-              // contentWidth={width}
-              source={source}
-            />
+            <RenderHtml source={source}/>
             <View style={styles.howToUseContainer}>
               <RNText
                 color={Colors.White}
@@ -219,7 +248,7 @@ const OfferDetails = ({ route, navigation }) => {
               </RNText>
             </View>
             <View style={styles.rewardContainer}>
-              <View style={RNStyles.flexRow}>
+              {/* <View style={RNStyles.flexRow}>
                 <MaterialCommunityIcons
                   name={"clock-time-three-outline"}
                   style={{ fontSize: FontSize.font14 }}
@@ -227,8 +256,8 @@ const OfferDetails = ({ route, navigation }) => {
                 <RNText size={FontSize.font13} family={FontFamily.Medium}>
                   15.18
                 </RNText>
-              </View>
-              <RNText size={FontSize.font10}>
+              </View> */}
+              <RNText size={FontSize.font10} pTop={hp(1)}>
                 Reward ready to scan in our shop
               </RNText>
 
@@ -286,6 +315,7 @@ const OfferDetails = ({ route, navigation }) => {
                   {balanceData.final_Price}
                 </RNText>
               }
+              onPress={() => {RequestSubscriber()}}
               textStyle={styles.buttonText}
               gradientColors={["#07CCDA", "#5B60E5", "#A95EED", "#DD7B9A"]}
             />
@@ -350,10 +380,7 @@ const OfferDetails = ({ route, navigation }) => {
                       color: Colors.Black,
                     }}
                     title="Redeem"
-                    onPress={() => {
-                      closeModal();
-                      navigation.navigate("Redeem");
-                    }}
+                    onPress={() => {handleRedeemData()}}
                   />
                 </View>
               </View>

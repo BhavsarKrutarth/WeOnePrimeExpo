@@ -16,7 +16,7 @@ import CategoryDetails from "../screens/Main/CategoryDetails";
 const Stack = createStackNavigator();
 
 const Routes = () => {
-  const [isAuth, setAuth] = useState(false);
+  const [isAuth, setAuth] = useState(true);
   useCustomFonts();
 
   return (

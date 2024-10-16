@@ -227,7 +227,7 @@ const LoginScreen = ({ navigation, setAuth }) => {
               />
               <RNText style={styles.LoginText}>Log in With Google</RNText>
             </TouchableOpacity>
-            <TouchableOpacity
+            {Platform.OS === 'ios' && <TouchableOpacity
               style={styles.loginButton}
               onPress={() => loginWithApple()}
             >
@@ -235,8 +235,8 @@ const LoginScreen = ({ navigation, setAuth }) => {
                 source={Images.Apple}
                 style={{ width: wp(5), height: wp(5) }}
               />
-              <RNText style={styles.LoginText}>Continue with Apple</RNText>
-            </TouchableOpacity>
+              <RNText style={styles.LoginText}>Continue with Apple </RNText>
+            </TouchableOpacity>}
             <TouchableOpacity
               style={{ alignItems: "center" }}
               onPress={() => {

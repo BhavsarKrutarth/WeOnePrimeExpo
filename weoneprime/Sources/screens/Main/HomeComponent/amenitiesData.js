@@ -66,7 +66,7 @@ const AmenitiesData = ({ data }) => {
       <View style={RNStyles.flexRowBetween}>
         <RNText style={styles.title}>Our Amenities </RNText>
         <TouchableOpacity onPress={() => navigation.navigate("Amenity")}>
-          <RNText style={styles.subTitle}>View All </RNText>
+          <RNText style={styles.subTitle}>View All</RNText>
         </TouchableOpacity>
       </View>
       <ScrollView

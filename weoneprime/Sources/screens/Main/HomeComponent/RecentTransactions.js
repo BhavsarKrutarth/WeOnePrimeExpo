@@ -7,45 +7,25 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { Colors, FontFamily, FontSize, wp, hp } from "../../../theme"; 
+import { Colors, FontFamily, FontSize, wp, hp } from "../../../theme";
 import { Images } from "../../../constants";
 import { RNImage, RNStyles, RNText } from "../../../common";
 
-export default function RecentTransactions() {
-  const transactions = [
-    {
-      id: 1,
-      logo: Images.Inox,
-      name: "INOX",
-      date: "11 Feb, 2023",
-      amount: "₹2000",
-      status: "Received",
-    },
-    {
-      id: 2,
-      logo: Images.Inox,
-      name: "Gollers locho khaman",
-      date: "10 Feb, 2023",
-      amount: "₹2000",
-      status: "Payment",
-    },
-    {
-      id: 3,
-      logo: Images.Inox,
-      name: "Coffee Culture",
-      date: "9 Feb, 2023",
-      amount: "₹2000",
-      status: "Payment",
-    },
-    {
-      id: 4,
-      logo: Images.Inox,
-      name: "G3+ Fashion",
-      date: "9 Feb, 2023",
-      amount: "₹2000",
-      status: "Received",
-    },
-  ];
+export default function RecentTransactions({ data }) {
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  };
+
+  const transactions = data?.SubDetails?.map((item, index) => ({
+    id: index + 1,
+    logo: { uri: item.CompanyLogo },
+    name: item.CompanyName,
+    date: formatDate(item.WP_date),
+    amount: `₹${item.Amount}`,
+    status: item.WP_UserTranscationStatus,
+  })) || [];
 
   const renderTransaction = ({ item, index }) => (
     <View style={styles.transactionContainer}>
@@ -54,33 +34,35 @@ export default function RecentTransactions() {
           <View style={styles.circle}>
             <RNImage source={item.logo} style={styles.logo} />
           </View>
-          {index < transactions.length - 1 && <View style={styles.line} />}
+          {transactions.length > 1 && index < transactions.length - 1 && (
+            <View style={styles.line} />
+          )}
         </View>
 
         <View>
           <Text style={styles.transactionName}>{item.name}{" "}</Text>
           <Text style={styles.transactionDate}>{item.date}{" "}</Text>
         </View>
+        <View style={[styles.dashedBorder, { display: transactions.length > 1 && index < transactions.length - 1 ? 'flex' : 'none', }]} />
       </View>
-      {/* Amount and Status */}
       <View style={styles.transactionAmountContainer}>
         <Text style={styles.transactionAmount}>{item.amount}{" "}</Text>
         <Text
           style={[
             styles.transactionStatus,
-            item.status === "Received" ? styles.received : styles.payment,
+            item.status === "Received" ? { color: Colors.Green } : { color: Colors.DarkGrey },
           ]}
         >
           {item.status}
         </Text>
       </View>
-    </View>
+    </View>   
   );
 
   return (
     <View style={styles.container}>
-      {/* <ImageBackground resizeMode="contain" style={{height: hp(30),width: wp(100)}} source={require('../../../assets/images/ASSETS.png')}> */}
-      <View style={{alignContent: 'center'}}>
+      <Image resizeMode="contain" style={styles.Icon} source={require('../../../assets/images/transactionEffect.png')} />
+      <View style={{ alignContent: 'center' }}>
         <RNText style={styles.title}>Recent Transaction</RNText>
         <RNText style={styles.subTitle}>
           Reference site about Lorem Ipsum.
@@ -94,8 +76,8 @@ export default function RecentTransactions() {
             <RNText style={styles.membershipTitle}>
               WEONE Prime Membership{" "}
             </RNText>
-            <RNText style={{ color: Colors.Red, fontSize: FontSize.font12,marginTop: hp(-.5) }}>
-              ●<RNText style={styles.membershipStatus}>Not Active{" "}</RNText>
+            <RNText style={{ color: '#FF5C5C', fontSize: FontSize.font12, marginTop: hp(-0.5) }}>
+              ●{" "}<RNText style={styles.membershipStatus}>Not Active{" "}</RNText>
             </RNText>
             <TouchableOpacity style={styles.joinButton}>
               <RNText style={styles.joinButtonText}>JOIN NOW{" "}</RNText>
@@ -107,7 +89,6 @@ export default function RecentTransactions() {
           style={{ height: wp(3), width: wp(3) }}
         />
       </View>
-      {/* </ImageBackground> */}
       <FlatList
         data={transactions}
         renderItem={renderTransaction}
@@ -115,7 +96,6 @@ export default function RecentTransactions() {
         showsVerticalScrollIndicator={false}
       />
 
-      {/* More Transactions Button */}
       <TouchableOpacity style={styles.moreButton}>
         <RNText style={styles.moreButtonText}>15+ MORE TRANSACTIONS{" "}</RNText>
       </TouchableOpacity>
@@ -127,7 +107,7 @@ const styles = StyleSheet.create({
   container: {
     padding: wp(3),
     gap: hp(3),
-    marginTop:hp(3),
+    marginTop: hp(3),
   },
   title: {
     fontSize: FontSize.font14,
@@ -194,6 +174,16 @@ const styles = StyleSheet.create({
     height: hp(3),
     backgroundColor: "#F0F0F0",
   },
+  dashedBorder: {
+    borderWidth: 0.8,
+    borderColor: Colors.D9D9D9,
+    borderStyle: "dashed",
+    width: wp(70),
+    position: 'absolute',
+    bottom: hp(1.5),
+    left: wp(9),
+
+  },
   transactionName: {
     fontSize: FontSize.font11,
     fontFamily: FontFamily.Medium,
@@ -216,12 +206,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.font10,
     fontFamily: FontFamily.Medium,
   },
-  received: {
-    color: Colors.Green,
-  },
-  payment: {
-    color: Colors.DarkGrey,
-  },
   moreButton: {
     backgroundColor: Colors.Black,
     padding: wp(2),
@@ -234,5 +218,12 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.Medium,
     fontSize: FontSize.font10,
     textAlign: 'center'
+  },
+  Icon: {
+    width: wp(100),
+    height: hp(25),
+    position: "absolute",
+    top: hp(0),
+    left: wp(-12),
   },
 });
