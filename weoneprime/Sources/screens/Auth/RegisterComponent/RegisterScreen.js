@@ -28,7 +28,7 @@ const RegisterScreen = ({ navigation, setAuth }) => {
     userPassword: "",
     userEmailId: "",
     userImage: "",
-    userType: "MobileApp",
+    userType: "Manual",
   });
   const [isError, setIsError] = useState({
     username: false,

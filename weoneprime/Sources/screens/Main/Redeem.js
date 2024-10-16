@@ -1,13 +1,33 @@
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { RNButton, RNImage, RNStyles, RNText } from "../../common";
 import { Colors, FontFamily, FontSize, hp, normalize, wp } from "../../theme";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Octicons from "react-native-vector-icons/Octicons";
+import { useSelector } from "react-redux";
+import QRCode from 'react-native-qrcode-svg'; 
 
 export default function Redeem() {
+  const RedeemData = useSelector(state => state.Redeem.RedeemData);
+  // const [timeLeft, setTimeLeft] = useState(.05 * 60); 
+
+  // useEffect(() => {
+  //   if (timeLeft === 0) return; 
+  //   const timerId = setInterval(() => {
+  //     setTimeLeft(prevTime => prevTime - 1);
+  //   }, 1000);
+    
+  //   return () => clearInterval(timerId); 
+  // }, [timeLeft]);
+
+  // const formatTime = (seconds) => {
+  //   const minutes = Math.floor(seconds / 60);
+  //   const secs = seconds % 60;
+  //   return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+  // };
+
   return (
     <SafeAreaView>
       <View>
@@ -20,7 +40,7 @@ export default function Redeem() {
             width: wp(100),
             justifyContent: 'center',
             alignItems: "center",
-            gap: hp(3),
+            gap: hp(5),
             padding: wp(10),
             borderBottomRightRadius: normalize(22),
             borderBottomLeftRadius: normalize(22),
@@ -29,7 +49,7 @@ export default function Redeem() {
           <View style={RNStyles.center}>
             <RNText style={styles.sectionText}>Redeem in Showroom?</RNText>
             <RNText size={FontSize.font10} color={Colors.DarkGrey}>
-              scan code at a restaurant within 15 minutes.
+              Scan code at our shop.
             </RNText>
           </View>
           <View
@@ -42,20 +62,26 @@ export default function Redeem() {
               gap: hp(2),
             }}
           >
-            <RNImage
-              style={{ width: wp(30), height: wp(30) }}
-              source={require("../../assets/images/qr-code.png")}
+            <QRCode
+              value={RedeemData.Qrcode} 
+              size={normalize(120)} 
+              color={Colors.Black}
+              backgroundColor="white"
             />
+            {/* {timeLeft === 0 && 
+            (
+            <RNText size={FontSize.font12} color={Colors.Red} family={FontFamily.SemiBold} style={{position: 'absolute', top: hp(7.5)}}>Expired</RNText>
+            )} */}
             <View>
-              <View style={[RNStyles.flexRowCenter, {gap: 2}]}>
+              {/* <View style={[RNStyles.flexRowCenter, {gap: 2}]}>
                 <MaterialCommunityIcons
                   name={"clock-time-three-outline"}
                   style={{ fontSize: FontSize.font14 }}
                 />
                 <RNText size={FontSize.font13} family={FontFamily.SemiBold}>
-                  15.18
+                  {formatTime(timeLeft)} 
                 </RNText>
-              </View>
+              </View> */}
               <RNText size={FontSize.font10}>
                 Reward ready to scan in our shop
               </RNText>
@@ -72,7 +98,7 @@ export default function Redeem() {
               }}
             >
               <RNText size={FontSize.font11} family={FontFamily.SemiBold}>
-                Month end offers: Buy classic woman saree at Rs. 1099 only
+                {RedeemData.OfferDesc}
               </RNText>
               <Octicons name={"chevron-right"} size={15} />
             </View>
@@ -92,7 +118,7 @@ export default function Redeem() {
                       family={FontFamily.SemiBold}
                       color={Colors.White}
                     >
-                      Code: 3354841CA{" "}
+                      Code: {RedeemData.Code}{" "}
                     </RNText>
                     <View
                       style={{
@@ -122,9 +148,7 @@ export default function Redeem() {
           pHorizontal={wp(3)}
           pVertical={hp(1)}
         >
-          Scan the QR code at the front desk or kisko. jhhdsj juyufjhf hjsdsds
-          njjcgsc tell us the mumrik code at the drive thru speakers. Scan the
-          QR code at the front desk or kisko
+          Scan the QR code at the front desk or kiosk. Tell us the code at the drive-thru speakers.
         </RNText>
       </View>
     </SafeAreaView>
