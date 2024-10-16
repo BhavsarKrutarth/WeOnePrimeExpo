@@ -52,7 +52,7 @@ const OfferDetails = ({ route, navigation }) => {
     html: data.TermCondtion ? data.TermCondtion : "",
   };
 
-  console.log("balanceData", balanceData);
+  // console.log("balanceData", balanceData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -364,7 +364,6 @@ const OfferDetails = ({ route, navigation }) => {
     </RNContainer>
   );
 };
-353330111547802;
 
 export default OfferDetails;
 
@@ -436,6 +435,7 @@ const styles = StyleSheet.create({
     borderRadius: wp(5),
     marginBottom: hp(2),
   },
+
   bulletPoint: {
     width: normalize(4),
     height: normalize(4),
@@ -443,6 +443,7 @@ const styles = StyleSheet.create({
     borderRadius: normalize(5),
     marginBottom: hp(0.1),
   },
+
   rewardContainer: {
     borderWidth: 1,
     borderColor: "#D1D1D1",

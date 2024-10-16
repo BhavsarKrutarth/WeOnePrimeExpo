@@ -28,7 +28,7 @@ const REQUEST = async ({
     // console.log("Response Data:", response.data);
     return response.data;
   } catch (error) {
-    console.log("Error Response:", error?.response?.data);
+    // console.log("Error Response:", JSON.stringify(error, null, 2));
     throw error?.response?.data?.title
       ? {
           msg: error?.response?.data?.title,
