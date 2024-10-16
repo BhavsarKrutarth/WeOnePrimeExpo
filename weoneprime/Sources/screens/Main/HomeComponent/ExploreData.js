@@ -16,26 +16,26 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function ExploreData({ data }) {
   const navigation = useNavigation();
-  const Data = data?.SubDetails || [
-    {
-      id: 1,
-      image: Images.exploreimg,
-      subtitle: "Flat 50% Off on Seasoning combo of 3",
-      price: "Worth ₹450",
-    },
-    {
-      id: 2,
-      image: Images.exploreimg,
-      subtitle: "Flat 50% Off on Seasoning combo of 3",
-      price: "Worth ₹450",
-    },
-    {
-      id: 3,
-      image: Images.exploreimg,
-      subtitle: "Flat 50% Off on Seasoning combo of 3",
-      price: "Worth ₹450",
-    },
-  ];
+  // const Data = data?.SubDetails || [
+  //   {
+  //     id: 1,
+  //     image: Images.exploreimg,
+  //     subtitle: "Flat 50% Off on Seasoning combo of 3",
+  //     price: "Worth ₹450",
+  //   },
+  //   {
+  //     id: 2,
+  //     image: Images.exploreimg,
+  //     subtitle: "Flat 50% Off on Seasoning combo of 3",
+  //     price: "Worth ₹450",
+  //   },
+  //   {
+  //     id: 3,
+  //     image: Images.exploreimg,
+  //     subtitle: "Flat 50% Off on Seasoning combo of 3",
+  //     price: "Worth ₹450",
+  //   },
+  // ];
 
   const renderItem = ({ item }) => (
     <Pressable
@@ -54,13 +54,10 @@ export default function ExploreData({ data }) {
         style={styles.gradient}
       />
       <View style={styles.infoContainer}>
-        <TouchableOpacity style={styles.availButton}>
+        <TouchableOpacity style={[styles.availButton, {borderColor: item.colorCode}]}>
           <Text style={styles.availText}>Avail Now </Text>
         </TouchableOpacity>
         <Text style={styles.subtitle}>{item.ExploreMoreOfferDesc}</Text>
-        <View
-          style={{ width: 50, height: 1, backgroundColor: Colors.DarkGrey }}
-        />
         <Text style={styles.price}>Worth {item.price || "₹0"}</Text>
       </View>
     </Pressable>
@@ -70,15 +67,15 @@ export default function ExploreData({ data }) {
     <View style={styles.ExploreData}>
       <View style={{ paddingLeft: wp(3) }}>
         <RNText style={styles.title}>
-          Explore More Off...
-          <RNImage style={styles.exploreIcon} source={Images.ExploreData} />
+          Explore More Off...{" "}
         </RNText>
         <RNText style={styles.subTitle}>
-          Reference site about Lorem Ipsum.
+          Reference site about Lorem Ipsum.{" "}
         </RNText>
       </View>
+      <RNImage source={Images.Effect3} style={styles.Icon} />
       <FlatList
-        data={Data}
+        data={data?.SubDetails}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
         horizontal
@@ -97,11 +94,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.font14,
     fontFamily: FontFamily.SemiBold,
     color: Colors.Black,
-  },
-  exploreIcon: {
-    width: wp(5),
-    height: wp(5),
-    marginLeft: wp(1),
   },
   subTitle: {
     fontSize: FontSize.font11,
@@ -145,7 +137,6 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginBottom: wp(1),
     borderWidth: 1,
-    borderColor: Colors.Purple,
   },
   availText: {
     fontSize: FontSize.font10,
@@ -167,5 +158,13 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.Grey,
     width: wp(18),
     paddingVertical: hp(0.5),
+  },
+  Icon: {
+    width: wp(11),
+    height: wp(11),
+    position: "absolute",
+    top: hp(2.5),
+    right: wp(4),
+    zIndex: 1
   },
 });

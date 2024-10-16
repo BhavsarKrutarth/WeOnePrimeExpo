@@ -1,6 +1,5 @@
 import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-
 import Animated, {
   Extrapolate,
   interpolate,
@@ -15,16 +14,7 @@ const { width } = Dimensions.get("screen");
 const itemWidth = wp(65);
 const itemHeight = hp(20);
 
-const data = [
-  { id: "1", imageSource: Images.newlaunch1 },
-  { id: "2", imageSource: Images.banner },
-  { id: "3", imageSource: Images.banner },
-  { id: "4", imageSource: Images.newlaunch1 },
-  { id: "5", imageSource: Images.banner },
-  { id: "6", imageSource: Images.newlaunch1 },
-];
-
-export default function NewLaunch() {
+export default function NewLaunch({data}) {
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.x;
@@ -37,6 +27,9 @@ export default function NewLaunch() {
         keyExtractor={(item) => item.id}
         renderItem={({ index }) => <Item index={index} scrollY={scrollY} />}
         horizontal
+
+
+        
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.list}
         snapToInterval={itemWidth}
@@ -64,11 +57,9 @@ function Item({ index, scrollY }) {
     };
   });
 
-  const imageSource = data[index]?.imageSource || Images.defaultImage;
-
   return (
     <Animated.Image
-      source={imageSource}
+      source={Images.newlaunch1}
       style={[styles.item, itemScaleStyle]}
       resizeMode="cover"
     />

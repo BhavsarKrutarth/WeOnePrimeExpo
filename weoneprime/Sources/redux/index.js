@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { AuthReducers, BalanceReducers } from "./Reducers";
+import { AuthReducers, BalanceReducers, RedeemReducer } from "./Reducers";
 
 const Store = configureStore({
   reducer: {
     Auth: AuthReducers,
     BalaceData: BalanceReducers,
-    // AddProject: AddProjectReducers,
+    Redeem: RedeemReducer
   },
 });
 

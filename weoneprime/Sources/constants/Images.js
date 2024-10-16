@@ -28,6 +28,7 @@ const Images = {
   RightIcon: require(ImagePath + "right" + png),
   Effect: require(ImagePath + "effect" + png),
   Effect2: require(ImagePath + "effect2" + png),
+  Effect3: require(ImagePath + "effect3" + png),
   Open: require(ImagePath + "open" + png),
   banner: require(ImagePath + "banner" + png),
   emp_logo: require(ImagePath + "emp_logo" + png),
