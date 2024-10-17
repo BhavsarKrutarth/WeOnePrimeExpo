@@ -49,18 +49,18 @@ export default function Exclusive({ data, dataLength }) {
         resizeMode={"strach"}
       />
       <LinearGradient
-        start={{ x: 0, y: 0.95 }}
-        end={{ x: 0, y: -0.7 }}
-        colors={["white", "transparent"]}
+         start={{ x: 0, y: 1.5 }}
+         end={{ x: 0, y: 0 }}
+         colors={["white", "white", "#ffffff2b", "transparent"]}
         style={styles.gradient}
       />
-      <View style={styles.infoContainer}>
+      {/* <View style={styles.infoContainer}>
         <TouchableOpacity style={styles.availButton}>
           <Text style={styles.availText}>Available Now </Text>
         </TouchableOpacity>
         <Text style={styles.subtitle}>{item.subtitle}</Text>
         <Text style={styles.price}>{item.price}</Text>
-      </View>
+      </View> */}
     </Pressable>
   );
 
@@ -113,7 +113,6 @@ export default function Exclusive({ data, dataLength }) {
 const styles = StyleSheet.create({
   ExploreData: {
     padding: wp(3),
-    marginTop: hp(2),
     marginBottom: hp(2),
   },
   exploreIcon: {

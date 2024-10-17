@@ -6,6 +6,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import { Colors, FontFamily, FontSize, wp, hp } from "../../../theme";
 import { Images } from "../../../constants";
@@ -80,6 +81,7 @@ export default function RecentTransactions({ data }) {
               ●{" "}<RNText style={styles.membershipStatus}>Not Active{" "}</RNText>
             </RNText>
             <TouchableOpacity style={styles.joinButton}>
+              <Image resizeMode="contain" source={require('../../../assets/images/transactionBtn1.png')} style={{position: 'absolute',bottom: hp(-.3),zIndex: 1,height: wp(6),width: wp(6),right: wp(-2)}} />
               <RNText style={styles.joinButtonText}>JOIN NOW{" "}</RNText>
             </TouchableOpacity>
           </View>
@@ -96,8 +98,10 @@ export default function RecentTransactions({ data }) {
         showsVerticalScrollIndicator={false}
       />
 
-      <TouchableOpacity style={styles.moreButton}>
-        <RNText style={styles.moreButtonText}>15+ MORE TRANSACTIONS{" "}</RNText>
+      <TouchableOpacity style={{alignSelf: 'center'}}>
+        <ImageBackground resizeMode="contain" source={require('../../../assets/images/transactionBtn.png')} style={{...RNStyles.center,width: wp(60),height: hp(7)}}>
+          <RNText style={styles.moreButtonText}>15+ MORE TRANSACTIONS{" "}</RNText>
+        </ImageBackground>
       </TouchableOpacity>
     </View>
   );
@@ -140,7 +144,7 @@ const styles = StyleSheet.create({
     width: wp(22),
     backgroundColor: Colors.Black,
     marginVertical: hp(2),
-    paddingVertical: wp(1.5),
+    paddingVertical: wp(2),
     borderRadius: wp(1.5),
     alignItems: "center",
   },
@@ -170,8 +174,8 @@ const styles = StyleSheet.create({
     height: wp(10),
   },
   line: {
-    width: wp(2),
-    height: hp(3),
+    width: wp(1.5),
+    height: hp(2.5),
     backgroundColor: "#F0F0F0",
   },
   dashedBorder: {
@@ -181,8 +185,7 @@ const styles = StyleSheet.create({
     width: wp(70),
     position: 'absolute',
     bottom: hp(1.5),
-    left: wp(9),
-
+    left: wp(15),
   },
   transactionName: {
     fontSize: FontSize.font11,
@@ -206,18 +209,12 @@ const styles = StyleSheet.create({
     fontSize: FontSize.font10,
     fontFamily: FontFamily.Medium,
   },
-  moreButton: {
-    backgroundColor: Colors.Black,
-    padding: wp(2),
-    borderRadius: wp(3),
-    width: wp(50),
-    alignSelf: 'center'
-  },
   moreButtonText: {
     color: Colors.White,
     fontFamily: FontFamily.Medium,
     fontSize: FontSize.font10,
-    textAlign: 'center'
+    paddingBottom: hp(1),
+    textDecorationLine: 'underline'
   },
   Icon: {
     width: wp(100),
