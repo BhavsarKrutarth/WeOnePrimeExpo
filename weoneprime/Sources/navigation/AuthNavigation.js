@@ -4,13 +4,10 @@ import { RegisterScreen, LoginScreen, ImageCarousel } from "../screens/Auth";
 
 const Stack = createStackNavigator();
 
-const AuthNavigation = ({ setAuth }) => {
+const AuthNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name={"Carousel"} component={ImageCarousel} /> */}
-      <Stack.Screen name="Login">
-        {(props) => <LoginScreen {...props} setAuth={setAuth} />}
-      </Stack.Screen>
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
     </Stack.Navigator>
   );

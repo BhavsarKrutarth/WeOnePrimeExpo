@@ -24,7 +24,7 @@ import { LinearGradient } from "expo-linear-gradient";
 export default function Exclusive({ data, dataLength }) {
   const Data = data?.SubDetails;
   console.log(Data);
-  
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
   const intervalTime = 3000;
@@ -49,9 +49,9 @@ export default function Exclusive({ data, dataLength }) {
         resizeMode={"strach"}
       />
       <LinearGradient
-        start={{ x: 0, y: 0.95 }}
-        end={{ x: 0, y: -0.7 }}
-        colors={["white", "transparent"]}
+        start={{ x: 0, y: 1.3 }}
+        end={{ x: 0, y: 0.2 }}
+        colors={["white", "white", "#ffffff2b", "transparent"]}
         style={styles.gradient}
       />
       <View style={styles.infoContainer}>
