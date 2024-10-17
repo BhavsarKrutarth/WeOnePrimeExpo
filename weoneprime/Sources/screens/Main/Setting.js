@@ -83,7 +83,6 @@ export default function Setting({ navigation }) {
     <TouchableOpacity
       style={{
         ...RNStyles.flexRowBetween,
-        // backgroundColor: "#F1F1F1",
         borderRadius: 5,
         marginHorizontal: wp(5),
         paddingVertical: hp(2),

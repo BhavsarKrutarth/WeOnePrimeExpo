@@ -28,13 +28,20 @@ import * as WebBrowser from "expo-web-browser";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { jwtDecode } from "jwt-decode";
 import FetchMethod from "../../api/FetchMethod";
+import { useDispatch } from "react-redux";
+import {
+  onAuthChange,
+  setAsyncStorageValue,
+} from "../../redux/Reducers/AuthReducers";
+import { Functions } from "../../utils";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const LoginScreen = ({ navigation, setAuth }) => {
+const LoginScreen = ({ navigation }) => {
   const [secure, setSecure] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("actoscriptreactdev04@gmail.com");
+  const [password, setPassword] = useState("acto%40123");
+  const dispatch = useDispatch();
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: "https://auth.expo.io/@nency_2403/weoneprime",
@@ -57,6 +64,7 @@ const LoginScreen = ({ navigation, setAuth }) => {
           const user = userCredential.user;
           console.log("Logged in with Google!", JSON.stringify(user, null, 2));
           setAuth(true);
+
           // navigation.navigate("Tab");
         })
         .catch((error) => {
@@ -77,16 +85,18 @@ const LoginScreen = ({ navigation, setAuth }) => {
 
     try {
       const response = await FetchMethod.POST({
-        EndPoint:
-          "Registration/User_Emailid_and_password_check?UserEmailId=actoscriptreactdev04%40gmail.com&UserPassword=acto%40123",
-        // Params: {
-        //   UserEmailId: email,
-        //   UserPassword: password,
-        // },
+        EndPoint: "Registration/User_Emailid_and_password_check",
+        Params: {
+          UserEmailId: email,
+          UserPassword: password,
+          ProviderId: "",
+          UserTye: "",
+          UserName: "",
+        },
       });
-      setAuth(true);
-      //  navigation.navigate("Tab");
-      console.log(response);
+      dispatch(onAuthChange(true));
+      dispatch(setAsyncStorageValue(response));
+      await Functions.setUserData(response);
     } catch (error) {
       console.log(error);
     }
@@ -106,13 +116,9 @@ const LoginScreen = ({ navigation, setAuth }) => {
         "decoded   " + JSON.stringify(decoded, null, 2),
         "credentials: " + JSON.stringify(credential, null, 2)
       );
-      setAuth(true);
-      // signed in
     } catch (e) {
       console.log(e);
       if (e.code === "ERR_REQUEST_CANCELED") {
-        console.log(e);
-
         // handle that the user canceled the sign-in flow
       } else {
         console.log(e);
@@ -227,16 +233,18 @@ const LoginScreen = ({ navigation, setAuth }) => {
               />
               <RNText style={styles.LoginText}>Log in With Google</RNText>
             </TouchableOpacity>
-            {Platform.OS === 'ios' && <TouchableOpacity
-              style={styles.loginButton}
-              onPress={() => loginWithApple()}
-            >
-              <RNImage
-                source={Images.Apple}
-                style={{ width: wp(5), height: wp(5) }}
-              />
-              <RNText style={styles.LoginText}>Continue with Apple </RNText>
-            </TouchableOpacity>}
+            {Platform.OS === "ios" && (
+              <TouchableOpacity
+                style={styles.loginButton}
+                onPress={() => loginWithApple()}
+              >
+                <RNImage
+                  source={Images.Apple}
+                  style={{ width: wp(5), height: wp(5) }}
+                />
+                <RNText style={styles.LoginText}>Continue with Apple </RNText>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               style={{ alignItems: "center" }}
               onPress={() => {

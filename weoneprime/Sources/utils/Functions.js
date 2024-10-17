@@ -22,6 +22,15 @@ const getAppData = async () => {
   return JSON.parse(value);
 };
 
+const getUserData = async () => {
+  const value = await AsyncStorage.getItem("user");
+  return JSON.parse(value);
+};
+
+const setUserData = async () => {
+  await AsyncStorage.setItem("user", JSON.stringify(data));
+};
+
 const ToPercentage = ({ value, total }) => {
   const Percentage = Math.floor((value * 100) / total);
   return Percentage > 100 ? 100 : Percentage;
@@ -33,6 +42,8 @@ const Functions = {
   setAppData,
   getAppData,
   ToPercentage,
+  getUserData,
+  setUserData,
 };
 
 export default Functions;

@@ -105,7 +105,7 @@ export default function CategoryDetails() {
         >
           <View style={[RNStyles.flexRowCenter, { gap: wp(2) }]}>
             <RNImage
-              source={Images.category}
+              source={{ uri: item.CategoryImage }}
               style={{ width: wp(3.5), height: wp(3.5) }}
             />
             <RNText
