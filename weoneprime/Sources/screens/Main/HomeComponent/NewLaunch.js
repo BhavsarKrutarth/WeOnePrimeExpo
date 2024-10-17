@@ -1,5 +1,5 @@
-import React from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { Dimensions, Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -7,29 +7,62 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
-import { Images } from "../../../constants";
-import { hp, wp } from "../../../theme";
+import { Colors, FontFamily, FontSize, hp, normalize, wp } from "../../../theme";
+import { RNStyles, RNText } from "../../../common";
 
 const { width } = Dimensions.get("screen");
 const itemWidth = wp(65);
 const itemHeight = hp(20);
 
-export default function NewLaunch({data}) {
+export default function NewLaunch({ data }) {
+  const [selectedIndex, setSelectedIndex] = useState(8); // Default to index 8
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.x;
   });
 
+  const selectedData = data?.[selectedIndex]?.SubDetails || [];
+
   return (
     <View style={styles.flex}>
+      <View style={[RNStyles.flexRowCenter, { gap: wp(2) }]}>
+        <TouchableOpacity
+          style={[styles.button, selectedIndex === 8 ? {backgroundColor: Colors.Black} : {backgroundColor: "#DEDEDE",}]}
+          onPress={() => setSelectedIndex(8)}
+        >
+          {selectedIndex === 8 && (
+          <Image
+            resizeMode="contain"
+            source={require('../../../assets/images/NewlaunchEff.png')}
+            style={styles.buttonIcon}
+          />)}
+           
+          <RNText color={Colors.White} size={FontSize.font11} family={FontFamily.Medium} style={{color: selectedIndex === 8 ? Colors.White : Colors.Black}} >
+            New Launches
+          </RNText>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, selectedIndex === 9 ? {backgroundColor: Colors.Black} : {backgroundColor: "#DEDEDE"}]}
+          onPress={() => setSelectedIndex(9)}
+        >
+          {selectedIndex === 9 && (
+          <Image
+            resizeMode="contain"
+            source={require('../../../assets/images/NewlaunchEff.png')}
+            style={styles.buttonIcon}
+          />)}
+          <RNText color={Colors.White} size={FontSize.font11} family={FontFamily.Medium} style={{color: selectedIndex === 9 ? Colors.White : Colors.Black}} >
+            Monthly Offers
+          </RNText>
+        </TouchableOpacity>
+      </View>
       <Animated.FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ index }) => <Item index={index} scrollY={scrollY} />}
+        data={selectedData}
+        keyExtractor={(item) => item.WP_HomeScreen_SubDeatilsid.toString()}
+        renderItem={({ item, index }) => (
+          <Item index={index} scrollY={scrollY} imageSource={item.BannerImage} />
+        )}
         horizontal
-
-
-        
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.list}
         snapToInterval={itemWidth}
@@ -40,7 +73,7 @@ export default function NewLaunch({data}) {
   );
 }
 
-function Item({ index, scrollY }) {
+function Item({ index, scrollY, imageSource }) {
   const itemScaleStyle = useAnimatedStyle(() => {
     const input = [
       index * itemWidth - itemWidth,
@@ -59,7 +92,7 @@ function Item({ index, scrollY }) {
 
   return (
     <Animated.Image
-      source={Images.newlaunch1}
+      source={{ uri: imageSource }}
       style={[styles.item, itemScaleStyle]}
       resizeMode="cover"
     />
@@ -68,8 +101,8 @@ function Item({ index, scrollY }) {
 
 const styles = StyleSheet.create({
   flex: {
-    flex: 1,
-    paddingBottom: hp(10),
+    paddingBottom: hp(15),
+    gap: hp(2),
   },
   item: {
     height: itemHeight,
@@ -79,5 +112,19 @@ const styles = StyleSheet.create({
   list: {
     alignItems: "center",
     paddingHorizontal: (width - itemWidth) / 2,
+  },
+  button: {
+    backgroundColor: Colors.Black,
+    paddingHorizontal: wp(3),
+    paddingVertical: hp(1),
+    borderRadius: normalize(4),
+  },
+  buttonIcon: {
+    position: "absolute",
+    top: hp(-0.8),
+    zIndex: 1,
+    height: wp(7),
+    width: wp(7),
+    left: wp(-3.5),
   },
 });
