@@ -37,50 +37,50 @@ const Fevorite = () => {
   const navigation = useNavigation();
   const [selectedHearts, setSelectedHearts] = useState([]);
   const [data, setData] = useState([]);
-  const Data = [
-    {
-      id: 1,
-      image: require("../../assets/images/amrutbanner.png"),
-      brandLogo: Images.emp_logo,
-      title: "Amrut",
-      subtitle: "The fashion icon ",
-    },
-    {
-      id: 2,
-      image: Images.exploreimg,
-      brandLogo: Images.emp_logo,
-      title: "Inox",
-      subtitle: "Live the movie",
-    },
-    {
-      id: 3,
-      image: Images.exploreimg,
-      brandLogo: Images.emp_logo,
-      title: "Coffee Culture",
-      subtitle: "The taste of freshness",
-    },
-    {
-      id: 4,
-      image: Images.exploreimg,
-      brandLogo: Images.emp_logo,
-      title: "Gollers",
-      subtitle: "Gollers locho khaman",
-    },
-    {
-      id: 5,
-      image: Images.exploreimg,
-      brandLogo: Images.emp_logo,
-      title: "Coffee Culture",
-      subtitle: "The taste of freshness",
-    },
-    {
-      id: 6,
-      image: Images.exploreimg,
-      brandLogo: Images.emp_logo,
-      title: "Gollers",
-      subtitle: "Gollers locho khaman",
-    },
-  ];
+  // const Data = [
+  //   {
+  //     id: 1,
+  //     image: require("../../assets/images/amrutbanner.png"),
+  //     brandLogo: Images.emp_logo,
+  //     title: "Amrut",
+  //     subtitle: "The fashion icon ",
+  //   },
+  //   {
+  //     id: 2,
+  //     image: Images.exploreimg,
+  //     brandLogo: Images.emp_logo,
+  //     title: "Inox",
+  //     subtitle: "Live the movie",
+  //   },
+  //   {
+  //     id: 3,
+  //     image: Images.exploreimg,
+  //     brandLogo: Images.emp_logo,
+  //     title: "Coffee Culture",
+  //     subtitle: "The taste of freshness",
+  //   },
+  //   {
+  //     id: 4,
+  //     image: Images.exploreimg,
+  //     brandLogo: Images.emp_logo,
+  //     title: "Gollers",
+  //     subtitle: "Gollers locho khaman",
+  //   },
+  //   {
+  //     id: 5,
+  //     image: Images.exploreimg,
+  //     brandLogo: Images.emp_logo,
+  //     title: "Coffee Culture",
+  //     subtitle: "The taste of freshness",
+  //   },
+  //   {
+  //     id: 6,
+  //     image: Images.exploreimg,
+  //     brandLogo: Images.emp_logo,
+  //     title: "Gollers",
+  //     subtitle: "Gollers locho khaman",
+  //   },
+  // ];
 
   const handleHeartPress = async (id) => {
     const newData = data.filter((data) => data.MyFavoritesid !== id);

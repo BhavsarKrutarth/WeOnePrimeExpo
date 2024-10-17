@@ -23,7 +23,7 @@ const Home = () => {
       const data = await FetchMethod.GET({
         EndPoint: `${
           URL.HomeScreenUrl
-        }?UserLoginid=${1}&TotalRecored=${5}&PageIndex=${1}&PageCount=${1}`,
+        }?UserLoginid=${1}&TotalRecored=${5}&PageIndex=${1}&PageCount=${5}`,
       });
       // console.log("data", JSON.stringify(data, null, 2));
       setData(data);
@@ -42,7 +42,7 @@ const Home = () => {
         <ExploreData data={data[4]} />
         <RecentTransactions data={data[5]} />
         <Exclusive data={data[7]} dataLength={data[7]?.SubDetails?.length} />
-        <NewLaunch data={data[8]?.images || []} />
+        <NewLaunch data={data} />
       </ScrollView>
     </RNContainer>
   );
