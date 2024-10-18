@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AuthNavigation from "./AuthNavigation";
-import { useCustomFonts } from "../theme";
 import {
   Amenities,
   Fevorite,
@@ -14,10 +13,13 @@ import TabBar from "./BottomTabs";
 import CategoryDetails from "../screens/Main/CategoryDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { Functions } from "../utils";
+import { onAuthChange, setAsyncStorageValue } from "../redux/Reducers/AuthReducers";
+import { useCustomFonts } from "../theme";
 
 const Stack = createStackNavigator();
 
 const Routes = () => {
+  useCustomFonts();
   const { isAuth } = useSelector(({ Auth }) => Auth);
   const dispatch = useDispatch();
 
@@ -26,15 +28,15 @@ const Routes = () => {
   }, []);
 
   const userData = async () => {
-    const data = await Functions.getUserData();
-    console.log(data);
-
+    const data = await Functions.getUserData();   
     if (data) {
-      setAuth(true);
+      dispatch(onAuthChange(true));
+      dispatch(setAsyncStorageValue(data));
     } else {
-      setAuth(false);
+      dispatch(onAuthChange(false));
     }
   };
+   
 
   return (
     <NavigationContainer>

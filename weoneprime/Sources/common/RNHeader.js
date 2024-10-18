@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Image, StatusBar, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {
   Colors,
@@ -26,6 +26,8 @@ const RNHeader = ({
   rightIconStyle,
   centerImage,
   centerImageStyle,
+  subDesc,
+  username,
 }) => {
   useCustomFonts();
   const navigation = useNavigation();
@@ -33,6 +35,7 @@ const RNHeader = ({
   return (
     <View style={[styles.Container, containerStyle]}>
       {LeftIcon ? (
+        <>
         <TouchableOpacity
           onPress={() => (onLeftPress ? onLeftPress?.() : navigation.goBack())}
           style={styles.Left}
@@ -44,6 +47,7 @@ const RNHeader = ({
             style={[RNStyles.image90, leftIconStyle]}
           />
         </TouchableOpacity>
+        </>
       ) : (
         <View style={styles.Left} />
       )}
@@ -70,13 +74,19 @@ const RNHeader = ({
               </TouchableOpacity>
             ))
           ) : (
-            <TouchableOpacity onPress={onRightPress}>
-              <Image
-                source={RightIcon}
-                resizeMode={"contain"}
-                style={[RNStyles.image90, rightIconStyle]}
-              />
-            </TouchableOpacity>
+            <View style={[RNStyles.flexRow, {gap: wp(2)}]}>
+              <View>
+              <RNText family={FontFamily.Regular} size={FontSize.font10} color={'#5A5A5A'} align={'right'}>{subDesc}</RNText>
+              <RNText family={FontFamily.SemiBold} size={FontSize.font13} align={'right'} >{username}</RNText>
+              </View>
+              <TouchableOpacity onPress={onRightPress}>
+                <Image
+                  source={RightIcon}
+                  resizeMode={"contain"}
+                  style={[RNStyles.image90, rightIconStyle]}
+                  />
+              </TouchableOpacity>
+            </View>
           )}
         </View>
       ) : (
@@ -92,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.White,
     paddingVertical: hp(1.5),
     paddingHorizontal: wp(5),
-    paddingTop: isIOS ? hp(6) : hp(1.5),
+    paddingTop: isIOS ? hp(6) : hp(0),
     borderBottomWidth: 1,
     borderBottomColor: "#D9D9D9",
   },

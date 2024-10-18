@@ -12,7 +12,7 @@ const CreditContainer = ({ data }) => {
   return (
     <RNContainer style={styles.container}>
       <View style={{paddingVertical: hp(3), gap: hp(3)}}>
-        <Image style={styles.creditContainer} source={{ uri: bannerImage }} />
+        <Image resizeMode="stretch" style={styles.creditContainer} source={{ uri: bannerImage }} />
       </View>
 
       <View style={styles.content}>
@@ -38,7 +38,7 @@ const CreditContainer = ({ data }) => {
 const styles = StyleSheet.create({
   creditContainer: {
     width: wp(94),
-    height: hp(9),
+    height: hp(10),
     borderRadius: 6,
     alignSelf: 'center'
   },

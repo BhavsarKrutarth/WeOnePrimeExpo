@@ -15,11 +15,14 @@ import { useNavigation } from "@react-navigation/native";
 import FetchMethod from "../../../api/FetchMethod";
 import { getBalanceData } from "../../../redux/ExtraReducers";
 import { useDispatch } from "react-redux";
+import Icon from "react-native-vector-icons/AntDesign";
 
 const AmenitiesData = ({ data }) => {
   const navigation = useNavigation();
   const [balances, setBalances] = useState({});
+  const [likedIndices, setLikedIndices] = useState([]);
   const dispatch = useDispatch();
+  
   const amenities = data?.SubDetails || [
     {
       id: 1,
@@ -47,6 +50,26 @@ const AmenitiesData = ({ data }) => {
   useEffect(() => {
     dispatch(getBalanceData());
   }, []);
+
+  const onLikeButtonPress = async (index, WP_Companyid) => {
+    const isLiked = likedIndices.includes(index);
+    setLikedIndices((prev) =>
+      isLiked
+        ? prev.filter((likedIndex) => likedIndex !== index)
+        : [...prev, index]
+    );
+    try {
+      if (!isLiked) {
+        const endpoint = `FavoritesData?UserLoginid=1&WP_Companyid=${WP_Companyid}`;
+        const response = await FetchMethod.POST({
+          EndPoint: endpoint,
+        });
+        console.log(response);
+      }
+    } catch (error) {
+      console.error("Error updating favorites: ", error);
+    }
+  };
 
   const fetchBalances = async () => {
     try {
@@ -86,6 +109,20 @@ const AmenitiesData = ({ data }) => {
             }
           >
             <View style={styles.imageContainer}>
+            <TouchableOpacity
+                  style={styles.likeButton}
+                  onPress={() => onLikeButtonPress(index, item.WP_Companyid)}
+                >
+                  <Icon
+                    name={"heart"}
+                    style={{
+                      fontSize: FontSize.font10,
+                      color: likedIndices.includes(index)
+                        ? "red"
+                        : Colors.White,
+                    }}
+                  />
+                </TouchableOpacity>
               <RNImage
                 source={{ uri: item.CompanyImage }}
                 style={styles.image}
@@ -178,6 +215,16 @@ const styles = StyleSheet.create({
     fontSize: 9,
     fontFamily: FontFamily.Regular,
     color: Colors.Grey,
+  },
+  likeButton: {
+    ...RNStyles.center,
+    height: wp(6),
+    width: wp(6),
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    position: "absolute",
+    top: hp(.5),
+    borderRadius: 50,
+    right: wp(1),
   },
 });
 
