@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AuthNavigation from "./AuthNavigation";
-import { useCustomFonts } from "../theme";
+import * as SplashScreen from "expo-splash-screen";
 import {
   Amenities,
   Fevorite,
@@ -14,8 +14,10 @@ import TabBar from "./BottomTabs";
 import CategoryDetails from "../screens/Main/CategoryDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { Functions } from "../utils";
+import { onAuthChange } from "../redux/Reducers/AuthReducers";
 
 const Stack = createStackNavigator();
+SplashScreen.preventAutoHideAsync();
 
 const Routes = () => {
   const { isAuth } = useSelector(({ Auth }) => Auth);
@@ -27,12 +29,16 @@ const Routes = () => {
 
   const userData = async () => {
     const data = await Functions.getUserData();
-    console.log(data);
-
     if (data) {
-      setAuth(true);
+      dispatch(onAuthChange(true));
+      setTimeout(async () => {
+        await SplashScreen.hideAsync();
+      }, 1000);
     } else {
-      setAuth(false);
+      dispatch(onAuthChange(false));
+      setTimeout(async () => {
+        await SplashScreen.hideAsync();
+      }, 1000);
     }
   };
 

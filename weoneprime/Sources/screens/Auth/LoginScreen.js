@@ -63,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log("Logged in with Google!", JSON.stringify(user, null, 2));
-          setAuth(true);
+          handleLogin(user);
 
           // navigation.navigate("Tab");
         })
@@ -77,7 +77,7 @@ const LoginScreen = ({ navigation }) => {
     }
   }, [response]);
 
-  const handleLogin = async () => {
+  const handleLogin = async (user) => {
     console.log({
       UserEmailId: email,
       UserPassword: password,
@@ -87,11 +87,11 @@ const LoginScreen = ({ navigation }) => {
       const response = await FetchMethod.POST({
         EndPoint: "Registration/User_Emailid_and_password_check",
         Params: {
-          UserEmailId: email,
+          UserEmailId: user.email || email,
           UserPassword: password,
           ProviderId: "",
           UserTye: "",
-          UserName: "",
+          UserName: user.displayName || "",
         },
       });
       dispatch(onAuthChange(true));
