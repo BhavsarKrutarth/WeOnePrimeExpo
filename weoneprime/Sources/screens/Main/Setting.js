@@ -68,7 +68,7 @@ export default function Setting({ navigation }) {
     try {
       const response = await FetchMethod.GET({
         EndPoint: `UserTransaction/GetUserTransactionAndBalance?UserLoginID=${34}`,
-      });
+      });      
       if (response.ResponseCode == 0) {
         console.log(response);
         setBalanceData(response.BalanceData[0]);
@@ -102,7 +102,7 @@ export default function Setting({ navigation }) {
           />
         </View>
         <View style={{ gap: wp(1) }}>
-          <RNText style={styles.title}>{item.title} </RNText>
+          <RNText style={styles.title}>{item.CompanyName}{" "}</RNText>
           <RNText style={styles.subTitle}>
             {moment(item.CreatedAt).format("lll")}
           </RNText>
@@ -127,7 +127,6 @@ export default function Setting({ navigation }) {
         backgroundColor: "white",
       }}
     >
-      <StatusBar translucent={true} backgroundColor={Colors.Transparent} />
       <LinearGradient
         colors={["#D8E5F1", "#E0DEF2", "#EADEF2", "#F1E2E7"]}
         start={{ x: 1, y: 0 }}

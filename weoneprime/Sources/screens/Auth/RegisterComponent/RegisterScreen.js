@@ -20,8 +20,12 @@ import Validation from "../../../utils/Validation";
 import { Images } from "../../../constants";
 import { Text } from "react-native";
 import ImagePickerModal from "./ImagePickerModal";
+import { Functions } from "../../../utils";
+import { onAuthChange, setAsyncStorageValue } from "../../../redux/Reducers/AuthReducers";
+import { useDispatch } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const RegisterScreen = ({ navigation, setAuth }) => {
+const RegisterScreen = ({ navigation }) => {
   const [registerData, setRegisterData] = useState({
     userName: "",
     userPhoneNo: "",
@@ -41,6 +45,7 @@ const RegisterScreen = ({ navigation, setAuth }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const dispatch = useDispatch();
   
   const handleRegistration = async () => {
     const errors = {
@@ -67,23 +72,33 @@ const RegisterScreen = ({ navigation, setAuth }) => {
           : "",
     };
     setIsError(errors);
+    
+    if (Object.values(errors).some(error => error)) {
+      return; 
+    }
   
     try {
+      console.log(registerData);
+      
       const response = await FetchMethod.POST({
-        EndPoint: "/Registration",
+        EndPoint: "Registration",
         Params: registerData,
       });
+      console.log(response);
       
       if (response.ResponseMessage === "User is exists") {
         Alert.alert("Registration Error", "User already exists. Please try logging in.");
       } else {
-        setAuth(true);
-        navigation.navigate('Tab');
+        dispatch(onAuthChange(true));
+        await AsyncStorage.setItem("user", JSON.stringify(response));
+        dispatch(setAsyncStorageValue(response));
       }
     } catch (error) {
-      console.log('error', error);
+      console.log("Registration error:", error);
+      Alert.alert("Error", "Registration failed. Please try again.");
     }
   };
+  
 
   const handleProfilePick = () => {
     setModalVisible(true);

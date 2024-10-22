@@ -17,9 +17,9 @@ const TabBar = () => {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
+        headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          // width: "70%",
           position: "absolute",
           bottom: hp(1),
           left: wp(10),
@@ -28,8 +28,6 @@ const TabBar = () => {
           justifyContent: "center",
           alignSelf: "center",
           height: hp(8),
-          // borderWidth: 0,
-          // backgroundColor: Colors.White,
           paddingHorizontal: wp(6),
         },
         tabBarBackground: () => (
@@ -46,15 +44,6 @@ const TabBar = () => {
         name={NavRoutes.EXPLORE}
         component={CategoryDetails}
         options={{
-          header: () => (
-            <RNHeader
-              LeftIcon={require("../../assets/images/morningIcon.png")}
-              RightIcon={Images.profile}
-              containerStyle={{ paddingLeft: wp(14) }}
-              rightIconStyle={{ width: wp(8), height: wp(8) }}
-              leftIconStyle={{ width: wp(30) }}
-            />
-          ),
           tabBarIcon: ({ focused }) => (
             <View
               style={{
@@ -83,15 +72,6 @@ const TabBar = () => {
         name={NavRoutes.HOME}
         component={Home}
         options={{
-          header: () => (
-            <RNHeader
-              LeftIcon={Images.Weoneprime}
-              RightIcon={Images.profile}
-              containerStyle={{ paddingLeft: wp(14) }}
-              rightIconStyle={{ width: wp(8), height: wp(8) }}
-              leftIconStyle={{ width: wp(30) }}
-            />
-          ),
           tabBarIcon: ({ focused }) => (
             <View
               style={{
@@ -139,7 +119,6 @@ const TabBar = () => {
         name={NavRoutes.SETTING}
         component={Setting}
         options={{
-          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View
               style={{

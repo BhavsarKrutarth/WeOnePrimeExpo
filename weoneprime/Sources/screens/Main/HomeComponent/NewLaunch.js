@@ -15,7 +15,7 @@ const itemWidth = wp(65);
 const itemHeight = hp(20);
 
 export default function NewLaunch({ data }) {
-  const [selectedIndex, setSelectedIndex] = useState(8); // Default to index 8
+  const [selectedIndex, setSelectedIndex] = useState(8); 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.x;
@@ -25,7 +25,7 @@ export default function NewLaunch({ data }) {
 
   return (
     <View style={styles.flex}>
-      <View style={[RNStyles.flexRowCenter, { gap: wp(2) }]}>
+      <View style={[RNStyles.flexRowCenter, { gap: wp(3) }]}>
         <TouchableOpacity
           style={[styles.button, selectedIndex === 8 ? {backgroundColor: Colors.Black} : {backgroundColor: "#DEDEDE",}]}
           onPress={() => setSelectedIndex(8)}

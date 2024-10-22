@@ -43,6 +43,7 @@ const OfferDetails = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const [expandedFAQ, setExpandedFAQ] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [likedIndices, setLikedIndices] = useState([]);
 
   const source = {
     html:
@@ -89,6 +90,21 @@ const OfferDetails = ({ route, navigation }) => {
 
   const toggleFAQ = (faqId) => {
     setExpandedFAQ(faqId === expandedFAQ ? null : faqId);
+  };
+
+  const onLikeButtonPress = async () => {
+    const isLiked = likedIndices.includes(companyId);
+    setLikedIndices((prev) =>
+      isLiked ? prev.filter((id) => id !== companyId) : [...prev, companyId]
+    );
+    try {
+      const response = await FetchMethod.POST({
+        EndPoint: `FavoritesData?UserLoginid=1&WP_Companyid=${companyId}`,
+      });
+      console.log('response',response);
+    } catch (error) {
+      console.error("Error updating favorites: ", error);
+    }
   };
 
   const renderFAQ = () => (
@@ -212,10 +228,14 @@ const OfferDetails = ({ route, navigation }) => {
               colors={["white", "white", "#ffffff2b", "transparent"]}
               style={styles.gradient}
             />
-            <TouchableOpacity style={styles.heartIcon}>
+             <TouchableOpacity
+              style={styles.likeButton}
+              onPress={onLikeButtonPress}
+            >
               <Icon
-                name={"heart"}
-                style={{ fontSize: FontSize.font12, color: Colors.Red }}
+                name="heart"
+                size={FontSize.font12}
+                color={likedIndices.includes(companyId) ? "red" : Colors.White}
               />
             </TouchableOpacity>
             <View style={styles.infoContainer}>
@@ -412,11 +432,11 @@ const styles = StyleSheet.create({
     right: 0,
     height: "100%",
   },
-  heartIcon: {
+  likeButton: {
     ...RNStyles.center,
     height: wp(7),
     width: wp(7),
-    backgroundColor: "rgba(255, 255, 255, 0.35)",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     position: "absolute",
     top: hp(1),
     borderRadius: 50,
