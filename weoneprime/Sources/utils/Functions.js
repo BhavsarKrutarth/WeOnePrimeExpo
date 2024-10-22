@@ -27,7 +27,7 @@ const getUserData = async () => {
   return JSON.parse(value);
 };
 
-const setUserData = async () => {
+const setUserData = async (data) => {
   await AsyncStorage.setItem("user", JSON.stringify(data));
 };
 

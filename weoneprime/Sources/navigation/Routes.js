@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AuthNavigation from "./AuthNavigation";
+import * as SplashScreen from "expo-splash-screen";
 import {
   Amenities,
   Fevorite,
@@ -17,6 +18,7 @@ import { onAuthChange, setAsyncStorageValue } from "../redux/Reducers/AuthReduce
 import { useCustomFonts } from "../theme";
 
 const Stack = createStackNavigator();
+SplashScreen.preventAutoHideAsync();
 
 const Routes = () => {
   useCustomFonts();
@@ -28,12 +30,17 @@ const Routes = () => {
   }, []);
 
   const userData = async () => {
-    const data = await Functions.getUserData();   
+    const data = await Functions.getUserData();
     if (data) {
       dispatch(onAuthChange(true));
-      dispatch(setAsyncStorageValue(data));
+      setTimeout(async () => {
+        await SplashScreen.hideAsync();
+      }, 1000);
     } else {
       dispatch(onAuthChange(false));
+      setTimeout(async () => {
+        await SplashScreen.hideAsync();
+      }, 1000);
     }
   };
    

@@ -43,6 +43,11 @@ const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState(""); 
 
+  
+  GoogleSignin.configure({
+    webClientId: '274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com',   
+  });
+  
   // const [request, response, promptAsync] = Google.useAuthRequest({
   //   expoClientId: "https://auth.expo.io/@nency_2403/weoneprime",
   //   iosClientId:
@@ -54,9 +59,17 @@ const LoginScreen = ({ navigation }) => {
   //   scopes: ["profile", "email"],
   // });
 
-  GoogleSignin.configure({
-    webClientId: '274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com',   
-  });
+  useEffect(() => {
+    console.log("Google Auth Response:", response);
+    if (response?.type === "success") {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("Logged in with Google!", JSON.stringify(user, null, 2));
+          handleLogin(user);
+
 
   const signInWithGoogle = async () => {
     try {
@@ -93,19 +106,28 @@ const LoginScreen = ({ navigation }) => {
     } catch (error) {
       console.error("Google Sign-In error:", error);
     }
-  };
+
+  }, [response]);
+
+
   
   
   const handleLogin = async () => {
     try {   
+
       const response = await FetchMethod.POST({
         EndPoint: "Registration/User_Emailid_and_password_check",
         Params: {
-          UserEmailId: email,
+          UserEmailId: user.email || email,
           UserPassword: password,
           ProviderId: "",
+
+  
+          UserName: user.displayName || "",
+
           UserTye: "Manual",
-          UserName: "",
+
+
         },
       });
       
