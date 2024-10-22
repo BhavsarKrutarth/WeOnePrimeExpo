@@ -11,6 +11,7 @@ import { Colors, FontFamily, FontSize, hp, normalize, wp } from "../../theme";
 import {
   RNCommonHeader,
   RNContainer,
+  RNHeader,
   RNImage,
   RNStyles,
   RNText,
@@ -19,8 +20,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/AntDesign";
 import FetchMethod from "../../api/FetchMethod";
 import { Images } from "../../constants";
+import { useSelector } from "react-redux";
 
 export default function CategoryDetails() {
+  const { AsyncValue } = useSelector(({ Auth }) => Auth);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [list, setList] = useState([]);
@@ -133,6 +136,15 @@ export default function CategoryDetails() {
 
   return (
     <RNContainer>
+      <RNHeader
+        LeftIcon={Images.Weoneprime}
+        RightIcon={{ uri: AsyncValue.UserImage }}
+        containerStyle={{ paddingLeft: wp(14) }}
+        rightIconStyle={{ width: wp(10), height: wp(10), borderRadius: normalize(50) }}
+        leftIconStyle={{ width: wp(30) }}
+        subDesc={"Around You"}
+        username={AsyncValue.UserName}
+      />
       {loading ? (
         <ActivityIndicator
           size="large"

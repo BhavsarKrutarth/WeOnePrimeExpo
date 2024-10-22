@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { RNStyles, RNText } from "../../common";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
 import { Images } from "../../constants";
@@ -7,7 +7,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const TabContent = ({ state, descriptors, navigation }) => {
   return (
-    <View
+    <SafeAreaView
       style={[styles.tabContainer, { backgroundColor: Colors.Transparent }]}
     >
       <LinearGradient
@@ -114,7 +114,7 @@ const TabContent = ({ state, descriptors, navigation }) => {
           );
         })}
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -14,12 +14,14 @@ import TabBar from "./BottomTabs";
 import CategoryDetails from "../screens/Main/CategoryDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { Functions } from "../utils";
-import { onAuthChange } from "../redux/Reducers/AuthReducers";
+import { onAuthChange, setAsyncStorageValue } from "../redux/Reducers/AuthReducers";
+import { useCustomFonts } from "../theme";
 
 const Stack = createStackNavigator();
 SplashScreen.preventAutoHideAsync();
 
 const Routes = () => {
+  useCustomFonts();
   const { isAuth } = useSelector(({ Auth }) => Auth);
   const dispatch = useDispatch();
 
@@ -41,6 +43,7 @@ const Routes = () => {
       }, 1000);
     }
   };
+   
 
   return (
     <NavigationContainer>

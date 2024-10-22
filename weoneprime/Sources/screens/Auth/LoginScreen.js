@@ -22,8 +22,6 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { Images } from "../../constants";
 import { auth } from "./firebase";
-import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
-import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { jwtDecode } from "jwt-decode";
@@ -33,26 +31,33 @@ import {
   onAuthChange,
   setAsyncStorageValue,
 } from "../../redux/Reducers/AuthReducers";
-import { Functions } from "../../utils";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
   const [secure, setSecure] = useState(true);
-  const [email, setEmail] = useState("actoscriptreactdev04@gmail.com");
-  const [password, setPassword] = useState("acto%40123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState(""); 
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: "https://auth.expo.io/@nency_2403/weoneprime",
-    iosClientId:
-      "274641210203-cetf1d58ut3vtkef0cfhteo4epkb94jt.apps.googleusercontent.com",
-    androidClientId:
-      "274641210203-ksr8n2q2bknj230gnv5b1t32bh83m374.apps.googleusercontent.com",
-    webClientId:
-      "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com",
-    scopes: ["profile", "email"],
+  
+  GoogleSignin.configure({
+    webClientId: '274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com',   
   });
+  
+  // const [request, response, promptAsync] = Google.useAuthRequest({
+  //   expoClientId: "https://auth.expo.io/@nency_2403/weoneprime",
+  //   iosClientId:
+  //     "274641210203-cetf1d58ut3vtkef0cfhteo4epkb94jt.apps.googleusercontent.com",
+  //   androidClientId:
+  //     "274641210203-ksr8n2q2bknj230gnv5b1t32bh83m374.apps.googleusercontent.com",
+  //   webClientId:
+  //     "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com",
+  //   scopes: ["profile", "email"],
+  // });
 
   useEffect(() => {
     console.log("Google Auth Response:", response);
@@ -65,40 +70,78 @@ const LoginScreen = ({ navigation }) => {
           console.log("Logged in with Google!", JSON.stringify(user, null, 2));
           handleLogin(user);
 
-          // navigation.navigate("Tab");
-        })
-        .catch((error) => {
-          console.error("Google Sign-In error", error);
-        });
-    } else if (response?.type === "dismiss") {
-      console.log("User dismissed the Google login");
-    } else if (response?.type === "error") {
-      console.error("Google login failed:", response?.error);
+
+  const signInWithGoogle = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();      
+      const idToken = userInfo.data.idToken;
+      const user = userInfo.data.user;
+      
+      const response = await FetchMethod.POST({
+        EndPoint: "Registration/User_Emailid_and_password_check",
+        Params: {
+          UserEmailId: user.email,
+          UserPassword: "",
+          ProviderId: user.id, 
+          UserType: "Google", 
+          UserName: user.name,
+        },
+      });
+      
+      if (response?.UserLoginid !== 0) {
+        dispatch(onAuthChange(true));
+        await AsyncStorage.setItem("user", JSON.stringify(response));   
+        dispatch(setAsyncStorageValue(response));
+        setErrorMessage("");
+      } else {
+        setErrorMessage("Email address or password you're entered doesn't match any account.");
+      }
+      
+      if (idToken) {
+        console.log("ID Token:", idToken);  
+      } else {
+        console.error("ID Token is undefined");
+      }
+    } catch (error) {
+      console.error("Google Sign-In error:", error);
     }
+
   }, [response]);
 
-  const handleLogin = async (user) => {
-    console.log({
-      UserEmailId: email,
-      UserPassword: password,
-    });
 
-    try {
+  
+  
+  const handleLogin = async () => {
+    try {   
+
       const response = await FetchMethod.POST({
         EndPoint: "Registration/User_Emailid_and_password_check",
         Params: {
           UserEmailId: user.email || email,
           UserPassword: password,
           ProviderId: "",
-          UserTye: "",
+
+  
           UserName: user.displayName || "",
+
+          UserTye: "Manual",
+
+
         },
       });
-      dispatch(onAuthChange(true));
-      dispatch(setAsyncStorageValue(response));
-      await Functions.setUserData(response);
+      
+      if (response?.UserLoginid !== 0) {
+        dispatch(onAuthChange(true));
+        await AsyncStorage.setItem("user", JSON.stringify(response));   
+        dispatch(setAsyncStorageValue(response));
+        setErrorMessage("");
+      } else {
+        setErrorMessage("email address or password you're entered doesn't match any account.");
+      }
     } catch (error) {
-      console.log(error);
+      console.log('error', error);
+      setErrorMessage("An error occurred during login. Please try again."); 
     }
   };
 
@@ -119,10 +162,8 @@ const LoginScreen = ({ navigation }) => {
     } catch (e) {
       console.log(e);
       if (e.code === "ERR_REQUEST_CANCELED") {
-        // handle that the user canceled the sign-in flow
       } else {
         console.log(e);
-        // handle other errors
       }
     }
   };
@@ -198,6 +239,9 @@ const LoginScreen = ({ navigation }) => {
                     />
                   </MaskedView>
                 </Pressable>
+                {errorMessage ? (
+                  <RNText family={FontFamily.Medium} size={12} align={"center"} color={Colors.Red} pTop={hp(2)}>{errorMessage}</RNText>  
+                ) : null} 
               </View>
             </View>
 
@@ -225,7 +269,7 @@ const LoginScreen = ({ navigation }) => {
             </View>
             <TouchableOpacity
               style={styles.loginButton}
-              onPress={() => promptAsync()}
+              onPress={() => {signInWithGoogle()}}
             >
               <RNImage
                 source={Images.Google}
