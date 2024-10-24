@@ -48,13 +48,15 @@ export default function ExploreData({ data }) {
     >
       <Image source={{ uri: item.BannerImage }} style={styles.image} />
       <LinearGradient
-        start={{ x: 0, y: 1 }}
+        start={{ x: 0, y: 1.5 }}
         end={{ x: 0, y: 0 }}
-        colors={["white", "transparent"]}
+        colors={["white", "white", "#ffffff2b", "transparent"]}
         style={styles.gradient}
       />
       <View style={styles.infoContainer}>
-        <TouchableOpacity style={[styles.availButton, {borderColor: item.colorCode}]}>
+        <TouchableOpacity
+          style={[styles.availButton, { borderColor: item.colorCode }]}
+        >
           <Text style={styles.availText}>Avail Now </Text>
         </TouchableOpacity>
         <Text style={styles.subtitle}>{item.ExploreMoreOfferDesc}</Text>
@@ -66,9 +68,7 @@ export default function ExploreData({ data }) {
   return (
     <View style={styles.ExploreData}>
       <View style={{ paddingLeft: wp(3) }}>
-        <RNText style={styles.title}>
-          Explore More Off...{" "}
-        </RNText>
+        <RNText style={styles.title}>Explore More Off... </RNText>
         <RNText style={styles.subTitle}>
           Reference site about Lorem Ipsum.{" "}
         </RNText>
@@ -165,6 +165,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: hp(2.5),
     right: wp(4),
-    zIndex: 1
+    zIndex: 1,
   },
 });
