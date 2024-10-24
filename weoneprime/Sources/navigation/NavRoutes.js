@@ -4,6 +4,7 @@ const NavRoutes = {
   SETTING: "Setting",
   REGISTER: "Register",
   LOGIN: "Login",
+  PROFILE: "Profile"
 };
 
 export default NavRoutes;

@@ -16,7 +16,7 @@ const CreditContainer = ({ data }) => {
   const { singelBanner, moneyMatter } = data || {};
   const balance = moneyMatter?.Balance || 0;
   const bannerImage = singelBanner?.SubDetails[0]?.BannerImage;
-
+  
   return (
     <TouchableOpacity
       style={styles.container}
@@ -25,12 +25,11 @@ const CreditContainer = ({ data }) => {
     >
       <View style={{ paddingVertical: hp(3), gap: hp(3) }}>
         <Image
-          resizeMode="stretch"
+          resizeMode="streach"
           style={styles.creditContainer}
           source={{ uri: bannerImage }}
         />
       </View>
-
       <View style={styles.content}>
         <RNText style={styles.title}>Money Matters</RNText>
         <ImageBackground

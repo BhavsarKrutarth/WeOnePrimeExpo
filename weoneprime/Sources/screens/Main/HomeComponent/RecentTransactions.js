@@ -97,7 +97,6 @@ export default function RecentTransactions({ data }) {
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
       />
-
       <TouchableOpacity style={{alignSelf: 'center'}}>
         <ImageBackground resizeMode="contain" source={require('../../../assets/images/transactionBtn.png')} style={{...RNStyles.center,width: wp(60),height: hp(7)}}>
           <RNText style={styles.moreButtonText}>15+ MORE TRANSACTIONS{" "}</RNText>
@@ -170,8 +169,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    width: wp(10),
-    height: wp(10),
+    width: wp(13),
+    height: wp(13),
   },
   line: {
     width: wp(1.5),

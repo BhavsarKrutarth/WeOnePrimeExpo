@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Pressable,
-  ActivityIndicator, // Import ActivityIndicator for the loader
+  ActivityIndicator, 
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
@@ -22,20 +22,24 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import FetchMethod from "../../api/FetchMethod";
 import { Images } from "../../constants";
+import { useSelector } from "react-redux";
 
 export default function Amenities() {
   const navigation = useNavigation();
   const [selectedHearts, setSelectedHearts] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const { AsyncValue } = useSelector(({ Auth }) => Auth);
+  console.log('AsyncValue',AsyncValue);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await FetchMethod.GET({
-          EndPoint: "CompanyList",
+          EndPoint: "CompanyList?PageIndex=1&PageCount=10&UserLoginid=1",
         });
-
+        console.log('response',response);
+        
         if (response && response.Companies) {
           setData(response.Companies);
         }
@@ -95,7 +99,7 @@ export default function Amenities() {
             name={"heart"}
             solid={isSelected}
             style={{
-              fontSize: FontSize.font12,
+              fontSize: FontSize.font11,
               color: isSelected ? Colors.Red : Colors.White,
             }}
           />
@@ -148,7 +152,7 @@ export default function Amenities() {
                 }}
               >
                 <Image
-                  source={Images.nodata}
+                  source={Images.NoFound}
                   style={{
                     width: wp(30),
                     height: wp(30),

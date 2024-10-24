@@ -17,8 +17,8 @@ import {
   RNStyles,
   RNText,
 } from "../../common";
-import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
-import MaskedView from "@react-native-masked-view/masked-view";
+import { Colors, FontFamily, FontSize, hp, useCustomFonts, wp } from "../../theme";
+// import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { Images } from "../../constants";
 import { auth } from "./firebase";
@@ -31,7 +31,6 @@ import {
   onAuthChange,
   setAsyncStorageValue,
 } from "../../redux/Reducers/AuthReducers";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Functions } from "../../utils";
 
@@ -77,7 +76,8 @@ const LoginScreen = ({ navigation }) => {
           UserName: user.name,
         },
       });
-
+      console.log('response',response);
+      
       if (response?.UserLoginid !== 0) {
         dispatch(onAuthChange(true));
         await Functions.setUserData(response);
@@ -100,6 +100,11 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const handleLogin = async () => {
+    console.log({
+      email,
+      password
+    });
+    
     try {
       const response = await FetchMethod.POST({
         EndPoint: "Registration/User_Emailid_and_password_check",
@@ -109,9 +114,11 @@ const LoginScreen = ({ navigation }) => {
           ProviderId: "",
           UserTye: "Manual",
           UserName: "",
+          UserImage: ""
         },
       });
-
+      console.log('response',response);
+      
       if (response?.UserLoginid !== 0) {
         dispatch(onAuthChange(true));
         await Functions.setUserData(response);
@@ -227,9 +234,9 @@ const LoginScreen = ({ navigation }) => {
                   value={password}
                   onChangeText={setPassword}
                   secureTextEntry={secure}
-                  isPress={() => setSecure(!secure)}
+                  toggleVisibility={() => setSecure(!secure)} 
                 />
-                <Pressable>
+                {/* <Pressable>
                   <MaskedView
                     style={{ flexDirection: "row", height: 20 }}
                     maskElement={
@@ -250,7 +257,7 @@ const LoginScreen = ({ navigation }) => {
                       style={{ flex: 1 }}
                     />
                   </MaskedView>
-                </Pressable>
+                </Pressable> */}
                 {errorMessage ? (
                   <RNText
                     family={FontFamily.Medium}

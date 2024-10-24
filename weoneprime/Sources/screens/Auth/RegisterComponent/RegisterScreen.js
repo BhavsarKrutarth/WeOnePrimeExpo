@@ -106,7 +106,7 @@ const RegisterScreen = ({ navigation }) => {
 
   const imageSource = registerData.userImage
     ? { uri: `data:image/jpeg;base64,${registerData.userImage}` }
-    : Images.profile;
+    : Images.profileImage;
 
   const handleChange = (field) => (text) => {
     setRegisterData((prevState) => ({
@@ -127,7 +127,7 @@ const RegisterScreen = ({ navigation }) => {
           }}
         >
           <View style={{ gap: wp(1), alignItems: "center" }}>
-            <TouchableOpacity style={{}} >
+            <TouchableOpacity style={{}} >  
               <Image source={imageSource} style={styles.image} />
               <TouchableOpacity onPress={handleProfilePick} style={styles.edit}>
                 <RNImage source={Images.Edit} style={{ width: wp(4), height: wp(4) }} />
@@ -140,7 +140,7 @@ const RegisterScreen = ({ navigation }) => {
           </View>
           <View style={{ gap: hp(2) }}>
             <View style={{ gap: hp(0.5) }}>
-              <RNText style={styles.inputText}>First Name{" "}<RNText style={[styles.inputText, styles.requireStyle]}>*</RNText></RNText>
+              <RNText style={styles.inputText}>Full Name{" "}<RNText style={[styles.inputText, styles.requireStyle]}>*</RNText></RNText>
               <RNInput
                 style={styles.inputContainer}
                 value={registerData.userName}

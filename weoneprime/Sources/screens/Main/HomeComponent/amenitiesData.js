@@ -116,14 +116,15 @@ const AmenitiesData = ({ data }) => {
                 <Icon
                   name={"heart"}
                   style={{
-                    fontSize: FontSize.font10,
+                    fontSize: FontSize.font12,
                     color: likedIndices.includes(index) ? "red" : Colors.White,
                   }}
                 />
               </TouchableOpacity>
               <RNImage
-                source={{ uri: item.CompanyImage }}
+                source={{ uri: item.companyBanner }}
                 style={styles.image}
+                resizeMode={"cover"}
               />
               <View style={styles.subImageContainer}>
                 <View style={styles.subImageWrapper}>
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
     width: wp(40),
     height: hp(12),
     borderRadius: 5,
-    opacity: 0.75,
+    opacity: 0.50,
   },
   subImageContainer: {
     position: "absolute",
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     ...RNStyles.center,
     height: wp(6),
     width: wp(6),
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     position: "absolute",
     top: hp(0.5),
     borderRadius: 50,
