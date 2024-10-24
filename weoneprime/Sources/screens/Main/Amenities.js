@@ -9,12 +9,19 @@ import {
   ActivityIndicator, // Import ActivityIndicator for the loader
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { RNCommonHeader, RNContainer, RNImage, RNStyles } from "../../common";
+import {
+  RNCommonHeader,
+  RNContainer,
+  RNImage,
+  RNStyles,
+  RNText,
+} from "../../common";
 import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import FetchMethod from "../../api/FetchMethod";
+import { Images } from "../../constants";
 
 export default function Amenities() {
   const navigation = useNavigation();
@@ -28,6 +35,7 @@ export default function Amenities() {
         const response = await FetchMethod.GET({
           EndPoint: "CompanyList",
         });
+
         if (response && response.Companies) {
           setData(response.Companies);
         }
@@ -118,15 +126,51 @@ export default function Amenities() {
             style={RNStyles.flexCenter}
           />
         ) : (
-          <FlatList
-            style={{ paddingTop: hp(2) }}
-            data={data}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.WP_Companyid.toString()}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            ItemSeparatorComponent={() => <View style={{ height: hp(1.5) }} />}
-          />
+          <>
+            {data.length > 0 ? (
+              <FlatList
+                style={{ paddingTop: hp(2) }}
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.WP_Companyid.toString()}
+                numColumns={2}
+                showsVerticalScrollIndicator={false}
+                ItemSeparatorComponent={() => (
+                  <View style={{ height: hp(1.5) }} />
+                )}
+              />
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  source={Images.nodata}
+                  style={{
+                    width: wp(30),
+                    height: wp(30),
+                    resizeMode: "contain",
+                    marginBottom: hp(2),
+                  }}
+                />
+                <RNText>No Data Found !</RNText>
+                {/* <RNText
+                  pVertical={hp(1)}
+                  pHorizontal={wp(10)}
+                  family={FontFamily.Regular}
+                  color={Colors.DarkGrey}
+                  align={"center"}
+                  size={FontSize.font10}
+                >
+                  Explore weone prime and mask benefits as favorites. we will
+                  save the for you here.
+                </RNText> */}
+              </View>
+            )}
+          </>
         )}
       </View>
     </RNContainer>

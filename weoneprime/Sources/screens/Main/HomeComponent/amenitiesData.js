@@ -22,7 +22,7 @@ const AmenitiesData = ({ data }) => {
   const [balances, setBalances] = useState({});
   const [likedIndices, setLikedIndices] = useState([]);
   const dispatch = useDispatch();
-  
+
   const amenities = data?.SubDetails || [
     {
       id: 1,
@@ -109,20 +109,18 @@ const AmenitiesData = ({ data }) => {
             }
           >
             <View style={styles.imageContainer}>
-            <TouchableOpacity
-                  style={styles.likeButton}
-                  onPress={() => onLikeButtonPress(index, item.WP_Companyid)}
-                >
-                  <Icon
-                    name={"heart"}
-                    style={{
-                      fontSize: FontSize.font10,
-                      color: likedIndices.includes(index)
-                        ? "red"
-                        : Colors.White,
-                    }}
-                  />
-                </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.likeButton}
+                onPress={() => onLikeButtonPress(index, item.WP_Companyid)}
+              >
+                <Icon
+                  name={"heart"}
+                  style={{
+                    fontSize: FontSize.font10,
+                    color: likedIndices.includes(index) ? "red" : Colors.White,
+                  }}
+                />
+              </TouchableOpacity>
               <RNImage
                 source={{ uri: item.CompanyImage }}
                 style={styles.image}
@@ -182,7 +180,7 @@ const styles = StyleSheet.create({
     width: wp(40),
     height: hp(12),
     borderRadius: 5,
-    opacity: 0.5,
+    opacity: 0.75,
   },
   subImageContainer: {
     position: "absolute",
@@ -222,7 +220,7 @@ const styles = StyleSheet.create({
     width: wp(6),
     backgroundColor: "rgba(255, 255, 255, 0.5)",
     position: "absolute",
-    top: hp(.5),
+    top: hp(0.5),
     borderRadius: 50,
     right: wp(1),
   },

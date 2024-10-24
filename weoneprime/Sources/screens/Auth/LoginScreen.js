@@ -32,7 +32,8 @@ import {
   setAsyncStorageValue,
 } from "../../redux/Reducers/AuthReducers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { Functions } from "../../utils";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -41,13 +42,8 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
 
-  
-  GoogleSignin.configure({
-    webClientId: '274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com',   
-  });
-  
   // const [request, response, promptAsync] = Google.useAuthRequest({
   //   expoClientId: "https://auth.expo.io/@nency_2403/weoneprime",
   //   iosClientId:
@@ -59,89 +55,76 @@ const LoginScreen = ({ navigation }) => {
   //   scopes: ["profile", "email"],
   // });
 
-  useEffect(() => {
-    console.log("Google Auth Response:", response);
-    if (response?.type === "success") {
-      const { id_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          console.log("Logged in with Google!", JSON.stringify(user, null, 2));
-          handleLogin(user);
-
+  GoogleSignin.configure({
+    webClientId:
+      "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com",
+  });
 
   const signInWithGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();      
+      const userInfo = await GoogleSignin.signIn();
       const idToken = userInfo.data.idToken;
       const user = userInfo.data.user;
-      
+
       const response = await FetchMethod.POST({
         EndPoint: "Registration/User_Emailid_and_password_check",
         Params: {
           UserEmailId: user.email,
           UserPassword: "",
-          ProviderId: user.id, 
-          UserType: "Google", 
+          ProviderId: user.id,
+          UserType: "Google",
           UserName: user.name,
         },
       });
-      
+
       if (response?.UserLoginid !== 0) {
         dispatch(onAuthChange(true));
-        await AsyncStorage.setItem("user", JSON.stringify(response));   
+        await Functions.setUserData(response);
         dispatch(setAsyncStorageValue(response));
         setErrorMessage("");
       } else {
-        setErrorMessage("Email address or password you're entered doesn't match any account.");
+        setErrorMessage(
+          "Email address or password you're entered doesn't match any account."
+        );
       }
-      
+
       if (idToken) {
-        console.log("ID Token:", idToken);  
+        console.log("ID Token:", idToken);
       } else {
         console.error("ID Token is undefined");
       }
     } catch (error) {
       console.error("Google Sign-In error:", error);
     }
+  };
 
-  }, [response]);
-
-
-  
-  
   const handleLogin = async () => {
-    try {   
-
+    try {
       const response = await FetchMethod.POST({
         EndPoint: "Registration/User_Emailid_and_password_check",
         Params: {
-          UserEmailId: user.email || email,
+          UserEmailId: email,
           UserPassword: password,
           ProviderId: "",
-
-  
-          UserName: user.displayName || "",
-
           UserTye: "Manual",
-
-
+          UserName: "",
         },
       });
-      
+
       if (response?.UserLoginid !== 0) {
         dispatch(onAuthChange(true));
-        await AsyncStorage.setItem("user", JSON.stringify(response));   
+        await Functions.setUserData(response);
         dispatch(setAsyncStorageValue(response));
         setErrorMessage("");
       } else {
-        setErrorMessage("email address or password you're entered doesn't match any account.");
+        setErrorMessage(
+          "email address or password you're entered doesn't match any account."
+        );
       }
     } catch (error) {
-      console.log('error', error);
-      setErrorMessage("An error occurred during login. Please try again."); 
+      console.log("error", error);
+      setErrorMessage("An error occurred during login. Please try again.");
     }
   };
 
@@ -157,8 +140,37 @@ const LoginScreen = ({ navigation }) => {
       const decoded = jwtDecode(credential.identityToken);
       console.log(
         "decoded   " + JSON.stringify(decoded, null, 2),
-        "credentials: " + JSON.stringify(credential, null, 2)
+        "credentials: " + JSON.stringify(credential, null, 2),
+        {
+          UserEmailId: decoded.email,
+          UserPassword: "   ",
+          ProviderId: credential.authorizationCode,
+          UserTye: "Apple",
+          UserName: credential.fullName.givenName || decoded.email,
+        }
       );
+
+      const response = await FetchMethod.POST({
+        EndPoint: "Registration/User_Emailid_and_password_check",
+        Params: {
+          UserEmailId: decoded.email,
+          UserPassword: "",
+          ProviderId: credential.authorizationCode,
+          UserTye: "Apple",
+          UserName: credential.fullName.givenName || decoded.email,
+        },
+      });
+
+      if (response?.UserLoginid !== 0) {
+        dispatch(onAuthChange(true));
+        await Functions.setUserData(response);
+        dispatch(setAsyncStorageValue(response));
+        setErrorMessage("");
+      } else {
+        setErrorMessage(
+          "email address or password you're entered doesn't match any account."
+        );
+      }
     } catch (e) {
       console.log(e);
       if (e.code === "ERR_REQUEST_CANCELED") {
@@ -240,8 +252,16 @@ const LoginScreen = ({ navigation }) => {
                   </MaskedView>
                 </Pressable>
                 {errorMessage ? (
-                  <RNText family={FontFamily.Medium} size={12} align={"center"} color={Colors.Red} pTop={hp(2)}>{errorMessage}</RNText>  
-                ) : null} 
+                  <RNText
+                    family={FontFamily.Medium}
+                    size={12}
+                    align={"center"}
+                    color={Colors.Red}
+                    pTop={hp(2)}
+                  >
+                    {errorMessage}
+                  </RNText>
+                ) : null}
               </View>
             </View>
 
@@ -269,7 +289,9 @@ const LoginScreen = ({ navigation }) => {
             </View>
             <TouchableOpacity
               style={styles.loginButton}
-              onPress={() => {signInWithGoogle()}}
+              onPress={() => {
+                signInWithGoogle();
+              }}
             >
               <RNImage
                 source={Images.Google}
@@ -292,8 +314,7 @@ const LoginScreen = ({ navigation }) => {
             <TouchableOpacity
               style={{ alignItems: "center" }}
               onPress={() => {
-                setAuth(true);
-                navigation.navigate("Tab");
+                dispatch(onAuthChange(true));
               }}
             >
               <RNText style={styles.inputText}>Skip For now</RNText>
