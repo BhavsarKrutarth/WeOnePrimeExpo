@@ -379,10 +379,10 @@ const OfferDetails = ({ route, navigation }) => {
                     style={{
                       backgroundColor: Colors.Black,
                       paddingHorizontal: wp(15),
-                      paddingVertical: hp(1),
+                      paddingVertical: hp(1.5),
                     }}
                     textStyle={{
-                      fontSize: FontSize.font11,
+                      fontSize: FontSize.font13,
                       fontFamily: FontFamily.Medium,
                     }}
                     title="Cancel"
@@ -392,10 +392,10 @@ const OfferDetails = ({ route, navigation }) => {
                     style={{
                       backgroundColor: Colors.LightGrey,
                       paddingHorizontal: wp(15),
-                      paddingVertical: hp(1),
+                      paddingVertical: hp(1.5),
                     }}
                     textStyle={{
-                      fontSize: FontSize.font11,
+                      fontSize: FontSize.font13,
                       fontFamily: FontFamily.Medium,
                       color: Colors.Black,
                     }}
@@ -418,7 +418,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: "100%",
     height: hp(70),
-    backgroundColor: "yellow",
   },
   bannerImage: {
     width: "100%",

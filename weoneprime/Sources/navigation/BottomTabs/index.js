@@ -9,6 +9,7 @@ import { Colors, FontFamily, FontSize, hp, wp } from "../../theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, Platform, StyleSheet, View } from "react-native";
 import CategoryDetails from "../../screens/Main/CategoryDetails";
+import Profile from "../../screens/Main/Profile";
 
 const Tab = createBottomTabNavigator();
 
@@ -62,7 +63,7 @@ const TabBar = () => {
                 family={FontFamily.Medium}
                 color={Colors.White}
               >
-                Explore
+                Explore{" "}
               </RNText>
             </View>
           ),
@@ -94,7 +95,7 @@ const TabBar = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: hp(-5),
-                    marginBottom: hp(0.5),
+                    marginBottom: hp(0.8),
                   },
                 ]}
               >
@@ -103,21 +104,21 @@ const TabBar = () => {
                   resizeMode="contain"
                   style={styles.centerTabIcon}
                 />
-              </LinearGradient>
+              </LinearGradient> 
               <RNText
                 size={FontSize.font11}
                 family={FontFamily.Medium}
                 color={Colors.White}
               >
-                Home
+                Home{" "}
               </RNText>
             </View>
           ),
         }}
       />
       <Tab.Screen
-        name={NavRoutes.SETTING}
-        component={Setting}
+        name={NavRoutes.PROFILE}
+        component={Profile}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
@@ -128,7 +129,7 @@ const TabBar = () => {
               }}
             >
               <Image
-                source={focused ? Images.F_Setting : Images.Setting}
+                source={focused ? Images.F_Profile : Images.profile}
                 resizeMode="contain"
                 style={[styles.icons]}
               />
@@ -137,7 +138,7 @@ const TabBar = () => {
                 family={FontFamily.Medium}
                 color={Colors.White}
               >
-                Setting
+                Profile{" "}
               </RNText>
             </View>
           ),

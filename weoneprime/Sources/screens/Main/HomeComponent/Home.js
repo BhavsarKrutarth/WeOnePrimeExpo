@@ -13,10 +13,10 @@ import URL from "../../../api/URL";
 import { useSelector } from "react-redux";
 import { Images } from "../../../constants";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
   const { AsyncValue } = useSelector(({ Auth }) => Auth);
-  console.log('AsyncValue',AsyncValue);
+  console.log(data);
   
   useEffect(() => {
     fetchData();
@@ -40,8 +40,8 @@ const Home = () => {
       <RNHeader
         LeftIcon={Images.Weoneprime}
         RightIcon={{ uri: AsyncValue.UserImage }}
-        containerStyle={{ paddingLeft: wp(14) }}
-        rightIconStyle={{ width: wp(10), height: wp(10), borderRadius: normalize(50) }}
+        containerStyle={{ paddingLeft: wp(13) }}
+        rightIconStyle={{ width: wp(8), height: wp(8), borderRadius: normalize(50) }}
         leftIconStyle={{ width: wp(30) }}
         subDesc={"Around You"}
         username={AsyncValue.UserName}

@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Functions } from "../utils";
 import { onAuthChange, setAsyncStorageValue } from "../redux/Reducers/AuthReducers";
 import { useCustomFonts } from "../theme";
+import Profile from "../screens/Main/Profile";
+import EditProfile from "../screens/Main/EditProfile";
 
 const Stack = createStackNavigator();
 SplashScreen.preventAutoHideAsync();
@@ -30,14 +32,16 @@ const Routes = () => {
   }, []);
 
   const userData = async () => {
-    const data = await Functions.getUserData();
+    const data = await Functions.getUserData();    
     if (data) {
       dispatch(onAuthChange(true));
+      dispatch(setAsyncStorageValue(data));
       setTimeout(async () => {
         await SplashScreen.hideAsync();
       }, 1000);
     } else {
       dispatch(onAuthChange(false));
+      dispatch(setAsyncStorageValue(""));
       setTimeout(async () => {
         await SplashScreen.hideAsync();
       }, 1000);
@@ -50,6 +54,8 @@ const Routes = () => {
       {isAuth ? (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Tab" component={TabBar} />
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="Saving" component={Saving} />
           <Stack.Screen name="Amenity" component={Amenities} />
           <Stack.Screen name="Redeem" component={Redeem} />

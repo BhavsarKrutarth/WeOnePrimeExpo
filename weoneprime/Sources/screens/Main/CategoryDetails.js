@@ -108,7 +108,7 @@ export default function CategoryDetails() {
         >
           <View style={[RNStyles.flexRowCenter, { gap: wp(2) }]}>
             <RNImage
-              source={{ uri: item.CategoryImage }}
+              source={ item.CategoryId === 0 ? require('../../assets/images/all.png') : { uri: item.CategoryImage }}
               style={{ width: wp(3.5), height: wp(3.5) }}
             />
             <RNText
@@ -123,7 +123,7 @@ export default function CategoryDetails() {
       ) : (
         <View style={styles.categoryItem}>
           <RNImage
-            source={{ uri: item.CategoryImage }}
+            source={ item.CategoryId === 0 ? require('../../assets/images/all.png') : { uri: item.CategoryImage }}
             style={{ width: wp(3), height: wp(3) }}
           />
           <RNText size={FontSize.font11} family={FontFamily.SemiBold}>
@@ -136,11 +136,11 @@ export default function CategoryDetails() {
 
   return (
     <RNContainer>
-      <RNHeader
+       <RNHeader
         LeftIcon={Images.Weoneprime}
         RightIcon={{ uri: AsyncValue.UserImage }}
-        containerStyle={{ paddingLeft: wp(14) }}
-        rightIconStyle={{ width: wp(10), height: wp(10), borderRadius: normalize(50) }}
+        containerStyle={{ paddingLeft: wp(13) }}
+        rightIconStyle={{ width: wp(8), height: wp(8), borderRadius: normalize(50) }}
         leftIconStyle={{ width: wp(30) }}
         subDesc={"Around You"}
         username={AsyncValue.UserName}
@@ -189,7 +189,7 @@ export default function CategoryDetails() {
                 >
                   <RNImage
                     source={{ uri: item.CompanyLogo }}
-                    style={{ width: wp(10), height: wp(10) }}
+                    style={{ width: wp(11), height: wp(11) }}
                   />
                 </View>
                 <Image
