@@ -31,7 +31,7 @@ import {
   onAuthChange,
   setAsyncStorageValue,
 } from "../../redux/Reducers/AuthReducers";
-// import { GoogleSignin } from "@react-native-google-sig nin/google-signin";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Functions } from "../../utils";
 
 WebBrowser.maybeCompleteAuthSession();
@@ -54,10 +54,10 @@ const LoginScreen = ({ navigation }) => {
   //   scopes: ["profile", "email"],
   // });
 
-  // GoogleSignin.configure({
-  //   webClientId:
-  //     "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com",
-  // });
+  GoogleSignin.configure({
+    webClientId:
+      "274641210203-9dq6liqkkhhvgi1ihtabcdqqf43nrv03.apps.googleusercontent.com",
+  });
 
   const signInWithGoogle = async () => {
     try {
